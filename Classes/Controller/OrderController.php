@@ -110,10 +110,10 @@ class Tx_WtCartOrder_Controller_OrderController extends Tx_Extbase_MVC_Controlle
 			$orderItem->setNet( $cart->getNet() );
 			$orderItem->setPaymentName( $cart->getPayment()->getName() );
 			$orderItem->setPaymentId( $cart->getPayment()->getId() );
-			$orderItem->setPaymentStatus( 0 );
+			$orderItem->setPaymentStatus( $cart->getPayment()->getStatus() );
 			$orderItem->setShippingName( $cart->getShipping()->getName() );
 			$orderItem->setShippingId( $cart->getShipping()->getId() );
-			$orderItem->setShippingStatus( 0 );
+			$orderItem->setShippingStatus( $cart->getShipping()->getStatus() );
 
 			if ( ! $orderItem->_isDirty() ) {
 				$this->orderItemRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderItemRepository');
