@@ -1,0 +1,11 @@
+# Module configuration
+module.tx_wtcartorder {
+	persistence {
+		storagePid = {$module.tx_wtcartorder.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$module.tx_wtcartorder.view.templateRootPath}
+		partialRootPath = {$module.tx_wtcartorder.view.partialRootPath}
+		layoutRootPath = {$module.tx_wtcartorder.view.layoutRootPath}
+	}
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the Order BE Handling extension in the FRONTEND</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_wtcartorder_domain_model_order">Order</label>
+			<label index="tx_wtcartorder_domain_model_order.order_number">orderNumber</label>
+			<label index="tx_wtcartorder_domain_model_order.gross">gross</label>
+			<label index="tx_wtcartorder_domain_model_order.net">net</label>
+			<label index="tx_wtcartorder_domain_model_order.taxes">taxes</label>
+			<label index="tx_wtcartorder_domain_model_order.payment_name">paymentName</label>
+			<label index="tx_wtcartorder_domain_model_order.payment_id">paymentId</label>
+			<label index="tx_wtcartorder_domain_model_order.payment_status">paymentStatus</label>
+			<label index="tx_wtcartorder_domain_model_order.shipping_name">shippingName</label>
+			<label index="tx_wtcartorder_domain_model_order.shipping_id">shippingId</label>
+			<label index="tx_wtcartorder_domain_model_order.shipping_status">shippingStatus</label>
+			<label index="tx_wtcartorder_domain_model_order.order_pdf">orderPdf</label>
+		</languageKey>
+	</data>
+</T3locallang>
