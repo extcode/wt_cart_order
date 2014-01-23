@@ -118,7 +118,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 * @param $params
 	 * @param $obj
 	 */
-	public function addAttachment( &$params, &$obj ) {
+	public function beforeAddAttachmentToMail( &$params, &$obj ) {
 		/**
 		 * @var $cart Tx_WtCart_Domain_Model_Cart
 		 */
