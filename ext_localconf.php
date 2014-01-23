@@ -4,9 +4,7 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_SignalSlot_Dispatcher');
-$signalSlotDispatcher->connect(
-	'Tx_Powermail_Controller_FormsController', 'createActionBeforeRenderView', 'Tx_WtCartOrder_Controller_OrderController', 'slotCreateActionBeforeRenderView'
-);
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['wt_cart']['afterSetOrderNumber'][] =
+	'EXT:' . $_EXTKEY . '/Classes/Hooks/OrderHook.php:Tx_WtCartOrder_Hooks_OrderHook->afterSetOrderNumber';
 
 ?>
