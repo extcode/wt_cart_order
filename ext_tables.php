@@ -34,6 +34,8 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem',
 		'label' => 'order_number',
+		'label_alt' => 'invoice_number',
+		'label_alt_force' => 1,
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -45,7 +47,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 		'delete' => 'deleted',
 		'enablecolumns' => array(
 		),
-		'searchFields' => 'order_number',
+		'searchFields' => 'order_number, invoice_number',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderItem.php',
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderitem.gif'
 	),

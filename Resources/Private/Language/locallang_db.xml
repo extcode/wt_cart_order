@@ -8,13 +8,16 @@
 		<languageKey index="default" type="array">
             
 			<label index="tx_wtcartorder_domain_model_orderitem">Order</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.numbers">Order and Invoice Number</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.price">Price</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.payment">Payment</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.shipping">Shipping</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_number">Order Number</label>
-			<label index="tx_wtcartorder_domain_model_orderitem.price.group">Price</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.invoice_number">Invoice Number</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.gross">Gross</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.net">Net</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_tax">Tax</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_product">Product</label>
-			<label index="tx_wtcartorder_domain_model_orderitem.payment.group">Payment</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.payment_name">Name</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.payment_id">ID</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.payment_status">Payment Status</label>
@@ -22,7 +25,6 @@
 			<label index="tx_wtcartorder_domain_model_orderitem.payment_status.pending">pending</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.payment_status.paid">paid</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.payment_status.canceled">canceled</label>
-			<label index="tx_wtcartorder_domain_model_orderitem.shipping.group">Shipping</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.shipping_name">Name</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.shipping_id">ID</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.shipping_status">Shipping Status</label>

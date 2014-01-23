@@ -7,6 +7,7 @@ CREATE TABLE tx_wtcartorder_domain_model_orderitem (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	order_number varchar(255) DEFAULT '' NOT NULL,
+  invoice_number varchar(255) DEFAULT '' NOT NULL,
 	gross double(11,2) DEFAULT '0.00' NOT NULL,
 	net double(11,2) DEFAULT '0.00' NOT NULL,
 	payment_name varchar(255) DEFAULT '' NOT NULL,

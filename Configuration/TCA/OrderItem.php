@@ -6,13 +6,14 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_orderitem']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'order_number, gross, net, order_product, order_tax, payment_name, payment_status, shipping_name, shipping_status, order_pdf',
+		'showRecordFieldList' => 'order_number, invoice_number, gross, net, order_product, order_tax, payment_name, payment_status, shipping_name, shipping_status, order_pdf',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'order_number, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.price.group;price, order_product, order_tax, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment.group;payment, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping.group;shipping, order_pdf'),
+		'1' => array('showitem' => '--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price, order_product, order_tax, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.payment;payment, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.shipping;shipping, order_pdf'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
+		'numbers' => array('showitem' => 'order_number, invoice_number', 'canNotCollapse' => 1),
 		'price' => array('showitem' => 'gross, net', 'canNotCollapse' => 1),
 		'payment' => array('showitem' => 'payment_name, payment_id, payment_status', 'canNotCollapse' => 1),
 		'shipping' => array('showitem' => 'shipping_name, shipping_id, shipping_status', 'canNotCollapse' => 1),
@@ -25,6 +26,15 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim,required'
+			),
+		),
+		'invoice_number' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_number',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim'
 			),
 		),
 		'gross' => array(

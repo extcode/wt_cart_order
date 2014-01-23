@@ -90,6 +90,33 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 
 	}
 
+
+	/**
+	 * @param $params
+	 * @param $obj
+	 */
+	public function afterSetInvoiceNumber( &$params, &$obj ) {
+		/**
+		 * @var $cart Tx_WtCart_Domain_Model_Cart
+		 */
+		$cart = $params['cart'];
+
+		$orderId = $cart->getOrderId();
+		$orderInvoiceNumber = $cart->getInvoiceNumber();
+
+		if ( empty( $orderId ) || empty( $orderInvoiceNumber ) ) {
+			return;
+		}
+
+		$orderItemRepository = t3lib_div::makeInstance( 'Tx_WtCartOrder_Domain_Repository_OrderItemRepository' );
+		/**
+		 * @var $orderItem Tx_WtCartOrder_Domain_Model_OrderItem
+		 */
+		$orderItem = $orderItemRepository->findByUid( $orderId );
+
+		$orderItem->setInvoiceNumber( $orderInvoiceNumber );
+	}
+
 	/**
 	 * @param Tx_WtCart_Domain_Model_Cart $cart
 	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem

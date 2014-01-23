@@ -42,6 +42,13 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	protected $orderNumber;
 
 	/**
+	 * invoiceNumber
+	 *
+	 * @var string
+	 */
+	protected $invoiceNumber;
+
+	/**
 	 * gross
 	 *
 	 * @var float
@@ -169,6 +176,25 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function setOrderNumber($orderNumber) {
 		$this->orderNumber = $orderNumber;
+	}
+
+	/**
+	 * Sets the invoiceNumber
+	 *
+	 * @param string $invoiceNumber
+	 * @return void
+	 */
+	public function setInvoiceNumber($invoiceNumber) {
+		$this->invoiceNumber = $invoiceNumber;
+	}
+
+	/**
+	 * Returns the invoiceNumber
+	 *
+	 * @return string
+	 */
+	public function getInvoiceNumber() {
+		return $this->invoiceNumber;
 	}
 
 	/**
