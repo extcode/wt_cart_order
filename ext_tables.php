@@ -101,4 +101,50 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 	),
 );
 
+t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordershipping', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordershipping.xml');
+t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordershipping');
+$TCA['tx_wtcartorder_domain_model_ordershipping'] = array(
+	'ctrl' => array(
+		'title'    => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping',
+		'label' => 'name',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'origUid' => 't3_origuid',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+		),
+		'searchFields' => 'name,value,calc,sum,',
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderShipping.php',
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordershipping.gif'
+	),
+);
+
+t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderpayment', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderpayment.xml');
+t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderpayment');
+$TCA['tx_wtcartorder_domain_model_orderpayment'] = array(
+	'ctrl' => array(
+		'title'    => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment',
+		'label' => 'name',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'origUid' => 't3_origuid',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+		),
+		'searchFields' => 'name,value,calc,sum,',
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderPayment.php',
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderpayment.gif'
+	),
+);
+
 ?>

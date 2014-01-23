@@ -63,12 +63,6 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		$orderItem->setOrderNumber( $cart->getOrderNumber() );
 		$orderItem->setGross( $cart->getGross() );
 		$orderItem->setNet( $cart->getNet() );
-		$orderItem->setPaymentName( $cart->getPayment()->getName() );
-		$orderItem->setPaymentId( $cart->getPayment()->getId() );
-		$orderItem->setPaymentStatus( $cart->getPayment()->getStatus() );
-		$orderItem->setShippingName( $cart->getShipping()->getName() );
-		$orderItem->setShippingId( $cart->getShipping()->getId() );
-		$orderItem->setShippingStatus( $cart->getShipping()->getStatus() );
 
 		if ( ! $orderItem->_isDirty() ) {
 			$orderItemRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderItemRepository');
@@ -81,6 +75,10 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 			if ($cart->getProducts()) {
 				$this->addProductsToOrder( $cart, $orderItem );
 			}
+
+			$this->addPaymentToOrder( $cart, $orderItem );
+			$this->addShippingToOrder( $cart, $orderItem );
+
 		}
 
 		$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
@@ -89,7 +87,6 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		$cart->setOrderId( $orderItem->getUid() );
 
 	}
-
 
 	/**
 	 * @param $params
@@ -118,6 +115,32 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	}
 
 	/**
+	 * @param $params
+	 * @param $obj
+	 */
+	public function addAttachment( &$params, &$obj ) {
+		/**
+		 * @var $cart Tx_WtCart_Domain_Model_Cart
+		 */
+		$cart = $params['cart'];
+
+		$orderId = $cart->getOrderId();
+
+		$orderItemRepository = t3lib_div::makeInstance( 'Tx_WtCartOrder_Domain_Repository_OrderItemRepository' );
+		/**
+		 * @var $orderItem Tx_WtCartOrder_Domain_Model_OrderItem
+		 */
+		$orderItem = $orderItemRepository->findByUid( $orderId );
+
+		if ( $params['files']['order'] ) {
+			$orderItem->setOrderPdf( $params['files']['order'] );
+		}
+		if ( $params['files']['invoice'] ) {
+			$orderItem->setInvoicePdf( $params['files']['invoice'] );
+		}
+	}
+
+	/**
 	 * @param Tx_WtCart_Domain_Model_Cart $cart
 	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
 	 */
@@ -139,6 +162,54 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 
 			$orderItem->addOrderTax( $orderTax );
 		}
+	}
+
+	/**
+	 * @param Tx_WtCart_Domain_Model_Cart $cart
+	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 */
+	protected function addShippingToOrder( $cart, &$orderItem ) {
+		$orderShippingRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderShippingRepository');
+
+		/**
+		 * @var $orderShipping Tx_WtCartOrder_Domain_Model_OrderShipping
+		 */
+		$orderShipping = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderShipping');
+
+		$orderShipping->setName( $cart->getShipping()->getName() );
+		$orderShipping->setStatus( $cart->getShipping()->getStatus() );
+		$orderShipping->setGross( $cart->getShipping()->getGross( $cart ) );
+		$orderShipping->setNet( $cart->getShipping()->getNet( $cart ) );
+		$taxes = $cart->getShipping()->getTax( $cart );
+		$orderShipping->setTax( $taxes['tax'] );
+
+		$orderShippingRepository->add( $orderShipping );
+
+		$orderItem->setOrderShipping( $orderShipping );
+	}
+
+	/**
+	 * @param Tx_WtCart_Domain_Model_Cart $cart
+	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 */
+	protected function addPaymentToOrder( $cart, &$orderItem ) {
+		$orderPaymentRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderPaymentRepository');
+
+		/**
+		 * @var $orderPayment Tx_WtCartOrder_Domain_Model_OrderPayment
+		 */
+		$orderPayment = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderPayment');
+
+		$orderPayment->setName( $cart->getPayment()->getName() );
+		$orderPayment->setStatus( $cart->getPayment()->getStatus() );
+		$orderPayment->setGross( $cart->getPayment()->getGross( $cart ) );
+		$orderPayment->setNet( $cart->getPayment()->getNet( $cart ) );
+		$taxes = $cart->getPayment()->getTax( $cart );
+		$orderPayment->setTax( $taxes['tax'] );
+
+		$orderPaymentRepository->add( $orderPayment );
+
+		$orderItem->setOrderPayment( $orderPayment );
 	}
 
 	/**

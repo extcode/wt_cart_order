@@ -6,17 +6,15 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_orderitem']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'order_number, invoice_number, gross, net, order_product, order_tax, payment_name, payment_status, shipping_name, shipping_status, order_pdf',
+		'showRecordFieldList' => 'order_number, invoice_number, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
 	),
 	'types' => array(
-		'1' => array('showitem' => '--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price, order_product, order_tax, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.payment;payment, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.shipping;shipping, order_pdf'),
+		'1' => array('showitem' => '--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
 		'numbers' => array('showitem' => 'order_number, invoice_number', 'canNotCollapse' => 1),
 		'price' => array('showitem' => 'gross, net', 'canNotCollapse' => 1),
-		'payment' => array('showitem' => 'payment_name, payment_id, payment_status', 'canNotCollapse' => 1),
-		'shipping' => array('showitem' => 'shipping_name, shipping_id, shipping_status', 'canNotCollapse' => 1),
 	),
 	'columns' => array(
 		'order_number' => array(
@@ -89,72 +87,38 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 				),
 			),
 		),
-		'payment_name' => array(
+		'order_payment' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment_name',
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_payment',
 			'config' => array(
-				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim,required'
-			),
-		),
-		'payment_id' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment_id',
-			'config' => array(
-				'type' => 'input',
-				'size' => 4,
-				'eval' => 'int,required'
-			),
-		),
-		'payment_status' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment_status',
-			'config' => array(
-				'type' => 'select',
-				'items' => array(
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment_status.open', 0),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment_status.pending', 1),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment_status.paid', 2),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.payment_status.canceled', 3)
-				),
-				'size' => 1,
+				'type' => 'inline',
+				'foreign_table' => 'tx_wtcartorder_domain_model_orderpayment',
+				'minitems' => 0,
 				'maxitems' => 1,
-				'eval' => 'required'
-			),
-		),
-		'shipping_name' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_name',
-			'config' => array(
-				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim,required'
-			),
-		),
-		'shipping_id' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_id',
-			'config' => array(
-				'type' => 'input',
-				'size' => 4,
-				'eval' => 'int,required'
-			),
-		),
-		'shipping_status' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_status',
-			'config' => array(
-				'type' => 'select',
-				'items' => array(
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_status.open', 0),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_status.on_hold', 1),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_status.in_process', 2),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_status.shipped', 3)
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
 				),
-				'size' => 1,
+			),
+		),
+		'order_shipping' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_shipping',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_wtcartorder_domain_model_ordershipping',
+				'minitems' => 0,
 				'maxitems' => 1,
-				'eval' => 'required'
+				'appearance' => array(
+					'collapseAll' => 0,
+					'levelLinksPosition' => 'top',
+					'showSynchronizationLink' => 1,
+					'showPossibleLocalizationRecords' => 1,
+					'showAllLocalizationLink' => 1
+				),
 			),
 		),
 		'order_pdf' => array(
@@ -162,11 +126,27 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_pdf',
 			'config' => array(
 				'type' => 'group',
-				'internal_type' => 'file',
-				'uploadfolder' => 'uploads/tx_wtcartorder',
-				'allowed' => '*',
+				'internal_type' => 'file_reference',
+				'uploadfolder' => 'uploads/tx_wtcartorder/order_pdf/',
+				'allowed' => 'pdf',
 				'disallowed' => 'php',
-				'size' => 5,
+				'size' => 1,
+				'maxitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+		'invoice_pdf' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_pdf',
+			'config' => array(
+				'type' => 'group',
+				'internal_type' => 'file_reference',
+				'uploadfolder' => 'uploads/tx_wtcartorder/invoice_pdf/',
+				'allowed' => 'pdf',
+				'disallowed' => 'php',
+				'size' => 1,
+				'maxItems' => 0,
+				'maxItems' => 1,
 			),
 		),
 	),

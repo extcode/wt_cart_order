@@ -79,52 +79,18 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	protected $orderProduct;
 
 	/**
-	 * paymentName
+	 * orderPayment
 	 *
-	 * @var string
-	 * @validate NotEmpty
+	 * @var Tx_Test_Domain_Model_OrderPayment
 	 */
-	protected $paymentName;
+	protected $orderPayment;
 
 	/**
-	 * paymentId
+	 * orderShipping
 	 *
-	 * @var integer
-	 * @validate NotEmpty
+	 * @var Tx_Test_Domain_Model_OrderShipping
 	 */
-	protected $paymentId;
-
-	/**
-	 * paymentStatus
-	 *
-	 * @var integer
-	 * @validate NotEmpty
-	 */
-	protected $paymentStatus;
-
-	/**
-	 * shippingName
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $shippingName;
-
-	/**
-	 * shippingId
-	 *
-	 * @var integer
-	 * @validate NotEmpty
-	 */
-	protected $shippingId;
-
-	/**
-	 * shippingStatus
-	 *
-	 * @var integer
-	 * @validate NotEmpty
-	 */
-	protected $shippingStatus;
+	protected $orderShipping;
 
 	/**
 	 * orderPdf
@@ -133,6 +99,12 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	protected $orderPdf;
 
+	/**
+	 * invoicePdf
+	 *
+	 * @var string
+	 */
+	protected $invoicePdf;
 
 	/**
 	 * __construct
@@ -236,117 +208,33 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
-	 * Returns the paymentName
-	 *
-	 * @return string $paymentName
-	 */
-	public function getPaymentName() {
-		return $this->paymentName;
-	}
-
-	/**
-	 * Sets the paymentName
-	 *
-	 * @param string $paymentName
+	 * @param Tx_WtCartOrder_Domain_Model_OrderPayment $orderPayment
 	 * @return void
 	 */
-	public function setPaymentName($paymentName) {
-		$this->paymentName = $paymentName;
+	public function setOrderPayment($orderPayment) {
+		$this->orderPayment = $orderPayment;
 	}
 
 	/**
-	 * Returns the paymentId
-	 *
-	 * @return integer $paymentId
+	 * @return Tx_WtCartOrder_Domain_Model_OrderPayment
 	 */
-	public function getPaymentId() {
-		return $this->paymentId;
+	public function getOrderPayment() {
+		return $this->orderPayment;
 	}
 
 	/**
-	 * Sets the paymentId
-	 *
-	 * @param integer $paymentId
+	 * @param Tx_WtCartOrder_Domain_Model_OrderShipping $orderShipping
 	 * @return void
 	 */
-	public function setPaymentId($paymentId) {
-		$this->paymentId = $paymentId;
+	public function setOrderShipping($orderShipping) {
+		$this->orderShipping = $orderShipping;
 	}
 
 	/**
-	 * Returns the paymentStatus
-	 *
-	 * @return integer $paymentStatus
+	 * @return Tx_WtCartOrder_Domain_Model_OrderShipping
 	 */
-	public function getPaymentStatus() {
-		return $this->paymentStatus;
-	}
-
-	/**
-	 * Sets the paymentStatus
-	 *
-	 * @param integer $paymentStatus
-	 * @return void
-	 */
-	public function setPaymentStatus($paymentStatus) {
-		$this->paymentStatus = $paymentStatus;
-	}
-
-	/**
-	 * Returns the shippingName
-	 *
-	 * @return string $shippingName
-	 */
-	public function getShippingName() {
-		return $this->shippingName;
-	}
-
-	/**
-	 * Sets the shippingName
-	 *
-	 * @param string $shippingName
-	 * @return void
-	 */
-	public function setShippingName($shippingName) {
-		$this->shippingName = $shippingName;
-	}
-
-	/**
-	 * Returns the shippingId
-	 *
-	 * @return integer $shippingId
-	 */
-	public function getShippingId() {
-		return $this->shippingId;
-	}
-
-	/**
-	 * Sets the shippingId
-	 *
-	 * @param integer $shippingId
-	 * @return void
-	 */
-	public function setShippingId($shippingId) {
-		$this->shippingId = $shippingId;
-	}
-
-	/**
-	 * Returns the shippingStatus
-	 *
-	 * @return integer $shippingStatus
-	 */
-	public function getShippingStatus() {
-		return $this->shippingStatus;
-	}
-
-	/**
-	 * Sets the shippingStatus
-	 *
-	 * @param integer $shippingStatus
-	 * @return void
-	 */
-	public function setShippingStatus($shippingStatus) {
-		$this->shippingStatus = $shippingStatus;
+	public function getOrderShipping() {
+		return $this->orderShipping;
 	}
 
 	/**
@@ -366,6 +254,21 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function setOrderPdf($orderPdf) {
 		$this->orderPdf = $orderPdf;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getInvoicePdf() {
+		return $this->invoicePdf;
+	}
+
+	/**
+	 * @param string $invoicePdf
+	 * @return void
+	 */
+	public function setInvoicePdf($invoicePdf) {
+		$this->invoicePdf = $invoicePdf;
 	}
 
 	/**
