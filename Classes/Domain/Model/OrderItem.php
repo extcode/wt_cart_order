@@ -34,6 +34,13 @@
 class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
+	 * feUser
+	 *
+	 * @var Tx_Extbase_Domain_Model_FrontendUser
+	 */
+	protected $feUser;
+
+	/**
 	 * orderNumber
 	 *
 	 * @var string
@@ -129,6 +136,21 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 		 */
 		$this->orderProduct = new Tx_Extbase_Persistence_ObjectStorage();
 		$this->orderTax = new Tx_Extbase_Persistence_ObjectStorage();
+	}
+
+	/**
+	 * @param \Tx_Extbase_Domain_Model_FrontendUser $feUser
+	 * @return void
+	 */
+	public function setFeUser($feUser) {
+		$this->feUser = $feUser;
+	}
+
+	/**
+	 * @return \Tx_Extbase_Domain_Model_FrontendUser
+	 */
+	public function getFeUser() {
+		return $this->feUser;
 	}
 
 	/**

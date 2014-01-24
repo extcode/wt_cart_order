@@ -38,12 +38,25 @@ require_once(t3lib_extMgm::extPath('wt_cart') . 'lib/class.tx_wtcart_div.php');
 class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsController {
 
 	/**
+	 * @var Tx_Powermail_Domain_Repository_FormsRepository
+	 * @inject
+	 */
+	protected $formsRepository;
+
+	/**
+	 * @var Tx_Extbase_Domain_Repository_FrontendUserRepository
+	 * @inject
+	 */
+	protected $frontendUserRepository;
+
+	/**
 	 * @param $params
 	 * @param $obj
 	 */
 	public function afterSetOrderNumber( &$params, &$obj ) {
 
 		$this->formsRepository = t3lib_div::makeInstance('Tx_Powermail_Domain_Repository_FormsRepository');
+		$this->frontendUserRepository = t3lib_div::makeInstance('Tx_Extbase_Domain_Repository_FrontendUserRepository');
 
 		$this->wtcart_conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_wtcart_pi1.'];
 
@@ -60,6 +73,13 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		 * @var $orderItem Tx_WtCartOrder_Domain_Model_OrderItem
 		 */
 		$orderItem = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderItem');
+
+		$user = $GLOBALS['TSFE']->fe_user->user;
+		$fe_user = $this->frontendUserRepository->findByUid( $user['uid'] );
+		if ( $fe_user ) {
+			$orderItem->setFeUser( $fe_user );
+		}
+
 		$orderItem->setOrderNumber( $cart->getOrderNumber() );
 		$orderItem->setGross( $cart->getGross() );
 		$orderItem->setNet( $cart->getNet() );

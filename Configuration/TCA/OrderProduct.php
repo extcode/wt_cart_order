@@ -21,6 +21,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.sku',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'trim,required'
 			),
@@ -30,6 +31,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.title',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'trim,required'
 			),
@@ -39,6 +41,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.count',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'int'
 			),
@@ -48,6 +51,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.gross',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'double2'
 			),
@@ -57,6 +61,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.net',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'double2'
 			),
@@ -66,6 +71,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.tax',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'double2'
 			),

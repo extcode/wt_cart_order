@@ -12,6 +12,7 @@
 			<label index="tx_wtcartorder_domain_model_orderitem.palettes.price">Price</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.palettes.payment">Payment</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.palettes.shipping">Shipping</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.fe_user">User</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_number">Order Number</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.invoice_number">Invoice Number</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.gross">Gross</label>

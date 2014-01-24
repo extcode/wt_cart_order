@@ -2,6 +2,16 @@
 module.tx_wtcartorder {
 	persistence {
 		storagePid = {$module.tx_wtcartorder.persistence.storagePid}
+
+		Tx_Extbase_Domain_Model_FrontendUser {
+			mapping {
+				tableName = fe_users
+				recordType = Tx_Extbase_Domain_Model_FrontendUser
+				columns {
+					lockToDomain.mapOnProperty = lockToDomain
+				}
+			}
+		}
 	}
 	view {
 		templateRootPath = {$module.tx_wtcartorder.view.templateRootPath}

@@ -20,6 +20,7 @@ $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.name',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'trim,required'
 			),
@@ -29,6 +30,7 @@ $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.value',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'trim,required'
 			),
@@ -38,6 +40,7 @@ $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.calc',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'double2'
 			),
@@ -47,6 +50,7 @@ $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.sum',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'double2'
 			),

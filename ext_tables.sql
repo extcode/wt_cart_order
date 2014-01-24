@@ -6,12 +6,14 @@ CREATE TABLE tx_wtcartorder_domain_model_orderitem (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	fe_user int(11) DEFAULT '0' NOT NULL,
+
 	order_number varchar(255) DEFAULT '' NOT NULL,
-  invoice_number varchar(255) DEFAULT '' NOT NULL,
+	invoice_number varchar(255) DEFAULT '' NOT NULL,
 	gross double(11,2) DEFAULT '0.00' NOT NULL,
 	net double(11,2) DEFAULT '0.00' NOT NULL,
 	order_pdf text NOT NULL,
-  invoice_pdf text NOT NULL,
+	invoice_pdf text NOT NULL,
 
 	order_tax int(11) unsigned DEFAULT '0' NOT NULL,
 	order_product int(11) unsigned DEFAULT '0' NOT NULL,

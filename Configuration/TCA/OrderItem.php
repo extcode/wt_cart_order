@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_orderitem']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'order_number, invoice_number, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
+		'showRecordFieldList' => 'fe_user, order_number, invoice_number, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
 	),
 	'types' => array(
-		'1' => array('showitem' => '--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf'),
+		'1' => array('showitem' => 'fe_user, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -17,11 +17,25 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 		'price' => array('showitem' => 'gross, net', 'canNotCollapse' => 1),
 	),
 	'columns' => array(
+		'fe_user' => Array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.fe_user',
+			'config' => Array(
+				'type' => 'select',
+				'readOnly' => 1,
+				'foreign_table' => 'fe_users',
+				'size' => 1,
+				'autoMaxSize' => 10,
+				'maxitems' => 9999,
+				'multiple' => 0,
+			)
+		),
 		'order_number' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_number',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'trim,required'
 			),
@@ -31,6 +45,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_number',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'trim'
 			),
@@ -40,6 +55,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.gross',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'double2,required'
 			),
@@ -49,6 +65,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.net',
 			'config' => array(
 				'type' => 'input',
+				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'double2,required'
 			),
@@ -58,6 +75,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_tax',
 			'config' => array(
 				'type' => 'inline',
+				'readOnly' => 1,
 				'foreign_table' => 'tx_wtcartorder_domain_model_ordertax',
 				'foreign_field' => 'orderitem',
 				'maxitems'      => 9999,
@@ -75,6 +93,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_product',
 			'config' => array(
 				'type' => 'inline',
+				'readOnly' => 1,
 				'foreign_table' => 'tx_wtcartorder_domain_model_orderproduct',
 				'foreign_field' => 'orderitem',
 				'maxitems'      => 9999,
@@ -92,6 +111,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_payment',
 			'config' => array(
 				'type' => 'inline',
+				'readOnly' => 1,
 				'foreign_table' => 'tx_wtcartorder_domain_model_orderpayment',
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -109,6 +129,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_shipping',
 			'config' => array(
 				'type' => 'inline',
+				'readOnly' => 1,
 				'foreign_table' => 'tx_wtcartorder_domain_model_ordershipping',
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -126,6 +147,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_pdf',
 			'config' => array(
 				'type' => 'group',
+				'readOnly' => 1,
 				'internal_type' => 'file_reference',
 				'uploadfolder' => 'uploads/tx_wtcartorder/order_pdf/',
 				'allowed' => 'pdf',
@@ -140,6 +162,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_pdf',
 			'config' => array(
 				'type' => 'group',
+				'readOnly' => 1,
 				'internal_type' => 'file_reference',
 				'uploadfolder' => 'uploads/tx_wtcartorder/invoice_pdf/',
 				'allowed' => 'pdf',
