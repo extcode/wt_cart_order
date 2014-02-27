@@ -6,13 +6,27 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_orderitem']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'fe_user, order_number, invoice_number, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
+		'showRecordFieldList' => 'fe_user, order_number, invoice_number, first_name, last_name, email, shipping_address, payment_address, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'fe_user, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers, --palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf'),
+		'1' => array('showitem' =>
+			'fe_user,
+			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers,
+			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.purchaser;purchaser,
+			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.addresses;addresses,
+			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price,
+			order_product,
+			order_tax,
+			order_payment,
+			order_shipping,
+			order_pdf,
+			invoice_pdf'
+		),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
+		'purchaser' => array('showitem' => 'first_name, last_name, email', 'canNotCollapse' => 1),
+		'addresses' => array('showitem' => 'shipping_address, billing_address', 'canNotCollapse' => 0),
 		'numbers' => array('showitem' => 'order_number, invoice_number', 'canNotCollapse' => 1),
 		'price' => array('showitem' => 'gross, net', 'canNotCollapse' => 1),
 	),
@@ -48,6 +62,78 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 				'readOnly' => 1,
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'first_name' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.first_name',
+			'config' => array(
+				'type' => 'input',
+				'readOnly' => 1,
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'last_name' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.last_name',
+			'config' => array(
+				'type' => 'input',
+				'readOnly' => 1,
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'email' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.email',
+			'config' => array(
+				'type' => 'input',
+				'readOnly' => 1,
+				'size' => 30,
+				'eval' => 'trim'
+			),
+		),
+		'billing_address' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.billing_address',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 48,
+				'rows' => 15,
+				'eval' => 'required'
+			),
+		),
+		'shipping_address' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_address',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 48,
+				'rows' => 15,
+				'eval' => 'required'
+			),
+		),
+		'description1' => array(
+			'exclude' => 0,
+			'defaultExtras' => 'richtext[*]',
+			'label' => 'LLL:EXT:wt_cart_event/Resources/Private/Language/locallang_db.xml:tx_wtcartevent_domain_model_event.description1',
+			'config' => array(
+				'type' => 'text',
+				'cols' => 48,
+				'rows' => 15,
+				'eval' => 'required',
+				'wizards' => array(
+					'_PADDING' => 4,
+					'RTE' => array(
+						'notNewRecords' => 1,
+						'RTEonly' => 1,
+						'type' => 'script',
+						'title' => 'LLL:EXT:cms/locallang_ttc.php:bodytext.W.RTE',
+						'icon' => 'wizard_rte2.gif',
+						'script' => 'wizard_rte.php'
+					)
+				)
 			),
 		),
 		'gross' => array(

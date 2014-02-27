@@ -33,5 +33,28 @@
  */
 class Tx_WtCartOrder_Domain_Repository_OrderItemRepository extends Tx_Extbase_Persistence_Repository {
 
+	public function initializeObject() {
+		$querySettings = $this->objectManager->create( 'Tx_Extbase_Persistence_Typo3QuerySettings' );
+		$querySettings->setRespectStoragePage( FALSE );
+		$this->setDefaultQuerySettings( $querySettings );
+	}
+
+	/**
+	 * @param string $orderNumber
+	 * @return object
+	 */
+	public function findOneByOrderNumber( $orderNumber ) {
+		$query = $this->createQuery();
+
+		$query->getQuerySettings()->setRespectStoragePage( FALSE );
+		$query->getQuerySettings()->setRespectEnableFields( FALSE );
+		$query->getQuerySettings()->setRespectSysLanguage( FALSE );
+
+		$query->matching( $query->equals( 'order_number', $orderNumber ) );
+		$orderItem = $query->execute()->getFirst();
+
+		return $orderItem;
+	}
+
 }
 ?>

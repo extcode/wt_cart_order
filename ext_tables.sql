@@ -8,6 +8,12 @@ CREATE TABLE tx_wtcartorder_domain_model_orderitem (
 
 	fe_user int(11) DEFAULT '0' NOT NULL,
 
+	first_name varchar(255) DEFAULT '' NOT NULL,
+	last_name varchar(255) DEFAULT '' NOT NULL,
+	email varchar(255) DEFAULT '' NOT NULL,
+	shipping_address text NOT NULL,
+	billing_address text NOT NULL,
+
 	order_number varchar(255) DEFAULT '' NOT NULL,
 	invoice_number varchar(255) DEFAULT '' NOT NULL,
 	gross double(11,2) DEFAULT '0.00' NOT NULL,
@@ -17,8 +23,8 @@ CREATE TABLE tx_wtcartorder_domain_model_orderitem (
 
 	order_tax int(11) unsigned DEFAULT '0' NOT NULL,
 	order_product int(11) unsigned DEFAULT '0' NOT NULL,
-  order_shipping int(11) unsigned DEFAULT '0',
-  order_payment int(11) unsigned DEFAULT '0',
+	order_shipping int(11) unsigned DEFAULT '0',
+	order_payment int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

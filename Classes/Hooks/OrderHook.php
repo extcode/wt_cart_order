@@ -4,6 +4,7 @@
  *  Copyright notice
  *
  *  (c) 2012 Sebastian Wagner <sebastian.wagner@tritum.de>, tritum.de
+ *  (c) Daniel Lorenz <wt_cart_order@extco.de>, extco.de UG (haftungsbeschränkt)
  *
  *  All rights reserved
  *
@@ -60,6 +61,8 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 
 		$this->wtcart_conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_wtcart_pi1.'];
 
+		$this->conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_wtcart_order.'];
+
 		/**
 		 * @var $cart Tx_WtCart_Domain_Model_Cart
 		 */
@@ -83,6 +86,18 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		$orderItem->setOrderNumber( $cart->getOrderNumber() );
 		$orderItem->setGross( $cart->getGross() );
 		$orderItem->setNet( $cart->getNet() );
+
+		$orderItem->setFirstName( $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['firstName'], $this->conf['firstName.'] ) );
+		$orderItem->setLastName( $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['lastName'], $this->conf['lastName.'] ) );
+		$orderItem->setEmail( $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['email'], $this->conf['email.'] ) );
+		$billingAddress = $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['billingAddress'], $this->conf['billingAddress.'] );
+		if ( $billingAddress ) {
+			$orderItem->setBillingAddress( $billingAddress );
+		}
+		$shippingAddress = $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['shippingAddress'], $this->conf['shippingAddress.'] );
+		if ( $shippingAddress ) {
+			$orderItem->setShippingAddress( $shippingAddress );
+		}
 
 		if ( ! $orderItem->_isDirty() ) {
 			$orderItemRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderItemRepository');
@@ -337,7 +352,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		unset($cartVariantInner);
 
 		$skuWithVariants['sku'] = $cartProduct->getSku();
-		$skuWithVariants['title'] = $cartProduct->getTitle();
+		$titleWithVariants['title'] = $cartProduct->getTitle();
 
 		$orderProduct->setTitle( $this->getTitleFromTypoScript( $titleWithVariants ) );
 		$orderProduct->setSku( $this->getSkuFromTypoScript( $skuWithVariants ) );

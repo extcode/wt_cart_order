@@ -56,6 +56,46 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	protected $invoiceNumber;
 
 	/**
+	 * firstName
+	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $firstName;
+
+	/**
+	 * lastName
+	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $lastName;
+
+	/**
+	 * email
+	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $email;
+
+	/**
+	 * shippingAddress
+	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $shippingAddress;
+
+	/**
+	 * billingAddress
+	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $billingAddress;
+
+	/**
 	 * gross
 	 *
 	 * @var float
@@ -88,14 +128,14 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	/**
 	 * orderPayment
 	 *
-	 * @var Tx_Test_Domain_Model_OrderPayment
+	 * @var Tx_WtCartOrder_Domain_Model_OrderPayment
 	 */
 	protected $orderPayment;
 
 	/**
 	 * orderShipping
 	 *
-	 * @var Tx_Test_Domain_Model_OrderShipping
+	 * @var Tx_WtCartOrder_Domain_Model_OrderShipping
 	 */
 	protected $orderShipping;
 
@@ -189,6 +229,81 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function getInvoiceNumber() {
 		return $this->invoiceNumber;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFirstName() {
+		return $this->firstName;
+	}
+
+	/**
+	 * @param string $firstName
+	 * @return void
+	 */
+	public function setFirstName($firstName) {
+		$this->firstName = $firstName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLastName() {
+		return $this->lastName;
+	}
+
+	/**
+	 * @param string $lastName
+	 * @return void
+	 */
+	public function setLastName($lastName) {
+		$this->lastName = $lastName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
+	 * @param string $email
+	 * @return void
+	 */
+	public function setEmail($email) {
+		$this->email = $email;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBillingAddress() {
+		return $this->billingAddress;
+	}
+
+	/**
+	 * @param string $billingAddress
+	 * @return void
+	 */
+	public function setBillingAddress($billingAddress) {
+		$this->billingAddress = $billingAddress;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getShippingAddress() {
+		return $this->shippingAddress;
+	}
+
+	/**
+	 * @param string $shippingAddress
+	 * @return void
+	 */
+	public function setShippingAddress($shippingAddress) {
+		$this->shippingAddress = $shippingAddress;
 	}
 
 	/**

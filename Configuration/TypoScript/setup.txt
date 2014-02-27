@@ -19,3 +19,16 @@ module.tx_wtcartorder {
 		layoutRootPath = {$module.tx_wtcartorder.view.layoutRootPath}
 	}
 }
+
+plugin.tx_wtcart_order {
+  firstName = TEXT
+  firstName.value = should be replaced
+  lastName = TEXT
+  lastName.value = should be replaced
+  email = TEXT
+  email.value = should be replaced
+  billingAddress = TEXT
+  billingAddress.value = should be replaced
+  shippingAddress = TEXT
+  shippingAddress.value = should be replaced
+}
