@@ -16,35 +16,41 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:flashMessages />
 
-<table  class="tx_wtcartorder" >
-	<tr>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.order_number" /></th>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.gross" /></th>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.net" /></th>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.payment_name" /></th>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.payment_id" /></th>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.payment_status" /></th>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.shipping_status" /></th>
-		<th><f:translate key="tx_wtcartorder_domain_model_order.order_pdf" /></th>
-		<th> </th>
-		<th> </th>
-	</tr>
+<f:if condition="{orderItems}">
+	<f:then>
+		<table  class="tx_wtcartorder" >
+			<tr>
+				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_number" /></th>
+				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_number" /></th>
+				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.gross" /></th>
+				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.net" /></th>
+				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status" /></th>
+				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.status" /></th>
+				<th>
+					Aktion
+				</th>
+			</tr>
 
-	<f:for each="{orders}" as="order">
-		<tr>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.orderNumber}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.gross}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.net}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.paymentName}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.paymentId}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.paymentStatus}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.shippingStatus}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{order : order}"> {order.orderPdf}</f:link.action></td>
-			<td><f:link.action action="edit" arguments="{order : order}">Edit</f:link.action></td>
-			<td><f:link.action action="delete" arguments="{order : order}">Delete</f:link.action></td>
-		</tr>
-	</f:for>
-</table>
-
-<f:link.action action="new">New Order</f:link.action>
+			<f:for each="{orderItems}" as="orderItem">
+				<tr>
+					<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.orderNumber} </f:link.action></td>
+					<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.invoiceNumber} </f:link.action></td>
+					<td>{orderItem.gross}</td>
+					<td>{orderItem.net}</td>
+					<td>{orderItem.orderPayment.name} <f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.{orderItem.orderPayment.status}" /></td>
+					<td>{orderItem.orderShipping.name} <f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.status.{orderItem.orderShipping.status}" /></td>
+					<td>
+						<f:link.action action="show" arguments="{orderItem : orderItem}"> show </f:link.action>
+						<f:if condition="{0: orderItem.invoiceNumber} == {0: ''}">
+							<f:link.action action="makeInvoice" arguments="{orderItem : orderItem}"> make Invoice </f:link.action>
+						</f:if>
+					</td>
+				</tr>
+			</f:for>
+		</table>
+	</f:then>
+	<f:else>
+		Select a Page where Order Item Dataset are saved.
+	</f:else>
+</f:if>
 </f:section>

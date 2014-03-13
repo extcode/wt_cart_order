@@ -6,11 +6,11 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_orderitem']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'fe_user, order_number, invoice_number, first_name, last_name, email, shipping_address, payment_address, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
+		'showRecordFieldList' => 'pid, fe_user, order_number, invoice_number, first_name, last_name, email, shipping_address, payment_address, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
 	),
 	'types' => array(
 		'1' => array('showitem' =>
-			'fe_user,
+			'pid, fe_user,
 			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.numbers;numbers,
 			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.purchaser;purchaser,
 			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.addresses;addresses,
@@ -31,10 +31,16 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 		'price' => array('showitem' => 'gross, net', 'canNotCollapse' => 1),
 	),
 	'columns' => array(
-		'fe_user' => Array(
+		'pid' => array(
+			'exclude' => 1,
+			'config' => array(
+				'type' => 'passthrough'
+			)
+		),
+		'fe_user' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.fe_user',
-			'config' => Array(
+			'config' => array(
 				'type' => 'select',
 				'readOnly' => 1,
 				'foreign_table' => 'fe_users',

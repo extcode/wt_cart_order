@@ -33,12 +33,6 @@
  */
 class Tx_WtCartOrder_Domain_Repository_OrderItemRepository extends Tx_Extbase_Persistence_Repository {
 
-	public function initializeObject() {
-		$querySettings = $this->objectManager->create( 'Tx_Extbase_Persistence_Typo3QuerySettings' );
-		$querySettings->setRespectStoragePage( FALSE );
-		$this->setDefaultQuerySettings( $querySettings );
-	}
-
 	/**
 	 * @param string $orderNumber
 	 * @return object

@@ -14,8 +14,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:section name="content">
 <h1>Single View for Order</h1>
 
+{TSFE}
+
 <f:flashMessages />
-<f:render partial="Order/Properties" arguments="{order:order}" />
-<f:link.action action="list">Back to list</f:link.action><br />
-<f:link.action action="create">New Order</f:link.action>
+<f:render partial="OrderItem/Properties" arguments="{orderItem:orderItem}" />
+<f:link.action action="list">Back to list</f:link.action>
 </f:section>

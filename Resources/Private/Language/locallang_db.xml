@@ -7,7 +7,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 
-			<label index="tx_wtcartorder_domain_model_orderitem">Order</label>
+			<label index="tx_wtcartorder_domain_model_orderitem">Order Item</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.palettes.numbers">Order and Invoice Number</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.palettes.purchaser">Purchaser</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.palettes.addresses">Addresses</label>
@@ -96,13 +96,13 @@
 			<label index="tx_wtcartorder_domain_model_orderitem.order_shipping">Order Shipping</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_payment">Order Payment</label>
 
-			<label index="tx_wtcartorder_domain_model_ordertax">Order Tax</label>
+			<label index="tx_wtcartorder_domain_model_ordertax">Mehrwertsteuer</label>
 			<label index="tx_wtcartorder_domain_model_ordertax.name">Name</label>
 			<label index="tx_wtcartorder_domain_model_ordertax.value">Value</label>
 			<label index="tx_wtcartorder_domain_model_ordertax.calc">Calc</label>
 			<label index="tx_wtcartorder_domain_model_ordertax.sum">Sum</label>
 
-			<label index="tx_wtcartorder_domain_model_orderproduct">Order Product</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct">Produkt der Bestellung</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.sku">SKU</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.title">Title</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.count">Count</label>

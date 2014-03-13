@@ -1,66 +1,66 @@
 <table class="tx-wt-cart-order" >
 	<tr>
 		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.order_number" />
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_number" />
 		</td>
 		<td>
-			{order.orderNumber}
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.gross" />
-		</td>
-		<td>
-			{order.gross}
+			{orderItem.orderNumber}
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.net" />
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_number" />
 		</td>
 		<td>
-			{order.net}
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.payment_name" />
-		</td>
-		<td>
-			{order.paymentName}
+			{orderItem.invoiceNumber}
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.payment_id" />
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.gross" />
 		</td>
 		<td>
-			{order.paymentId}
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.payment_status" />
-		</td>
-		<td>
-			{order.paymentStatus}
+			{orderItem.gross}
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.shipping_status" />
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.net" />
 		</td>
 		<td>
-			{order.shippingStatus}
+			{orderItem.net}
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<f:translate key="tx_wtcartorder_domain_model_order.order_pdf" />
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.name" />
 		</td>
 		<td>
-			{order.orderPdf}
+			{orderItem.orderPayment.name}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status" />
+		</td>
+		<td>
+			{orderItem.orderPayment.status}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.name" />
+		</td>
+		<td>
+			{orderItem.orderShipping.name}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.status" />
+		</td>
+		<td>
+			{orderItem.orderShipping.status}
 		</td>
 	</tr>
 </table>
