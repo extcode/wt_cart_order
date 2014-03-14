@@ -136,17 +136,42 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	}
 
 	/**
-	 * action makeInvoice
+	 * action generateInvoiceNumber
 	 *
 	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
 	 * @return void
 	 */
-	public function makeInvoiceAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+	public function generateInvoiceNumberAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
 		if ( !$orderItem->getInvoiceNumber() ) {
 			$invoiceNumber = $this->generateInvoiceNumber( $orderItem );
 			$orderItem->setInvoiceNumber( $invoiceNumber );
 
 			$msg = "Invoice Number " . $invoiceNumber . " was generated.";
+			$this->flashMessageContainer->add( $msg );
+		}
+
+		$this->redirect('list');
+	}
+
+	/**
+	 * action generateInvoiceDocument
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @return void
+	 */
+	public function generateInvoiceDocumentAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+		if ( !$orderItem->getInvoiceNumber() ) {
+			$invoiceNumber = $this->generateInvoiceNumber( $orderItem );
+			$orderItem->setInvoiceNumber( $invoiceNumber );
+
+			$msg = "Invoice Number was generated.";
+			$this->flashMessageContainer->add( $msg );
+		}
+
+		if ( $orderItem->getInvoiceNumber() ) {
+			$this->generateInvoiceDocument( $orderItem );
+
+			$msg = "Invoice Document was generated.";
 			$this->flashMessageContainer->add( $msg );
 		}
 
@@ -178,6 +203,34 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		$invoiceNumber = $GLOBALS['TSFE']->cObj->cObjGetSingle( $invoiceNumberConf['invoicenumber'], $invoiceNumberConf['invoicenumber.'] );
 
 		return $invoiceNumber;
+	}
+
+	/**
+	 * generateInvoiceNumber
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @return int
+	 */
+	protected function generateInvoiceDocument( $orderItem ) {
+
+		$this->buildTSFE( $orderItem->getPid() );
+
+		$renderer = t3lib_div::makeInstance('Tx_WtCartPdf_Utility_Renderer');
+
+		$files = array();
+		$errors = array();
+
+		$params = array(
+			'orderItem' => $orderItem,
+			'files' => &$files,
+			'errors' => &$errors
+		);
+
+		$renderer->createPdf($params, 'invoice');
+
+		if ( $params['files']['invoice'] ) {
+			$orderItem->setInvoicePdf( $params['files']['invoice'] );
+		}
 	}
 
 }

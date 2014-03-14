@@ -140,6 +140,7 @@ CREATE TABLE tx_wtcartorder_domain_model_ordershipping (
   gross double(11,2) DEFAULT '0.00' NOT NULL,
   net double(11,2) DEFAULT '0.00' NOT NULL,
   tax double(11,2) DEFAULT '0.00' NOT NULL,
+  note text NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -177,6 +178,7 @@ CREATE TABLE tx_wtcartorder_domain_model_orderpayment (
   gross double(11,2) DEFAULT '0.00' NOT NULL,
   net double(11,2) DEFAULT '0.00' NOT NULL,
   tax double(11,2) DEFAULT '0.00' NOT NULL,
+  note text NOT NULL,
 
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,

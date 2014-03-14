@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_ordershipping'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_ordershipping']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'name, status, gross, net, tax',
+		'showRecordFieldList' => 'name, status, gross, net, tax, note',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'name, status, gross, net, tax'),
+		'1' => array('showitem' => 'name, status, gross, net, tax, note'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -70,6 +70,15 @@ $TCA['tx_wtcartorder_domain_model_ordershipping'] = array(
 				'size' => 30,
 				'eval' => 'double2'
 			),
+		),
+		'note' => array(
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.note',
+			'config' => array(
+				'type' => 'text',
+				'readOnly' => 1,
+				'cols' => '40',
+				'rows' => '15'
+			)
 		),
 	),
 );

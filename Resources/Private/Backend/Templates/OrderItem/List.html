@@ -42,7 +42,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 					<td>
 						<f:link.action action="show" arguments="{orderItem : orderItem}"> show </f:link.action>
 						<f:if condition="{0: orderItem.invoiceNumber} == {0: ''}">
-							<f:link.action action="makeInvoice" arguments="{orderItem : orderItem}"> make Invoice </f:link.action>
+							<f:link.action action="generateInvoiceNumber" arguments="{orderItem : orderItem}"> generate Invoice Number </f:link.action>
+						</f:if>
+						<f:if condition="{0: orderItem.invoicePdf} == {0: ''}">
+							<f:link.action action="generateInvoiceDocument" arguments="{orderItem : orderItem}"> generate Invoice Document </f:link.action>
 						</f:if>
 					</td>
 				</tr>

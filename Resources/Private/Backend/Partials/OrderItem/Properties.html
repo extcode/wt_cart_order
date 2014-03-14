@@ -63,4 +63,24 @@
 			{orderItem.orderShipping.status}
 		</td>
 	</tr>
+	<f:if condition="{orderItem.orderPdf}">
+	<tr>
+		<td>
+			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_pdf" />
+		</td>
+		<td>
+			<a href="{orderItem.orderPdf}" type="application/pdf">{orderItem.orderNumber}.pdf</a>
+		</td>
+	</tr>
+	</f:if>
+	<f:if condition="{orderItem.invoicePdf}">
+		<tr>
+			<td>
+				<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_pdf" />
+			</td>
+			<td>
+				<link href="{f:uri.resource(path:'../{orderItem.invoicePdf}')}" rel="stylesheet" type="application/pdf">{orderItem.invoiceNumber}.pdf</link>
+			</td>
+		</tr>
+	</f:if>
 </table>

@@ -13,7 +13,7 @@ if (TYPO3_MODE === 'BE') {
 		'orderlist',
 		'',
 		array(
-			'OrderItem' => 'list, show, makeInvoice',
+			'OrderItem' => 'list, show, generateInvoiceNumber, generateInvoiceDocument',
 		),
 		array(
 			'access' => 'user,group',

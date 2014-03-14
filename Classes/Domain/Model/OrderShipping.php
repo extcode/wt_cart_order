@@ -74,6 +74,13 @@ class Tx_WtCartOrder_Domain_Model_OrderShipping extends Tx_Extbase_DomainObject_
 	protected $tax;
 
 	/**
+	 * Note
+	 *
+	 * @var string
+	 */
+	protected $note;
+
+	/**
 	 * @param float $gross
 	 * @return void
 	 */
@@ -146,6 +153,20 @@ class Tx_WtCartOrder_Domain_Model_OrderShipping extends Tx_Extbase_DomainObject_
 	 */
 	public function getStatus() {
 		return $this->status;
+	}
+
+	/**
+	 * @param string $note
+	 */
+	public function setNote($note) {
+		$this->note = $note;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNote() {
+		return $this->note;
 	}
 
 }
