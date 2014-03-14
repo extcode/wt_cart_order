@@ -102,7 +102,6 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		$GLOBALS['TSFE']->newCObj();
 	}
 
-
 	/**
 	 * Action initializer
 	 *
