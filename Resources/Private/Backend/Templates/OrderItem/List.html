@@ -18,8 +18,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:if condition="{orderItems}">
 	<f:then>
-		<table  class="tx_wtcartorder" >
-			<tr>
+		<table class="tx_wtcartorder typo3-dblist" >
+			<tr class="t3-row-header">
 				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_number" /></th>
 				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_number" /></th>
 				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.gross" /></th>
@@ -32,7 +32,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			</tr>
 
 			<f:for each="{orderItems}" as="orderItem">
-				<tr>
+				<tr class="db_list_normal">
 					<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.orderNumber} </f:link.action></td>
 					<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.invoiceNumber} </f:link.action></td>
 					<td>{orderItem.gross}</td>
