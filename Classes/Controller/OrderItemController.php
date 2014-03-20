@@ -222,11 +222,12 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 
 		$params = array(
 			'orderItem' => $orderItem,
+			'type' => 'invoice',
 			'files' => &$files,
 			'errors' => &$errors
 		);
 
-		$renderer->createPdf($params, 'invoice');
+		$renderer->createPdf( $params );
 
 		if ( $params['files']['invoice'] ) {
 			$orderItem->setInvoicePdf( $params['files']['invoice'] );

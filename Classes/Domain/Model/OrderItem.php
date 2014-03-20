@@ -44,7 +44,6 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * orderNumber
 	 *
 	 * @var string
-	 * @validate NotEmpty
 	 */
 	protected $orderNumber;
 
@@ -206,20 +205,14 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * Sets the orderNumber
 	 *
 	 * @param string $orderNumber
-	 * @return void
+	 * @return string
 	 */
-	public function setOrderNumber($orderNumber) {
-		$this->orderNumber = $orderNumber;
-	}
+	public function setOrderNumber( $orderNumber ) {
+		if ( ! $this->orderNumber ) {
+			$this->orderNumber = $orderNumber;
+		}
 
-	/**
-	 * Sets the invoiceNumber
-	 *
-	 * @param string $invoiceNumber
-	 * @return void
-	 */
-	public function setInvoiceNumber($invoiceNumber) {
-		$this->invoiceNumber = $invoiceNumber;
+		return $this->orderNumber;
 	}
 
 	/**
@@ -228,6 +221,20 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * @return string
 	 */
 	public function getInvoiceNumber() {
+		return $this->invoiceNumber;
+	}
+
+	/**
+	 * Sets the invoiceNumber
+	 *
+	 * @param string $invoiceNumber
+	 * @return string
+	 */
+	public function setInvoiceNumber( $invoiceNumber ) {
+		if ( ! $this->invoiceNumber ) {
+			$this->invoiceNumber = $invoiceNumber;
+		}
+
 		return $this->invoiceNumber;
 	}
 

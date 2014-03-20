@@ -57,7 +57,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 				'type' => 'input',
 				'readOnly' => 1,
 				'size' => 30,
-				'eval' => 'trim,required'
+				'eval' => 'trim'
 			),
 		),
 		'invoice_number' => array(

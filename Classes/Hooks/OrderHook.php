@@ -76,6 +76,11 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	protected $storagePid;
 
 	/**
+	 * @var Tx_Extbase_SignalSlot_Dispatcher
+	 */
+	protected $signalSlotDispatcher;
+
+	/**
 	 * cart
 	 *
 	 * @var Tx_WtCart_Domain_Model_Cart
@@ -100,12 +105,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		}
 	}
 
-	/**
-	 * @param $params
-	 * @param $obj
-	 */
-	public function afterSetOrderNumber( &$params, &$obj ) {
-
+	public function createOrderItemFromCart( &$params, &$obj ) {
 		$this->formsRepository = t3lib_div::makeInstance('Tx_Powermail_Domain_Repository_FormsRepository');
 		$this->frontendUserRepository = t3lib_div::makeInstance('Tx_Extbase_Domain_Repository_FrontendUserRepository');
 
@@ -132,7 +132,6 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 			$this->orderItem->setFeUser( $fe_user );
 		}
 
-		$this->orderItem->setOrderNumber( $this->cart->getOrderNumber() );
 		$this->orderItem->setGross( $this->cart->getGross() );
 		$this->orderItem->setNet( $this->cart->getNet() );
 
@@ -168,21 +167,21 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		$persistenceManager->persistAll();
 
 		$this->cart->setOrderId( $this->orderItem->getUid() );
-
 	}
 
 	/**
 	 * @param $params
 	 * @param $obj
+	 * @return int
 	 */
-	public function afterSetInvoiceNumber( &$params, &$obj ) {
+	public function afterSetOrderNumber( &$params, &$obj ) {
 		$this->cart = $params['cart'];
 
 		$orderId = $this->cart->getOrderId();
-		$orderInvoiceNumber = $this->cart->getInvoiceNumber();
+		$orderNumber = $this->cart->getOrderNumber();
 
-		if ( empty( $orderId ) || empty( $orderInvoiceNumber ) ) {
-			return;
+		if ( empty( $orderId ) || empty( $orderNumber ) ) {
+			return -1;
 		}
 
 		$this->getOrderItemRepository();
@@ -191,7 +190,91 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		 */
 		$orderItem = $this->orderItemRepository->findByUid( $orderId );
 
-		$orderItem->setInvoiceNumber( $orderInvoiceNumber );
+		$newOrderNumber = $orderItem->setOrderNumber( $orderNumber );
+
+		if ( $newOrderNumber != $orderNumber) {
+			$params['errors']['afterSetOrderNumber'] = 'Order Number can not be replaced.';
+			if ( TYPO3_DLOG ) {
+				t3lib_div::devLog( $params['errors']['afterSetOrderNumber'], 'wt_cart_order', 0, array( 'orderNumber' => $orderNumber, 'newOrderNumber' => $newOrderNumber ) );
+			}
+			return -2;
+		}
+
+		$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+		$persistenceManager->persistAll();
+
+		$files = array();
+		$errors = array();
+
+		$data = array(
+			'orderItem' => $orderItem,
+			'type' => 'order',
+			'files' => &$files,
+			'errors' => &$errors
+		);
+
+		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotAfterSaveOrderNumberToOrderItem', array( $data ) );
+
+		t3lib_div::devLog( 'afterSetOrderNumber', 'wt_cart_order', 0, array( 'data' => $data ) );
+
+		if ( $data['files']['order'] ) {
+			$orderItem->setOrderPdf( $data['files']['order'] );
+			$persistenceManager->persistAll();
+		}
+	}
+
+	/**
+	 * @param $params
+	 * @param $obj
+	 * @return int
+	 */
+	public function afterSetInvoiceNumber( &$params, &$obj ) {
+		$this->cart = $params['cart'];
+
+		$orderId = $this->cart->getOrderId();
+		$invoiceNumber = $this->cart->getInvoiceNumber();
+
+		if ( empty( $orderId ) || empty( $invoiceNumber ) ) {
+			return -1;
+		}
+
+		$this->getOrderItemRepository();
+		/**
+		 * @var $orderItem Tx_WtCartOrder_Domain_Model_OrderItem
+		 */
+		$orderItem = $this->orderItemRepository->findByUid( $orderId );
+
+		$newInvoiceNumber = $orderItem->setInvoiceNumber( $invoiceNumber );
+
+		if ( $newInvoiceNumber != $invoiceNumber) {
+			$params['errors']['afterSetInvoiceNumber'] = 'Invoice Number can not be replaced.';
+			if ( TYPO3_DLOG ) {
+				t3lib_div::devLog( $params['errors']['afterSetInvoiceNumber'], 'wt_cart_order', 0, array( 'invoiceNumber' => $invoiceNumber, 'newInvoiceNumber' => $newInvoiceNumber ) );
+			}
+			return -2;
+		}
+
+		$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+		$persistenceManager->persistAll();
+
+		$files = array();
+		$errors = array();
+
+		$data = array(
+			'orderItem' => $orderItem,
+			'type' => 'invoice',
+			'files' => &$files,
+			'errors' => &$errors
+		);
+
+		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotAfterSaveInvoiceNumberToOrderItem', array( $data ) );
+
+		if ( $data['files']['invoice'] ) {
+			$orderItem->setInvoicePdf( $data['files']['invoice'] );
+			$persistenceManager->persistAll();
+		}
 	}
 
 	/**
@@ -209,11 +292,13 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		 */
 		$orderItem = $this->orderItemRepository->findByUid( $orderId );
 
-		if ( $params['files']['order'] ) {
-			$orderItem->setOrderPdf( $params['files']['order'] );
-		}
-		if ( $params['files']['invoice'] ) {
-			$orderItem->setInvoicePdf( $params['files']['invoice'] );
+		if ($orderItem) {
+			if ( $params['files']['order'] ) {
+				$orderItem->setOrderPdf( $params['files']['order'] );
+			}
+			if ( $params['files']['invoice'] ) {
+				$orderItem->setInvoicePdf( $params['files']['invoice'] );
+			}
 		}
 	}
 
