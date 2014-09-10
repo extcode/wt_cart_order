@@ -25,7 +25,7 @@
  ***************************************************************/
 
 /**
- * Test case for class Tx_WtCartOrder_Domain_Model_Order.
+ * Test case for class Tx_WtCartOrder_Domain_Model_OrderItem.
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
@@ -36,14 +36,14 @@
  *
  * @author Daniel Lorenz <wt_cart_order@extco.de>
  */
-class Tx_WtCartOrder_Domain_Model_OrderTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_WtCartOrder_Domain_Model_OrderItemTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
-	 * @var Tx_WtCartOrder_Domain_Model_Order
+	 * @var Tx_WtCartOrder_Domain_Model_OrderItem
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new Tx_WtCartOrder_Domain_Model_Order();
+		$this->fixture = new Tx_WtCartOrder_Domain_Model_OrderItem();
 	}
 
 	public function tearDown() {
@@ -65,6 +65,41 @@ class Tx_WtCartOrder_Domain_Model_OrderTest extends Tx_Extbase_Tests_Unit_BaseTe
 			'Conceived at T3CON10',
 			$this->fixture->getOrderNumber()
 		);
+	}
+
+	/**
+	 * @test
+	 * @expectedException Tx_WtCartOrder_Property_Exception_ResetPropertyException
+	 */
+	public function resetAnotherOrderNumberForStringThrowsException() {
+		$this->fixture->setOrderNumber('Conceived at T3CON10');
+		$this->fixture->setOrderNumber('Conceived at T3CON14');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getInvoiceNumberReturnsInitialValueForString() { }
+
+	/**
+	 * @test
+	 */
+	public function setInvoiceNumberForStringSetsInvoiceNumber() {
+		$this->fixture->setInvoiceNumber('Conceived at T3CON10');
+
+		$this->assertSame(
+			'Conceived at T3CON10',
+			$this->fixture->getInvoiceNumber()
+		);
+	}
+
+	/**
+	 * @test
+	 * @expectedException Tx_WtCartOrder_Property_Exception_ResetPropertyException
+	 */
+	public function resetAnotherInvoiceNumberForStringThrowsException() {
+		$this->fixture->setInvoiceNumber('Conceived at T3CON10');
+		$this->fixture->setInvoiceNumber('Conceived at T3CON14');
 	}
 	
 	/**
@@ -108,89 +143,6 @@ class Tx_WtCartOrder_Domain_Model_OrderTest extends Tx_Extbase_Tests_Unit_BaseTe
 		$this->assertSame(
 			3.14159265,
 			$this->fixture->getNet()
-		);
-	}
-	
-	/**
-	 * @test
-	 */
-	public function getPaymentNameReturnsInitialValueForString() { }
-
-	/**
-	 * @test
-	 */
-	public function setPaymentNameForStringSetsPaymentName() { 
-		$this->fixture->setPaymentName('Conceived at T3CON10');
-
-		$this->assertSame(
-			'Conceived at T3CON10',
-			$this->fixture->getPaymentName()
-		);
-	}
-	
-	/**
-	 * @test
-	 */
-	public function getPaymentIdReturnsInitialValueForInteger() {
-		$this->assertSame(
-			0,
-			$this->fixture->getPaymentId()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setPaymentIdForIntegerSetsPaymentId() {
-		$this->fixture->setPaymentId(12);
-
-		$this->assertSame(
-			12,
-			$this->fixture->getPaymentId()
-		);
-	}
-	
-	/**
-	 * @test
-	 */
-	public function getPaymentStatusReturnsInitialValueForInteger() { 
-		$this->assertSame(
-			0,
-			$this->fixture->getPaymentStatus()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setPaymentStatusForIntegerSetsPaymentStatus() { 
-		$this->fixture->setPaymentStatus(12);
-
-		$this->assertSame(
-			12,
-			$this->fixture->getPaymentStatus()
-		);
-	}
-	
-	/**
-	 * @test
-	 */
-	public function getShippingStatusReturnsInitialValueForInteger() { 
-		$this->assertSame(
-			0,
-			$this->fixture->getShippingStatus()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setShippingStatusForIntegerSetsShippingStatus() { 
-		$this->fixture->setShippingStatus(12);
-
-		$this->assertSame(
-			12,
-			$this->fixture->getShippingStatus()
 		);
 	}
 	

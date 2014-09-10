@@ -25,102 +25,28 @@
  ***************************************************************/
 
 /**
- *
+ * Format array of values to CSV format
  *
  * @package wt_cart_order
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
-class Tx_WtCartOrder_Domain_Model_OrderTax extends Tx_Extbase_DomainObject_AbstractEntity {
-
+class Tx_WtCartOrder_ViewHelpers_CsvHeaderViewHelper extends Tx_MvcExtjs_ViewHelpers_AbstractViewHelper {
 	/**
-	 * Name
+	 * Format OrderItem to CSV format
 	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $name;
-
-	/**
-	 * Value
-	 *
-	 * @var string
-	 * @validate NotEmpty
-	 */
-	protected $value;
-
-	/**
-	 * Calc
-	 *
-	 * @var float
-	 * @validate NotEmpty
-	 */
-	protected $calc = 0.0;
-
-	/**
-	 * Sum
-	 *
-	 * @var float
-	 * @validate NotEmpty
-	 */
-	protected $sum = 0.0;
-
-	/**
-	 * @param float $calc
-	 */
-	public function setCalc($calc) {
-		$this->calc = $calc;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getCalc() {
-		return $this->calc;
-	}
-
-	/**
-	 * @param string $name
-	 */
-	public function setName($name) {
-		$this->name = $name;
-	}
-
-	/**
+	 * @param string $delim
+	 * @param string $quote
 	 * @return string
 	 */
-	public function getName() {
-		return $this->name;
-	}
+	public function render($delim = ',', $quote = '"') {
 
-	/**
-	 * @param float $sum
-	 */
-	public function setSum($sum) {
-		$this->sum = $sum;
-	}
+		$orderItemArr = array();
 
-	/**
-	 * @return float
-	 */
-	public function getSum() {
-		return $this->sum;
-	}
+		$orderItemArr[] = 'FirstName';
+		$orderItemArr[] = 'LastName';
+		$orderItemArr[] = 'OrderNumber';
+		$orderItemArr[] = 'InvoiceNumber';
 
-	/**
-	 * @param string $value
-	 */
-	public function setValue($value) {
-		$this->value = $value;
+		return t3lib_div::csvValues($orderItemArr, $delim, $quote);
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getValue() {
-		return $this->value;
-	}
-
 }
-
-?>

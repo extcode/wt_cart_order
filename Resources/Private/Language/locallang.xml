@@ -5,19 +5,171 @@
 		<description>Language labels for the Order BE Handling extension in the FRONTEND</description>
 	</meta>
 	<data type="array">
+
 		<languageKey index="default" type="array">
-			<label index="tx_wtcartorder_domain_model_order">Order</label>
-			<label index="tx_wtcartorder_domain_model_order.order_number">orderNumber</label>
-			<label index="tx_wtcartorder_domain_model_order.gross">gross</label>
-			<label index="tx_wtcartorder_domain_model_order.net">net</label>
-			<label index="tx_wtcartorder_domain_model_order.taxes">taxes</label>
-			<label index="tx_wtcartorder_domain_model_order.payment_name">paymentName</label>
-			<label index="tx_wtcartorder_domain_model_order.payment_id">paymentId</label>
-			<label index="tx_wtcartorder_domain_model_order.payment_status">paymentStatus</label>
-			<label index="tx_wtcartorder_domain_model_order.shipping_name">shippingName</label>
-			<label index="tx_wtcartorder_domain_model_order.shipping_id">shippingId</label>
-			<label index="tx_wtcartorder_domain_model_order.shipping_status">shippingStatus</label>
-			<label index="tx_wtcartorder_domain_model_order.order_pdf">orderPdf</label>
+
+			<label index="filter">filter</label>
+			<label index="filterStartDate">Start Date</label>
+			<label index="filterEndDate">End Date</label>
+
+			<label index="listItems">List of Orders</label>
+			<label index="listItems.export_as_csv">Export Orders (CSV)</label>
+
+			<label index="tx_wtcartorder_domain_model_orderitem">Order Item</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.numbers">Order and Invoice Number</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.purchaser">Purchaser</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.addresses">Addresses</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.price">Price</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.payment">Payment</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.shipping">Shipping</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.fe_user">User</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_number">Order Number</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.invoice_number">Invoice Number</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.first_name">Firstname</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.last_name">Lastname</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.email">Email</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.shipping_address">Shipping Address</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.billing_address">Billing Address</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.gross">Gross</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.net">Net</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.additional_data">Additional Data</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_pdf">Order Pdf</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.invoice_pdf">Invoice Pdf</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_tax">Order Tax</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_product">Order Product</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_shipping">Order Shipping</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_payment">Order Payment</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.crdate">Order Date</label>
+
+			<label index="tx_wtcartorder_domain_model_ordertax">Order Tax</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.name">Name</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.value">Value</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.calc">Calc</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.sum">Sum</label>
+
+			<label index="tx_wtcartorder_domain_model_orderproduct">Order Product</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.sku">SKU</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.title">Title</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.count">Count</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.price.group">Price</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.price">Base Price</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.discount">Discount</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.gross">Gross</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.net">Net</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.tax">Tax</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.additional_data">Additional Data</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.order_product_additional">Order Product Additional</label>
+
+			<label index="tx_wtcartorder_domain_model_orderproductadditional">Order Product Additional</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_type">Type</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_key">Key</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_value">Value</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_data">Data</label>
+
+			<label index="tx_wtcartorder_domain_model_ordershipping">Order Shipping</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.name">Name</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.gross">Gross</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.net">Net</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.tax">Tax</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status">Status</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.open">open</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.on_hold">on hold</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.in_process">in process</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.shipped">shipped</label>
+
+			<label index="tx_wtcartorder_domain_model_orderpayment">Order Payment</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.name">Name</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.gross">Gross</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.net">Net</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.tax">Tax</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status">Status</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.open">open</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.pending">pending</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.paid">paid</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.canceled">canceled</label>
+
+		</languageKey>
+
+		<languageKey index="de" type="array">
+
+			<label index="filter">filtern</label>
+			<label index="filterStartDate">Beginn des Zeitraums</label>
+			<label index="filterEndDate">Ende des Zeitraums</label>
+
+			<label index="listItems">Liste der Bestellungen</label>
+			<label index="listItems.export_as_csv">Bestellungsexport (CSV)</label>
+
+			<label index="tx_wtcartorder_domain_model_orderitem">Bestellung</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.numbers">Bestell- und Rechnungsnummer</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.purchaser">Besteller</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.addresses">Adressen</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.price">Preis</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.payment">Bezahlmethode</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.palettes.shipping">Versandmethode</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.fe_user">Benutzer</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_number">Bestellungsnummer</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.invoice_number">Rechnungsnummer</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.first_name">Vorname</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.last_name">Nachname</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.email">E-mail</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.shipping_address">Versandadresse</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.billing_address">Rechnungsadresse</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.gross">Brutto</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.net">Netto</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.additional_data">Zusätzliche Daten</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_pdf">Bestellungs-PDF</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.invoice_pdf">Rechnungs-PDF</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_tax">Order Tax</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_product">Order Product</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_shipping">Order Shipping</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.order_payment">Order Payment</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.crdate">Bestelldatum</label>
+
+			<label index="tx_wtcartorder_domain_model_ordertax">Mehrwertsteuer</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.name">Name</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.value">Wert</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.calc">Berechnungsfaktor</label>
+			<label index="tx_wtcartorder_domain_model_ordertax.sum">Summe</label>
+
+			<label index="tx_wtcartorder_domain_model_orderproduct">Produkt der Bestellung</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.sku">SKU</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.title">Titel</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.count">Anzahl</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.price.group">Preis</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.price">Grundpreis</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.discount">Rabatt</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.gross">Brutto</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.net">Netto</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.tax">Steuer</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.additional_data">Zusätzliche Daten</label>
+
+			<label index="tx_wtcartorder_domain_model_orderproductadditional">Produkt Daten</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_type">Typ</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_key">Schlüssel</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_value">Wert</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_data">Daten</label>
+
+			<label index="tx_wtcartorder_domain_model_ordershipping">Versandmethode</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.name">Name</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.gross">Brutto</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.net">Netto</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.tax">Steuer</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status">Status des Verands</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.open">offen</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.on_hold">wartend</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.in_process">in Verarbeitung</label>
+			<label index="tx_wtcartorder_domain_model_ordershipping.status.shipped">versandt</label>
+
+			<label index="tx_wtcartorder_domain_model_orderpayment">Zahlungsmethode</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.name">Name</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.gross">Brutto</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.net">Netto</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.tax">Steuer</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status">Status des Zahlung</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.open">offen</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.pending">anstehend</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.paid">bezahlt</label>
+			<label index="tx_wtcartorder_domain_model_orderpayment.status.canceled">storniert</label>
 		</languageKey>
 	</data>
 </T3locallang>

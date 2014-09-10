@@ -1,0 +1,27 @@
+.download-links {
+    float:right;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.download-button {
+    background-color: #f6f6f6;
+    background-image: -moz-linear-gradient(center top , #f6f6f6 10%, #d5d5d5 90%);
+    background-position: center bottom;
+    background-repeat: repeat-x;
+    border: 1px solid #7c7c7c;
+    border-radius: 1px;
+    color: #434343;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.filter {
+    float:left;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.clear {
+    clear: both;
+}

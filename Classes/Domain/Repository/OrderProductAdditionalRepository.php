@@ -31,39 +31,22 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Repository_OrderItemRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_WtCartOrder_Domain_Repository_OrderProductAdditionalRepository extends Tx_Extbase_Persistence_Repository {
 
 	/**
-	 * Find a order by a given orderNumber
+	 * Count all by Category
 	 *
-	 * @param string $orderNumber
-	 * @return object
+	 * @param array $piVars Plugin Variables
+	 * @param $additionalType
+	 * @return Query Object
 	 */
-	public function findOneByOrderNumber( $orderNumber ) {
-		$query = $this->createQuery();
-
-		$query->getQuerySettings()->setRespectStoragePage( FALSE );
-		$query->getQuerySettings()->setRespectEnableFields( FALSE );
-		$query->getQuerySettings()->setRespectSysLanguage( FALSE );
-
-		$query->matching( $query->equals( 'order_number', $orderNumber ) );
-		$orderItem = $query->execute()->getFirst();
-
-		return $orderItem;
-	}
-
-	/**
-	 * Find all orders
-	 *
-	 * @param 	array 	Plugin Variables
-	 * @return	Query Object
-	 */
-	public function findAll($piVars = array()) {
+	public function findAllByAdditionalType($piVars = array(), $additionalType) {
 		// settings
 		$query = $this->createQuery();
 
 		$and = array(
-			$query->equals('deleted', 0)
+			$query->equals('deleted', 0),
+			$query->equals('additionalType', $additionalType)
 		);
 
 		// filter
@@ -82,9 +65,8 @@ class Tx_WtCartOrder_Domain_Repository_OrderItemRepository extends Tx_Extbase_Pe
 		$constraint = $query->logicalAnd($and);
 		$query->matching($constraint);
 
-		$orderItems = $query->execute();
-		return $orderItems;
+		$orderProductAdditionals = $query->execute();
+		return $orderProductAdditionals;
 	}
-
 }
 ?>

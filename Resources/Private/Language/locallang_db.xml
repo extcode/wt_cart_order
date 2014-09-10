@@ -24,6 +24,7 @@
 			<label index="tx_wtcartorder_domain_model_orderitem.billing_address">Billing Address</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.gross">Gross</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.net">Net</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.additional_data">Additional Data</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_pdf">Order Pdf</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.invoice_pdf">Invoice Pdf</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_tax">Order Tax</label>
@@ -42,9 +43,19 @@
 			<label index="tx_wtcartorder_domain_model_orderproduct.title">Title</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.count">Count</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.price.group">Price</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.price">Base Price</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.discount">Discount</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.gross">Gross</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.net">Net</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.tax">Tax</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.additional_data">Additional Data</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.order_product_additional">Order Product Additional</label>
+
+			<label index="tx_wtcartorder_domain_model_orderproductadditional">Order Product Additional</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_type">Type</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_key">Key</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_value">Value</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_data">Data</label>
 
 			<label index="tx_wtcartorder_domain_model_ordershipping">Order Shipping</label>
 			<label index="tx_wtcartorder_domain_model_ordershipping.name">Name</label>
@@ -89,6 +100,7 @@
 			<label index="tx_wtcartorder_domain_model_orderitem.billing_address">Rechnungsadresse</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.gross">Brutto</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.net">Netto</label>
+			<label index="tx_wtcartorder_domain_model_orderitem.additional_data">Zusätzliche Daten</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_pdf">Bestellungs-PDF</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.invoice_pdf">Rechnungs-PDF</label>
 			<label index="tx_wtcartorder_domain_model_orderitem.order_tax">Order Tax</label>
@@ -106,10 +118,19 @@
 			<label index="tx_wtcartorder_domain_model_orderproduct.sku">SKU</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.title">Title</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.count">Count</label>
-			<label index="tx_wtcartorder_domain_model_orderproduct.price.group">Price</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.price.group">Preis</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.price">Grundpreis</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.discount">Rabatt</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.gross">Gross</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.net">Net</label>
 			<label index="tx_wtcartorder_domain_model_orderproduct.tax">Tax</label>
+			<label index="tx_wtcartorder_domain_model_orderproduct.additional_data">Zusätzliche Daten</label>
+
+			<label index="tx_wtcartorder_domain_model_orderproductadditional">Produkt Daten</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_type">Typ</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_key">Schlüssel</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_value">Wert</label>
+			<label index="tx_wtcartorder_domain_model_orderproductadditional.additional_data">Daten</label>
 
 			<label index="tx_wtcartorder_domain_model_ordershipping">Order Shipping</label>
 			<label index="tx_wtcartorder_domain_model_ordershipping.name">Name</label>

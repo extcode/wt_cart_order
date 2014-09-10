@@ -12,48 +12,65 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="content">
-<h1>Listing for Order</h1>
+	<f:be.container addCssFile="{f:uri.resource(path:'Stylesheets/Backend/style.css')}" >
 
-<f:flashMessages />
+	<h1><f:translate key='listItems' /></h1>
 
-<f:if condition="{orderItems}">
-	<f:then>
-		<table class="tx_wtcartorder typo3-dblist" >
-			<tr class="t3-row-header">
-				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_number" /></th>
-				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_number" /></th>
-				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.gross" /></th>
-				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.net" /></th>
-				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status" /></th>
-				<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.status" /></th>
-				<th>
-					Aktion
-				</th>
-			</tr>
+	</f:be.container>
 
-			<f:for each="{orderItems}" as="orderItem">
-				<tr class="db_list_normal">
-					<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.orderNumber} </f:link.action></td>
-					<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.invoiceNumber} </f:link.action></td>
-					<td>{orderItem.gross}</td>
-					<td>{orderItem.net}</td>
-					<td>{orderItem.orderPayment.name} <f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.{orderItem.orderPayment.status}" /></td>
-					<td>{orderItem.orderShipping.name} <f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.status.{orderItem.orderShipping.status}" /></td>
-					<td>
-						<f:link.action action="show" arguments="{orderItem : orderItem}"> show </f:link.action>
-						<f:if condition="{0: orderItem.invoiceNumber} == {0: ''}">
-							<f:link.action action="generateInvoiceNumber" arguments="{orderItem : orderItem}"> generate Invoice Number </f:link.action>
-						</f:if>
-						<f:if condition="{0: orderItem.invoicePdf} == {0: ''}">
-							<f:link.action action="generateInvoiceDocument" arguments="{orderItem : orderItem}"> generate Invoice Document </f:link.action>
-						</f:if>
-					</td>
-				</tr>
-			</f:for>
-		</table>
-	</f:then>
-	<f:else>
-		Select a Page where Order Item Dataset are saved.
-	</f:else>
-</f:if>
+	<f:flashMessages />
+
+	<div class="download-links">
+		<f:link.action action="list" arguments="{format: 'csv', filter: piVars.filter}" class="download-button"> Bestellungen als CSV exportieren. </f:link.action>
+	</div>
+	<div class="clear"></div>
+
+	<f:render partial="OrderItem/Filter" arguments="{piVars: piVars}" />
+
+	<div class="clear"></div>
+
+	<f:if condition="{orderItems}">
+		<f:then>
+			<f:widget.paginate objects="{orderItems}" as="paginatedOrderItems" configuration="{itemsPerPage: 25}">
+				<table class="tx_wtcartorder typo3-dblist" >
+					<tr class="t3-row-header">
+						<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang.xml:tx_wtcartorder_domain_model_orderitem.order_number" /></th>
+						<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang.xml:tx_wtcartorder_domain_model_orderitem.invoice_number" /></th>
+						<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang.xml:tx_wtcartorder_domain_model_orderitem.gross" /></th>
+						<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang.xml:tx_wtcartorder_domain_model_orderitem.net" /></th>
+						<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang.xml:tx_wtcartorder_domain_model_orderpayment.status" /></th>
+						<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang.xml:tx_wtcartorder_domain_model_ordershipping.status" /></th>
+						<th><f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang.xml:tx_wtcartorder_domain_model_orderitem.crdate" /></th>
+						<th>
+							Aktion
+						</th>
+					</tr>
+
+					<f:for each="{paginatedOrderItems}" as="orderItem">
+						<tr class="db_list_normal">
+							<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.orderNumber} </f:link.action></td>
+							<td><f:link.action action="show" arguments="{orderItem : orderItem}"> {orderItem.invoiceNumber} </f:link.action></td>
+							<td style="width: 75px; text-align: right;"><f:format.currency currencySign="€" decimalSeparator="," thousandsSeparator=".">{orderItem.gross}</f:format.currency></td>
+							<td style="width: 75px; text-align: right;"><f:format.currency currencySign="€" decimalSeparator="," thousandsSeparator=".">{orderItem.net}</f:format.currency></td>
+							<td>{orderItem.orderPayment.name} <f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.{orderItem.orderPayment.status}" /></td>
+							<td>{orderItem.orderShipping.name} <f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.status.{orderItem.orderShipping.status}" /></td>
+							<td><f:format.date format="d.m.Y H:i">{orderItem.crDate}</f:format.date></td>
+							<td>
+								<f:link.action action="show" arguments="{orderItem : orderItem}"> show </f:link.action>
+								<f:if condition="{0: orderItem.invoiceNumber} == {0: ''}">
+									<f:link.action action="generateInvoiceNumber" arguments="{orderItem : orderItem}"> generate Invoice Number </f:link.action>
+								</f:if>
+								<f:if condition="{0: orderItem.invoicePdf} == {0: ''}">
+									<f:link.action action="generateInvoiceDocument" arguments="{orderItem : orderItem}"> generate Invoice Document </f:link.action>
+								</f:if>
+							</td>
+						</tr>
+					</f:for>
+				</table>
+			</f:widget.paginate>
+		</f:then>
+		<f:else>
+			Select a Page where Order Item Dataset are saved.
+		</f:else>
+	</f:if>
 </f:section>

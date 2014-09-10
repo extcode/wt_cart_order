@@ -34,6 +34,13 @@
 class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
+	 * orderItem
+	 *
+	 * @var Tx_WtCartOrder_Domain_Model_OrderItem
+	 */
+	protected $orderItem;
+
+	/**
 	 * Sku
 	 *
 	 * @var string
@@ -55,7 +62,23 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	 * @var int
 	 * @validate NotEmpty
 	 */
-	protected $count;
+	protected $count = 0;
+
+	/**
+	 * Price
+	 *
+	 * @var float
+	 * @validate NotEmpty
+	 */
+	protected $price = 0.0;
+
+	/**
+	 * Discount
+	 *
+	 * @var float
+	 * @validate NotEmpty
+	 */
+	protected $discount = 0.0;
 
 	/**
 	 * Gross
@@ -63,7 +86,7 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $gross;
+	protected $gross = 0.0;
 
 	/**
 	 * Gross
@@ -71,7 +94,7 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $net;
+	protected $net = 0.0;
 
 	/**
 	 * Tax
@@ -79,7 +102,60 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $tax;
+	protected $tax = 0.0;
+
+	/**
+	 * Additional Data
+	 *
+	 * @var string
+	 */
+	protected $additionalData;
+
+	/**
+	 * orderProductAdditional
+	 *
+	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProductAdditional>
+	 */
+	protected $orderProductAdditional;
+
+	/**
+	 * __construct
+	 *
+	 * @return \Tx_WtCartOrder_Domain_Model_OrderProduct
+	 */
+	public function __construct() {
+		//Do not remove the next line: It would break the functionality
+		$this->initStorageObjects();
+	}
+
+
+	/**
+	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
+	 *
+	 * @return void
+	 */
+	protected function initStorageObjects() {
+		/**
+		 * Do not modify this method!
+		 * It will be rewritten on each save in the extension builder
+		 * You may modify the constructor of this class instead
+		 */
+		$this->orderProductAdditional = new Tx_Extbase_Persistence_ObjectStorage();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAdditionalData() {
+		return $this->additionalData;
+	}
+
+	/**
+	 * @param string $additionalData
+	 */
+	public function setAdditionalData($additionalData) {
+		$this->additionalData = $additionalData;
+	}
 
 	/**
 	 * @param int $count
@@ -93,6 +169,38 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	 */
 	public function getCount() {
 		return $this->count;
+	}
+
+	/**
+	 * @param float $price
+	 */
+	public function setPrice($price)
+	{
+		$this->price = $price;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getPrice()
+	{
+		return $this->price;
+	}
+
+	/**
+	 * @param float $discount
+	 */
+	public function setDiscount($discount)
+	{
+		$this->discount = $discount;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getDiscount()
+	{
+		return $this->discount;
 	}
 
 	/**
@@ -169,6 +277,52 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	 */
 	public function getTitle() {
 		return $this->title;
+	}
+
+	/**
+	 * Adds a OrderProductAdditional
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditional
+	 * @return void
+	 */
+	public function addOrderProductAdditional(Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditional) {
+		$this->orderProductAdditional->attach($orderProductAdditional);
+	}
+
+	/**
+	 * Removes a OrderProductAdditional
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditionalToRemove The OrderProductAdditional to be removed
+	 * @return void
+	 */
+	public function removeOrderProductAdditional(Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditionalToRemove) {
+		$this->orderProductAdditional->detach($orderProductAdditionalToRemove);
+	}
+
+	/**
+	 * Returns the orderProductAdditional
+	 *
+	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProductAdditional> $orderProductAdditional
+	 */
+	public function getOrderProductAdditional() {
+		return $this->orderProductAdditional;
+	}
+
+	/**
+	 * Sets the orderProductAdditional
+	 *
+	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProductAdditional> $orderProductAdditional
+	 * @return void
+	 */
+	public function setOrderProductAdditional(Tx_Extbase_Persistence_ObjectStorage $orderProductAdditional) {
+		$this->orderProductAdditional = $orderProductAdditional;
+	}
+
+	/**
+	 * @return Tx_WtCartOrder_Domain_Model_OrderItem
+	 */
+	public function getOrderItem() {
+		return $this->orderItem;
 	}
 }
 

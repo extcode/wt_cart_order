@@ -146,21 +146,28 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		if ( $shippingAddress ) {
 			$this->orderItem->setShippingAddress( $shippingAddress );
 		}
+		$additionalData = $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['additionalData'], $this->conf['additionalData.'] );
+		if ( $additionalData ) {
+			$this->orderItem->setAdditionalData( $additionalData );
+		}
 
 		if ( ! $this->orderItem->_isDirty() ) {
 			$this->orderItemRepository->add($this->orderItem);
 
-			if ($this->cart->getTaxes()) {
+			if ( $this->cart->getTaxes() ) {
 				$this->addTaxesToOrder();
 			}
 
-			if ($this->cart->getProducts()) {
+			if ( $this->cart->getProducts() ) {
 				$this->addProductsToOrder();
 			}
 
-			$this->addPaymentToOrder();
-			$this->addShippingToOrder();
-
+			if ( $this->cart->getPayment() ) {
+				$this->addPaymentToOrder();
+			}
+			if ( $this->cart->getShipping() ) {
+				$this->addShippingToOrder();
+			}
 		}
 
 		$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
@@ -412,6 +419,20 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		$cartProductTax = $cartProduct->getTax();
 		$orderProduct->setTax( $cartProductTax['tax'] );
 
+		$additionalArray = $cartProduct->getAdditionalArray();
+
+		$data = array(
+			'cartProduct' => $cartProduct,
+			'orderProduct' => &$orderProduct,
+			'additionalArray' => &$additionalArray,
+			'storagePid' => $this->storagePid,
+		);
+
+		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotBeforeSetAdditionalArrayToOrderProduct', array( $data ) );
+
+		$orderProduct->setAdditionalData( json_encode( $data['additionalArray'] ) );
+
 		$orderProductRepository->add($orderProduct);
 
 		$this->orderItem->addOrderProduct($orderProduct);
@@ -452,6 +473,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 */
 	protected function addVariantToOrder( $cartVariant, $level ) {
 		$orderProductRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderProductRepository');
+		$orderProductAdditionalRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderProductAdditionalRepository');
 
 		/**
 		 * @var $orderProduct Tx_WtCartOrder_Domain_Model_OrderProduct
@@ -481,10 +503,53 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		$orderProduct->setTitle( $this->getTitleFromTypoScript( $titleWithVariants ) );
 		$orderProduct->setSku( $this->getSkuFromTypoScript( $skuWithVariants ) );
 		$orderProduct->setCount( $cartVariant->getQty() );
+		$orderProduct->setPrice( $cartVariant->getPrice() );
+		$orderProduct->setDiscount( $cartVariant->getDiscount() );
 		$orderProduct->setGross( $cartVariant->getGross() );
 		$orderProduct->setNet( $cartVariant->getNet() );
 		$cartVariantTax = $cartVariant->getTax();
 		$orderProduct->setTax( $cartVariantTax['tax'] );
+
+		if ( ! $orderProduct->_isDirty() ) {
+			$orderProductRepository->add($orderProduct);
+		}
+
+		$cartVariantInner = $cartVariant;
+		for ( $count = $level; $count > 0; $count-- ) {
+			/**
+			 * @var $orderProductAdditional Tx_WtCartOrder_Domain_Model_OrderProductAdditional
+			 */
+			$orderProductAdditional = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderProductAdditional');
+			$orderProductAdditional->setPid( $this->storagePid );
+			$orderProductAdditional->setAdditionalType( 'variant_' . $count );
+			$orderProductAdditional->setAdditionalKey( $cartVariantInner->getSku() );
+			$orderProductAdditional->setAdditionalValue( $cartVariantInner->getTitle() );
+
+			$orderProductAdditionalRepository->add($orderProductAdditional);
+
+			$orderProduct->addOrderProductAdditional($orderProductAdditional);
+
+			if ( $count > 1 ) {
+				$cartVariantInner = $cartVariantInner->getParentVariant();
+			} else {
+				$cartProduct = $cartVariantInner->getProduct();
+			}
+		}
+		unset($cartVariantInner);
+
+		$additionalArray = $cartProduct->getAdditionalArray();
+
+		$data = array(
+			'cartProduct' => $cartProduct,
+			'orderProduct' => &$orderProduct,
+			'additionalArray' => &$additionalArray,
+			'storagePid' => $this->storagePid,
+		);
+
+		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotBeforeSetAdditionalArrayToOrderProduct', array( $data ) );
+
+		$orderProduct->setAdditionalData( json_encode( $data['additionalArray'] ) );
 
 		$orderProductRepository->add($orderProduct);
 

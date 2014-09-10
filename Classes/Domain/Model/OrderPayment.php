@@ -55,7 +55,7 @@ class Tx_WtCartOrder_Domain_Model_OrderPayment extends Tx_Extbase_DomainObject_A
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $net;
+	protected $net = 0.0;
 
 	/**
 	 * Gross
@@ -63,7 +63,7 @@ class Tx_WtCartOrder_Domain_Model_OrderPayment extends Tx_Extbase_DomainObject_A
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $gross;
+	protected $gross = 0.0;
 
 	/**
 	 * Tax
@@ -71,7 +71,7 @@ class Tx_WtCartOrder_Domain_Model_OrderPayment extends Tx_Extbase_DomainObject_A
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $tax;
+	protected $tax = 0.0;
 
 	/**
 	 * Note

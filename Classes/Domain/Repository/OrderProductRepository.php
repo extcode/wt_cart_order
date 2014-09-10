@@ -33,5 +33,39 @@
  */
 class Tx_WtCartOrder_Domain_Repository_OrderProductRepository extends Tx_Extbase_Persistence_Repository {
 
+	/**
+	 * Find all products
+	 *
+	 * @param 	array 	Plugin Variables
+	 * @return	Query Object
+	 */
+	public function findAll($piVars = array()) {
+		// settings
+		$query = $this->createQuery();
+
+		$and = array(
+			$query->equals('deleted', 0)
+		);
+
+		// filter
+		if (isset($piVars['filter'])) {
+			foreach ((array) $piVars['filter'] as $field => $value) {
+
+				if ($field == 'start' && !empty($value)) {
+					$and[] = $query->greaterThan('crdate', strtotime($value));
+				} elseif ($field == 'stop' && !empty($value)) {
+					$and[] = $query->lessThan('crdate', strtotime($value));
+				}
+			}
+		}
+
+		// create constraint
+		$constraint = $query->logicalAnd($and);
+		$query->matching($constraint);
+
+		$orderItems = $query->execute();
+		return $orderItems;
+	}
+
 }
 ?>

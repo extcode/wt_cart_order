@@ -16,7 +16,7 @@ if (TYPO3_MODE === 'BE') {
 			'OrderItem' => 'list, show, generateInvoiceNumber, generateInvoiceDocument',
 		),
 		array(
-			'access' => 'user,group',
+			'access' => 'admin',
 			'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
 			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem',
 		)
@@ -96,6 +96,31 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 		'searchFields' => 'sku,title',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderProduct.php',
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproduct.gif'
+	),
+);
+
+t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderproductadditional', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderproductadditional.xml');
+t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderproductadditional');
+$TCA['tx_wtcartorder_domain_model_orderproductadditional'] = array(
+	'ctrl' => array(
+		'title' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproductadditional',
+		'label' => 'additional_type',
+		'label_alt' => 'additional_key, additional_value',
+		'label_alt_force' => 1,
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'origUid' => 't3_origuid',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+		),
+		'searchFields' => 'additional_type,additional_key,additional_value',
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderProductAdditional.php',
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproductadditional.gif'
 	),
 );
 

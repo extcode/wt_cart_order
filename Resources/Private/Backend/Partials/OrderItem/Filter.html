@@ -1,0 +1,21 @@
+<div class="wtcartorder_module_search">
+	<div class="wtcartorder_module_search_inner">
+
+		<f:form action="{action}" name="filter" id="wtcartorder_module_search">
+
+			<label for="searchStart">
+				<f:translate key="filterStartDate" />
+			</label>
+			<f:form.textfield property="start" id="searchStart" class="powermail_module_search_field_start powermail_date" value="{piVars.filter.start}" />
+
+			<label for="searchEnd">
+				<f:translate key="filterEndDate" />
+			</label>
+			<f:form.textfield property="stop" id="searchEnd" class="powermail_module_search_field_end powermail_date" value="{piVars.filter.stop}" />
+
+			<f:form.submit value="{f:translate(key: 'filter')}" class="searchall_submit" />
+
+		</f:form>
+
+	</div>
+</div>

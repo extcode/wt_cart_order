@@ -35,6 +35,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 
 	/**
 	 * feUser
+	 * feUser
 	 *
 	 * @var Tx_Extbase_Domain_Model_FrontendUser
 	 */
@@ -95,12 +96,19 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	protected $billingAddress;
 
 	/**
+	 * Additional Data
+	 *
+	 * @var string
+	 */
+	protected $additionalData;
+
+	/**
 	 * gross
 	 *
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $gross;
+	protected $gross = 0.0;
 
 	/**
 	 * net
@@ -108,7 +116,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $net;
+	protected $net = 0.0;
 
 	/**
 	 * orderTax
@@ -151,6 +159,13 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * @var string
 	 */
 	protected $invoicePdf;
+
+	/**
+	 * crdate
+	 *
+	 * @var DateTime
+	 */
+	protected $crdate;
 
 	/**
 	 * __construct
@@ -205,14 +220,16 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * Sets the orderNumber
 	 *
 	 * @param string $orderNumber
-	 * @return string
+	 * @throws Tx_WtCartOrder_Property_Exception_ResetPropertyException
 	 */
 	public function setOrderNumber( $orderNumber ) {
 		if ( ! $this->orderNumber ) {
 			$this->orderNumber = $orderNumber;
+		} else {
+			if ( $this->orderNumber != $orderNumber ) {
+				throw new Tx_WtCartOrder_Property_Exception_ResetPropertyException('Could not reset orderNumber', 1395306283);
+			}
 		}
-
-		return $this->orderNumber;
 	}
 
 	/**
@@ -228,14 +245,16 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * Sets the invoiceNumber
 	 *
 	 * @param string $invoiceNumber
-	 * @return string
+	 * @throws Tx_WtCartOrder_Property_Exception_ResetPropertyException
 	 */
 	public function setInvoiceNumber( $invoiceNumber ) {
 		if ( ! $this->invoiceNumber ) {
 			$this->invoiceNumber = $invoiceNumber;
+		} else {
+			if ( $this->invoiceNumber != $invoiceNumber ) {
+				throw new Tx_WtCartOrder_Property_Exception_ResetPropertyException('Could not reset invoiceNumber', 1395307266);
+			}
 		}
-
-		return $this->invoiceNumber;
 	}
 
 	/**
@@ -311,6 +330,20 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function setShippingAddress($shippingAddress) {
 		$this->shippingAddress = $shippingAddress;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAdditionalData() {
+		return $this->additionalData;
+	}
+
+	/**
+	 * @param string $additionalData
+	 */
+	public function setAdditionalData($additionalData) {
+		$this->additionalData = $additionalData;
 	}
 
 	/**
@@ -491,6 +524,25 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function setOrderTax(Tx_Extbase_Persistence_ObjectStorage $orderTax) {
 		$this->orderTax = $orderTax;
+	}
+
+	/**
+	 * Returns the crdate
+	 *
+	 * @return DateTime $crdate
+	 */
+	public function getCrdate() {
+		return $this->crdate;
+	}
+
+	/**
+	 * Sets the crdate
+	 *
+	 * @param DateTime $crdate
+	 * @return void
+	 */
+	public function setCrdate($crdate) {
+		$this->crdate = $crdate;
 	}
 
 }

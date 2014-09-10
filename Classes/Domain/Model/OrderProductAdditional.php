@@ -31,144 +31,94 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Model_OrderShipping extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_WtCartOrder_Domain_Model_OrderProductAdditional extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
-	 * Name
+	 * AdditionalType
 	 *
 	 * @var string
 	 * @validate NotEmpty
 	 */
-	protected $name;
+	protected $additionalType;
 
 	/**
-	 * Status
+	 * AdditionalKey
 	 *
-	 * @var int
+	 * @var string
 	 * @validate NotEmpty
 	 */
-	protected $status;
+	protected $additionalKey;
 
 	/**
-	 * Net
+	 * AdditionalValue
 	 *
-	 * @var float
+	 * @var string
 	 * @validate NotEmpty
 	 */
-	protected $net = 0.0;
+	protected $additionalValue;
 
 	/**
-	 * Gross
-	 *
-	 * @var float
-	 * @validate NotEmpty
-	 */
-	protected $gross = 0.0;
-
-	/**
-	 * Tax
-	 *
-	 * @var float
-	 * @validate NotEmpty
-	 */
-	protected $tax = 0.0;
-
-	/**
-	 * Note
+	 * Data
 	 *
 	 * @var string
 	 */
-	protected $note;
+	protected $additionalData;
 
 	/**
-	 * @param float $gross
-	 * @return void
+	 * @return string
 	 */
-	public function setGross($gross) {
-		$this->gross = $gross;
+	public function getAdditionalData() {
+		return $this->additionalData;
 	}
 
 	/**
-	 * @return float
+	 * @param string $additionalData
 	 */
-	public function getGross() {
-		return $this->gross;
+	public function setAdditionalData($additionalData) {
+		$this->additionalData = $additionalData;
 	}
 
 	/**
-	 * @param string $name
-	 * @return void
+	 * @param string $additionalKey
 	 */
-	public function setName($name) {
-		$this->name = $name;
+	public function setAdditionalKey($additionalKey) {
+		$this->additionalKey = $additionalKey;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getName() {
-		return $this->name;
+	public function getAdditionalKey() {
+		return $this->additionalKey;
 	}
 
 	/**
-	 * @param float $net
-	 * @return void
+	 * @param string $additionalType
 	 */
-	public function setNet($net) {
-		$this->net = $net;
-	}
-
-	/**
-	 * @return float
-	 * @return void
-	 */
-	public function getNet() {
-		return $this->net;
-	}
-
-	/**
-	 * @param float $tax
-	 * @return void
-	 */
-	public function setTax($tax) {
-		$this->tax = $tax;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getTax() {
-		return $this->tax;
-	}
-
-	/**
-	 * @param int $status
-	 */
-	public function setStatus($status) {
-		$this->status = $status;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @param string $note
-	 */
-	public function setNote($note) {
-		$this->note = $note;
+	public function setAdditionalType($additionalType) {
+		$this->additionalType = $additionalType;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getNote() {
-		return $this->note;
+	public function getAdditionalType() {
+		return $this->additionalType;
 	}
 
+	/**
+	 * @param string $additionalValue
+	 */
+	public function setAdditionalValue($additionalValue) {
+		$this->additionalValue = $additionalValue;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAdditionalValue() {
+		return $this->additionalValue;
+	}
 }
 
 ?>

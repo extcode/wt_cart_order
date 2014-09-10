@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_orderitem']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'pid, fe_user, order_number, invoice_number, first_name, last_name, email, shipping_address, payment_address, gross, net, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
+		'showRecordFieldList' => 'pid, fe_user, order_number, invoice_number, first_name, last_name, email, shipping_address, payment_address, gross, net, additional_data, order_product, order_tax, order_payment, order_shipping, order_pdf, invoice_pdf',
 	),
 	'types' => array(
 		'1' => array('showitem' =>
@@ -15,6 +15,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.purchaser;purchaser,
 			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.addresses;addresses,
 			--palette--;LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.palettes.price;price,
+			additional_data,
 			order_product,
 			order_tax,
 			order_payment,
@@ -120,6 +121,16 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 				'eval' => 'required'
 			),
 		),
+		'additional_data' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.additional_data',
+			'config' => array(
+				'type' => 'text',
+				'readOnly' => 1,
+				'cols' => 48,
+				'rows' => 15
+			),
+		),
 		'description1' => array(
 			'exclude' => 0,
 			'defaultExtras' => 'richtext[*]',
@@ -187,7 +198,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 				'type' => 'inline',
 				'readOnly' => 1,
 				'foreign_table' => 'tx_wtcartorder_domain_model_orderproduct',
-				'foreign_field' => 'orderitem',
+				'foreign_field' => 'order_item',
 				'maxitems'      => 9999,
 				'appearance' => array(
 					'collapseAll' => 1,
@@ -263,6 +274,18 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 				'maxItems' => 0,
 				'maxItems' => 1,
 			),
+		),
+		'crdate' => Array (
+			'exclude' => 1,
+			'l10n_mode' => 'mergeIfNotBlank',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '8',
+				'max' => '20',
+				'eval' => 'date',
+				'checkbox' => '0',
+				'default' => '0'
+			)
 		),
 	),
 );

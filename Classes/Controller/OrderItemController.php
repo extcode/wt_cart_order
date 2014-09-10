@@ -60,12 +60,19 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	protected $pageId;
 
 	/**
+	 * piVars
+	 *
+	 * @var array
+	 */
+	protected $piVars;
+
+	/**
 	 * injectOrderRepository
 	 *
 	 * @param Tx_WtCartOrder_Domain_Repository_OrderItemRepository $orderItemRepository
 	 * @return void
 	 */
-	public function injectEventRepository(Tx_WtCartOrder_Domain_Repository_OrderItemRepository $orderItemRepository) {
+	public function injectOrderItemRepository(Tx_WtCartOrder_Domain_Repository_OrderItemRepository $orderItemRepository) {
 		$this->orderItemRepository = $orderItemRepository;
 	}
 
@@ -113,6 +120,8 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		$frameworkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$persistenceConfiguration = array('persistence' => array('storagePid' => $this->pageId));
 		$this->configurationManager->setConfiguration(array_merge($frameworkConfiguration, $persistenceConfiguration));
+
+		$this->piVars = $this->request->getArguments();
 	}
 
 	/**
@@ -121,7 +130,19 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	 * @return void
 	 */
 	public function listAction() {
-		$orderItems = $this->orderItemRepository->findAll();
+		$format = $this->request->getFormat();
+
+		if ($format == 'csv') {
+			$title = "Order-Export-" . date("Y-m-d_H-i");
+
+			$this->response->setHeader('Content-Type', 'text/' . $format, TRUE);
+			$this->response->setHeader('Content-Description', 'File transfer', TRUE);
+			$this->response->setHeader('Content-Disposition', 'attachment; filename="' . $title . '.' . $format . '"', TRUE);
+		}
+
+		$orderItems = $this->orderItemRepository->findAll( $this->piVars );
+
+		$this->view->assign('piVars', $this->piVars);
 		$this->view->assign('orderItems', $orderItems);
 	}
 
