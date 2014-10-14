@@ -47,7 +47,7 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 		),
 		'searchFields' => 'order_number, invoice_number',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderItem.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderitem.gif'
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderitem.png'
 	),
 );
 
@@ -95,7 +95,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 		),
 		'searchFields' => 'sku,title',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderProduct.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproduct.gif'
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproduct.png'
 	),
 );
 
@@ -120,7 +120,7 @@ $TCA['tx_wtcartorder_domain_model_orderproductadditional'] = array(
 		),
 		'searchFields' => 'additional_type,additional_key,additional_value',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderProductAdditional.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproductadditional.gif'
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproductadditional.png'
 	),
 );
 
@@ -143,7 +143,7 @@ $TCA['tx_wtcartorder_domain_model_ordershipping'] = array(
 		),
 		'searchFields' => 'name,value,calc,sum,',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderShipping.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordershipping.gif'
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordershipping.png'
 	),
 );
 
@@ -166,7 +166,7 @@ $TCA['tx_wtcartorder_domain_model_orderpayment'] = array(
 		),
 		'searchFields' => 'name,value,calc,sum,',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderPayment.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderpayment.gif'
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderpayment.png'
 	),
 );
 
