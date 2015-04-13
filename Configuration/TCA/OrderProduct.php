@@ -13,7 +13,7 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
-		'price' => array('showitem' => 'price, discount, --linebreak--, gross, net, tax', 'canNotCollapse' => 1),
+		'price' => array('showitem' => 'price, discount, --linebreak--, gross, net, --linebreak--, order_tax', 'canNotCollapse' => 1),
 	),
 	'columns' => array(
 		'sku' => array(
@@ -86,14 +86,16 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 				'eval' => 'double2'
 			),
 		),
-		'tax' => array(
+		'order_tax' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.tax',
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct.order_tax',
 			'config' => array(
-				'type' => 'input',
+				'type' => 'inline',
 				'readOnly' => 1,
-				'size' => 30,
-				'eval' => 'double2'
+				'foreign_table' => 'tx_wtcartorder_domain_model_ordertax',
+				'foreign_field' => 'order_product_tax',
+				'minitems'      => 1,
+				'maxitems'      => 1,
 			),
 		),
 		'additional_data' => array(

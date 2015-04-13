@@ -31,50 +31,72 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Model_OrderTax extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_WtCartOrder_Domain_Model_OrderTaxClass extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
-	 * Tax
+	 * Name
+	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $name;
+
+	/**
+	 * Value
+	 *
+	 * @var string
+	 * @validate NotEmpty
+	 */
+	protected $value;
+
+	/**
+	 * Calc
 	 *
 	 * @var float
 	 * @validate NotEmpty
 	 */
-	protected $tax;
+	protected $calc = 0.0;
 
 	/**
-	 * TaxClass
-	 *
-	 * @var Tx_WtCartOrder_Domain_Model_OrderTaxClass
-	 * @validate NotEmpty
+	 * @param float $calc
 	 */
-	protected $orderTaxClass;
+	public function setCalc($calc) {
+		$this->calc = $calc;
+	}
 
 	/**
 	 * @return float
 	 */
-	public function getTax() {
-		return $this->tax;
+	public function getCalc() {
+		return $this->calc;
 	}
 
 	/**
-	 * @param float $tax
+	 * @param string $name
 	 */
-	public function setTax( $tax ) {
-		$this->tax = $tax;
+	public function setName($name) {
+		$this->name = $name;
 	}
 
 	/**
-	 * @return Tx_WtCartOrder_Domain_Model_OrderTaxClass
+	 * @return string
 	 */
-	public function getOrderTaxClass() {
-		return $this->orderTaxClass;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTaxClass $orderTaxClass
+	 * @param string $value
 	 */
-	public function setOrderTaxClass( $orderTaxClass ) {
-		$this->orderTaxClass = $orderTaxClass;
+	public function setValue($value) {
+		$this->value = $value;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getValue() {
+		return $this->value;
 	}
 
 }

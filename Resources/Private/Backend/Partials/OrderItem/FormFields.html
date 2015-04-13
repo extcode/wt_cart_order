@@ -1,32 +1,28 @@
-<label for="orderNumber">
-	<f:translate key="tx_wtcartorder_domain_model_order.order_number" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="orderNumber" /><br />
-<label for="gross">
-	<f:translate key="tx_wtcartorder_domain_model_order.gross" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="gross" /><br />
-<label for="net">
-	<f:translate key="tx_wtcartorder_domain_model_order.net" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="net" /><br />
-<label for="paymentName">
-	<f:translate key="tx_wtcartorder_domain_model_order.payment_name" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="paymentName" /><br />
-<label for="paymentId">
-	<f:translate key="tx_wtcartorder_domain_model_order.payment_id" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="paymentId" /><br />
-<label for="paymentStatus">
-	<f:translate key="tx_wtcartorder_domain_model_order.payment_status" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="paymentStatus" /><br />
-<label for="shippingStatus">
-	<f:translate key="tx_wtcartorder_domain_model_order.shipping_status" /> <span class="required">(required)</span>
-</label><br />
-	<f:form.textfield property="shippingStatus" /><br />
-<label for="orderPdf">
-	<f:translate key="tx_wtcartorder_domain_model_order.order_pdf" />
-</label><br />
-	<f:form.upload property="orderPdf" /><br />
+<p>
+	<label for="invoiceNumber">
+		<f:translate key="tx_wtcartorder_domain_model_orderitem.invoice_number" />
+	</label><br />
+	<f:if condition="{orderItem.invoiceNumber}">
+		<f:then>
+			{orderItem.invoiceNumber}
+		</f:then>
+		<f:else>
+			<f:form.textfield property="invoiceNumber" />
+		</f:else>
+	</f:if>
+</p>
+<p>
+	<label for="invoiceDate">
+		<f:translate key="tx_wtcartorder_domain_model_orderitem.invoice_date" />
+	</label><br />
+	<f:if condition="{orderItem.invoiceDate}">
+		<f:then>
+			<f:format.date format="d.m.Y">
+				{orderItem.invoiceDate}
+			</f:format.date>
+		</f:then>
+		<f:else>
+			<f:form.textfield id="tceforms-datefield-invoiceDate" property="invoiceDate" value="{orderItem.invoiceDate}" /> <f:format.raw>{icon}</f:format.raw>
+		</f:else>
+	</f:if>
+</p>

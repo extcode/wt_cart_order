@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_orderpayment'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_orderpayment']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'name, status, gross, net, tax, note',
+		'showRecordFieldList' => 'name, status, gross, net, order_tax, note',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'name, status, gross, net, tax, note'),
+		'1' => array('showitem' => 'name, status, gross, net, order_tax, note'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -31,10 +31,10 @@ $TCA['tx_wtcartorder_domain_model_orderpayment'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.open', 0),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.pending', 1),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.paid', 2),
-					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.canceled', 3)
+					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.open', 'open'),
+					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.pending', 'pending'),
+					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.paid', 'paid'),
+					array('LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status.canceled', 'canceled')
 				),
 				'size' => 1,
 				'maxitems' => 1,
@@ -61,14 +61,16 @@ $TCA['tx_wtcartorder_domain_model_orderpayment'] = array(
 				'eval' => 'double2'
 			),
 		),
-		'tax' => array(
+		'order_tax' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.tax',
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.order_tax',
 			'config' => array(
-				'type' => 'input',
+				'type' => 'inline',
 				'readOnly' => 1,
-				'size' => 30,
-				'eval' => 'double2'
+				'foreign_table' => 'tx_wtcartorder_domain_model_ordertax',
+				'foreign_field' => 'order_payment_tax',
+				'minitems'      => 1,
+				'maxitems'      => 1,
 			),
 		),
 		'note' => array(

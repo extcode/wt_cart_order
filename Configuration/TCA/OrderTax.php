@@ -6,38 +6,18 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 	'ctrl' => $TCA['tx_wtcartorder_domain_model_ordertax']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'name, value, calc, sum',
+		'showRecordFieldList' => 'tax, order_tax_class',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'name, value, calc, sum,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'tax, order_tax_class, --div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
 	),
 	'columns' => array(
-		'name' => array(
+		'tax' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.name',
-			'config' => array(
-				'type' => 'input',
-				'readOnly' => 1,
-				'size' => 30,
-				'eval' => 'trim,required'
-			),
-		),
-		'value' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.value',
-			'config' => array(
-				'type' => 'input',
-				'readOnly' => 1,
-				'size' => 30,
-				'eval' => 'trim,required'
-			),
-		),
-		'calc' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.calc',
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.tax_class',
 			'config' => array(
 				'type' => 'input',
 				'readOnly' => 1,
@@ -45,17 +25,38 @@ $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 				'eval' => 'double2'
 			),
 		),
-		'sum' => array(
+		'order_tax_class' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax.sum',
+			'label' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_tax_class',
 			'config' => array(
-				'type' => 'input',
+				'type' => 'select',
 				'readOnly' => 1,
-				'size' => 30,
-				'eval' => 'double2'
+				'foreign_table' => 'tx_wtcartorder_domain_model_ordertaxclass',
+				'minitems'      => 1,
+				'maxitems'      => 1,
 			),
 		),
-		'orderitem' => array(
+		'order_tax' => array(
+			'config' => array(
+				'type' => 'passthrough',
+			),
+		),
+		'order_total_tax' => array(
+			'config' => array(
+				'type' => 'passthrough',
+			),
+		),
+		'order_product_tax' => array(
+			'config' => array(
+				'type' => 'passthrough',
+			),
+		),
+		'order_shipping_tax' => array(
+			'config' => array(
+				'type' => 'passthrough',
+			),
+		),
+		'order_payment_tax' => array(
 			'config' => array(
 				'type' => 'passthrough',
 			),

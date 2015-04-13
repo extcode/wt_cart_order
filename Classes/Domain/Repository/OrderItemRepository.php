@@ -33,6 +33,10 @@
  */
 class Tx_WtCartOrder_Domain_Repository_OrderItemRepository extends Tx_Extbase_Persistence_Repository {
 
+	protected $defaultOrderings = array(
+		'uid' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+	);
+
 	/**
 	 * Find a order by a given orderNumber
 	 *
@@ -67,7 +71,7 @@ class Tx_WtCartOrder_Domain_Repository_OrderItemRepository extends Tx_Extbase_Pe
 		);
 
 		// filter
-		if (isset($piVars['filter'])) {
+		if ( isset($piVars['filter']) ) {
 			foreach ((array) $piVars['filter'] as $field => $value) {
 
 				if ($field == 'start' && !empty($value)) {

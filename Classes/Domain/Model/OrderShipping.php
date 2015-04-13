@@ -44,7 +44,7 @@ class Tx_WtCartOrder_Domain_Model_OrderShipping extends Tx_Extbase_DomainObject_
 	/**
 	 * Status
 	 *
-	 * @var int
+	 * @var string
 	 * @validate NotEmpty
 	 */
 	protected $status;
@@ -66,12 +66,12 @@ class Tx_WtCartOrder_Domain_Model_OrderShipping extends Tx_Extbase_DomainObject_
 	protected $gross = 0.0;
 
 	/**
-	 * Tax
+	 * OrderTax
 	 *
-	 * @var float
+	 * @var Tx_WtCartOrder_Domain_Model_OrderTax
 	 * @validate NotEmpty
 	 */
-	protected $tax = 0.0;
+	protected $orderTax;
 
 	/**
 	 * Note
@@ -127,29 +127,29 @@ class Tx_WtCartOrder_Domain_Model_OrderShipping extends Tx_Extbase_DomainObject_
 	}
 
 	/**
-	 * @param float $tax
+	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTax
 	 * @return void
 	 */
-	public function setTax($tax) {
-		$this->tax = $tax;
+	public function setOrderTax($orderTax) {
+		$this->orderTax = $orderTax;
 	}
 
 	/**
-	 * @return float
+	 * @return Tx_WtCartOrder_Domain_Model_OrderTax
 	 */
-	public function getTax() {
-		return $this->tax;
+	public function getOrderTax() {
+		return $this->orderTax;
 	}
 
 	/**
-	 * @param int $status
+	 * @param string $status
 	 */
 	public function setStatus($status) {
 		$this->status = $status;
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
 	public function getStatus() {
 		return $this->status;

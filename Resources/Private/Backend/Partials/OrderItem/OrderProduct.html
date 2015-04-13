@@ -1,0 +1,55 @@
+<tr class="{zebraClass} db_list_normal">
+	<td>
+		{orderProduct.sku}
+	</td>
+	<td>
+		{orderProduct.title}
+	</td>
+	<td>
+		<f:format.currency currencySign="{settings.format.currency.currencySign}"
+						   decimalSeparator="{settings.format.currency.decimalSeparator}"
+						   thousandsSeparator="{settings.format.currency.thousandsSeparator}">
+			{orderProduct.price}
+		</f:format.currency>
+	</td>
+	<td>
+		<f:format.currency currencySign="{settings.format.currency.currencySign}"
+						   decimalSeparator="{settings.format.currency.decimalSeparator}"
+						   thousandsSeparator="{settings.format.currency.thousandsSeparator}">
+			{orderProduct.discount}
+		</f:format.currency>
+	</td>
+	<td>
+		{orderProduct.count}
+	</td>
+	<td>
+		<f:format.currency currencySign="{settings.format.currency.currencySign}"
+						   decimalSeparator="{settings.format.currency.decimalSeparator}"
+						   thousandsSeparator="{settings.format.currency.thousandsSeparator}">
+			{orderProduct.net}
+		</f:format.currency>
+	</td>
+	<td>
+		<f:format.currency currencySign="{settings.format.currency.currencySign}"
+						   decimalSeparator="{settings.format.currency.decimalSeparator}"
+						   thousandsSeparator="{settings.format.currency.thousandsSeparator}">
+			{orderProduct.gross}
+		</f:format.currency>
+	</td>
+	<f:for each="{orderProduct.orderItem.orderTotalTax}" as="orderTotalTax">
+		<td>
+			<f:if condition="{0: orderTotalTax.orderTaxClass.id} == {0: {orderProduct.orderTaxClass.id}}">
+				<f:then>
+					<f:format.currency currencySign="{settings.format.currency.currencySign}"
+									   decimalSeparator="{settings.format.currency.decimalSeparator}"
+									   thousandsSeparator="{settings.format.currency.thousandsSeparator}">
+						{orderProduct.orderTax.tax}
+					</f:format.currency>
+				</f:then>
+				<f:else>
+					<!-- -->
+				</f:else>
+			</f:if>
+		</td>
+	</f:for>
+</tr>

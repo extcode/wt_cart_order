@@ -3,12 +3,14 @@ module.tx_wtcartorder {
 	persistence {
 		storagePid = {$module.tx_wtcartorder.persistence.storagePid}
 
-		Tx_Extbase_Domain_Model_FrontendUser {
-			mapping {
-				tableName = fe_users
-				recordType = Tx_Extbase_Domain_Model_FrontendUser
-				columns {
-					lockToDomain.mapOnProperty = lockToDomain
+		classes {
+			Tx_Extbase_Domain_Model_FrontendUser {
+				mapping {
+					tableName = fe_users
+					recordType = Tx_Extbase_Domain_Model_FrontendUser
+					columns {
+						lockToDomain.mapOnProperty = lockToDomain
+					}
 				}
 			}
 		}
@@ -31,4 +33,19 @@ plugin.tx_wtcart_order {
   billingAddress.value = should be replaced
   shippingAddress = TEXT
   shippingAddress.value = should be replaced
+}
+
+module.tx_wtcartorder {
+  settings {
+    billingAddress.format = text
+    shippingAddress.format = text
+
+    format {
+      currency {
+        currencySign = {$plugin.wtcart.main.currencySymbol}
+        decimalSeparator = {$plugin.wtcart.main.dec_point}
+        thousandsSeparator = {$plugin.wtcart.main.thousands_sep}
+      }
+    }
+  }
 }

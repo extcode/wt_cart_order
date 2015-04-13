@@ -1,86 +1,113 @@
-<table class="tx-wt-cart-order" >
+<table class="tx-wt-cart-order" width="100%">
 	<tr>
-		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.order_number" />
+		<td class="label" width="30%">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.order_number" />:
 		</td>
-		<td>
+		<td width="20%">
 			{orderItem.orderNumber}
+		</td>
+		<td class="label" width="30%">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.order_date" />:
+		</td>
+		<td width="20%">
+			<f:if condition="{orderItem.orderDate}">
+				<f:format.date format="d.m.Y" date="{orderItem.orderDate}" />
+			</f:if>
 		</td>
 	</tr>
 	<tr>
-		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_number" />
+		<td class="label">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.invoice_number" />:
 		</td>
 		<td>
 			{orderItem.invoiceNumber}
 		</td>
-	</tr>
-	<tr>
-		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.gross" />
+		<td class="label">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.invoice_date" />:
 		</td>
 		<td>
-			{orderItem.gross}
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.net" />
-		</td>
-		<td>
-			{orderItem.net}
+			<f:if condition="{orderItem.invoiceDate}">
+				<f:format.date format="d.m.Y" date="{orderItem.invoiceDate}" />
+			</f:if>
 		</td>
 	</tr>
 	<tr>
-		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.name" />
+		<td class="label">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.order_shipping" />:
 		</td>
 		<td>
 			{orderItem.orderPayment.name}
 		</td>
-	</tr>
-	<tr>
 		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment.status" />
+			<f:translate key="tx_wtcartorder_domain_model_orderpayment.status.{orderItem.orderPayment.status}" />
 		</td>
 		<td>
-			{orderItem.orderPayment.status}
 		</td>
 	</tr>
 	<tr>
-		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.name" />
+		<td class="label">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.order_payment" />:
 		</td>
 		<td>
 			{orderItem.orderShipping.name}
 		</td>
-	</tr>
-	<tr>
 		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping.status" />
+			<f:translate key="tx_wtcartorder_domain_model_orderpayment.status.{orderItem.orderShipping.status}" />
 		</td>
 		<td>
-			{orderItem.orderShipping.status}
 		</td>
 	</tr>
-	<f:if condition="{orderItem.orderPdf}">
-	<tr>
-		<td>
-			<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.shipping_pdf" />
-		</td>
-		<td>
-			<a href="{orderItem.orderPdf}" type="application/pdf">{orderItem.orderNumber}.pdf</a>
-		</td>
-	</tr>
-	</f:if>
-	<f:if condition="{orderItem.invoicePdf}">
-		<tr>
-			<td>
-				<f:translate key="LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem.invoice_pdf" />
-			</td>
-			<td>
-				<link href="{f:uri.resource(path:'../{orderItem.invoicePdf}')}" rel="stylesheet" type="application/pdf">{orderItem.invoiceNumber}.pdf</link>
-			</td>
-		</tr>
-	</f:if>
 </table>
+<br>
+
+<div>
+	<div class="block-left">
+		<span class="label">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.shipping_address" />:
+		</span>
+		<f:if condition="{orderItem.shippingAddress}">
+			<f:if condition="{0: settings.shippingAddress.format} == {0: 'text'}">
+				<f:format.nl2br>
+					{orderItem.shippingAddress}
+				</f:format.nl2br>
+			</f:if>
+			<f:if condition="{0: settings.shippingAddress.format} == {0: 'html'}">
+				<br>
+				<f:format.raw>
+					{orderItem.shippingAddress}
+				</f:format.raw>
+			</f:if>
+			<f:if condition="{0: settings.shippingAddress.format} == {0: 'json'}">
+				<f:format.raw>
+					{orderItem.shippingAddress}
+				</f:format.raw>
+			</f:if>
+		</f:if>
+	</div>
+
+	<div class="block-right">
+		<span class="label">
+			<f:translate key="tx_wtcartorder_domain_model_orderitem.billing_address" />:
+		</span>
+		<f:if condition="{orderItem.billingAddress}">
+			<f:if condition="{0: settings.billingAddress.format} == {0: 'text'}">
+				<f:format.nl2br>
+					{orderItem.billingAddress}
+				</f:format.nl2br>
+			</f:if>
+			<f:if condition="{0: settings.billingAddress.format} == {0: 'html'}">
+				<br>
+				<f:format.raw>
+					{orderItem.billingAddress}
+				</f:format.raw>
+			</f:if>
+			<f:if condition="{0: settings.billingAddress.format} == {0: 'json'}">
+				<f:format.raw>
+					{orderItem.billingAddress}
+				</f:format.raw>
+			</f:if>
+		</f:if>
+	</div>
+
+	<div class="clear"><!-- --></div>
+</div>

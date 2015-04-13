@@ -49,11 +49,25 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	protected $orderNumber;
 
 	/**
+	 * orderDate
+	 *
+	 * @var DateTime
+	 */
+	protected $orderDate;
+
+	/**
 	 * invoiceNumber
 	 *
 	 * @var string
 	 */
 	protected $invoiceNumber;
+
+	/**
+	 * invoiceDate
+	 *
+	 * @var DateTime
+	 */
+	protected $invoiceDate;
 
 	/**
 	 * firstName
@@ -111,6 +125,14 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	protected $gross = 0.0;
 
 	/**
+	 * total gross
+	 *
+	 * @var float
+	 * @validate NotEmpty
+	 */
+	protected $totalGross = 0.0;
+
+	/**
 	 * net
 	 *
 	 * @var float
@@ -119,11 +141,26 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	protected $net = 0.0;
 
 	/**
+	 * total net
+	 *
+	 * @var float
+	 * @validate NotEmpty
+	 */
+	protected $totalNet = 0.0;
+
+	/**
 	 * orderTax
 	 *
 	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax>
 	 */
 	protected $orderTax;
+
+	/**
+	 * orderTotalTax
+	 *
+	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax>
+	 */
+	protected $orderTotalTax;
 
 	/**
 	 * orderProduct
@@ -190,6 +227,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 		 */
 		$this->orderProduct = new Tx_Extbase_Persistence_ObjectStorage();
 		$this->orderTax = new Tx_Extbase_Persistence_ObjectStorage();
+		$this->orderTotalTax = new Tx_Extbase_Persistence_ObjectStorage();
 	}
 
 	/**
@@ -201,7 +239,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
-	 * @return \Tx_Extbase_Domain_Model_FrontendUser
+	 * @return Tx_Extbase_Domain_Model_FrontendUser
 	 */
 	public function getFeUser() {
 		return $this->feUser;
@@ -233,6 +271,21 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
+	 * @return DateTime
+	 */
+	public function getOrderDate() {
+		return $this->orderDate;
+	}
+
+	/**
+	 * @param DateTime $orderDate
+	 * @return void
+	 */
+	public function setOrderDate($orderDate) {
+		$this->orderDate = $orderDate;
+	}
+
+	/**
 	 * Returns the invoiceNumber
 	 *
 	 * @return string
@@ -255,6 +308,20 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 				throw new Tx_WtCartOrder_Property_Exception_ResetPropertyException('Could not reset invoiceNumber', 1395307266);
 			}
 		}
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getInvoiceDate() {
+		return $this->invoiceDate;
+	}
+
+	/**
+	 * @param DateTime $invoiceDate
+	 */
+	public function setInvoiceDate($invoiceDate) {
+		$this->invoiceDate = $invoiceDate;
 	}
 
 	/**
@@ -366,6 +433,25 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
+	 * Returns the total gross
+	 *
+	 * @return float $totalGross
+	 */
+	public function getTotalGross() {
+		return $this->totalGross;
+	}
+
+	/**
+	 * Sets the total gross
+	 *
+	 * @param float $totalGross
+	 * @return void
+	 */
+	public function setTotalGross($totalGross) {
+		$this->totalGross = $totalGross;
+	}
+
+	/**
 	 * Returns the net
 	 *
 	 * @return float $net
@@ -382,6 +468,25 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function setNet($net) {
 		$this->net = $net;
+	}
+
+	/**
+	 * Returns the total net
+	 *
+	 * @return float $totalNet
+	 */
+	public function getTotalNet() {
+		return $this->totalNet;
+	}
+
+	/**
+	 * Sets the total net
+	 *
+	 * @param float $totalNet
+	 * @return void
+	 */
+	public function setTotalNet($totalNet) {
+		$this->totalNet = $totalNet;
 	}
 
 	/**
@@ -524,6 +629,45 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function setOrderTax(Tx_Extbase_Persistence_ObjectStorage $orderTax) {
 		$this->orderTax = $orderTax;
+	}
+
+	/**
+	 * Adds a OrderTotalTax
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTotalTax
+	 * @return void
+	 */
+	public function addOrderTotalTax(Tx_WtCartOrder_Domain_Model_OrderTax $orderTotalTax) {
+		$this->orderTotalTax->attach($orderTotalTax);
+	}
+
+	/**
+	 * Removes a OrderTotalTax
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTaxToRemove The OrderTotalTax to be removed
+	 * @return void
+	 */
+	public function removeOrderTotalTax(Tx_WtCartOrder_Domain_Model_OrderTax $orderTotalTaxToRemove) {
+		$this->orderTotalTax->detach($orderTotalTaxToRemove);
+	}
+
+	/**
+	 * Returns the orderTotalTax
+	 *
+	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax> $orderTotalTax
+	 */
+	public function getOrderTotalTax() {
+		return $this->orderTotalTax;
+	}
+
+	/**
+	 * Sets the orderTotalTax
+	 *
+	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax> $orderTotalTax
+	 * @return void
+	 */
+	public function setOrderTotalTax(Tx_Extbase_Persistence_ObjectStorage $orderTotalTax) {
+		$this->orderTotalTax = $orderTotalTax;
 	}
 
 	/**

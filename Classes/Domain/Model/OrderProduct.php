@@ -97,12 +97,12 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	protected $net = 0.0;
 
 	/**
-	 * Tax
+	 * OrderTax
 	 *
-	 * @var float
+	 * @var Tx_WtCartOrder_Domain_Model_OrderTax
 	 * @validate NotEmpty
 	 */
-	protected $tax = 0.0;
+	protected $orderTax;
 
 	/**
 	 * Additional Data
@@ -250,19 +250,18 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	}
 
 	/**
-	 * @param float $tax
+	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTax
+	 * @return void
 	 */
-	public function setTax($tax)
-	{
-		$this->tax = $tax;
+	public function setOrderTax($orderTax) {
+		$this->orderTax = $orderTax;
 	}
 
 	/**
-	 * @return float
+	 * @return Tx_WtCartOrder_Domain_Model_OrderTax
 	 */
-	public function getTax()
-	{
-		return $this->tax;
+	public function getOrderTax() {
+		return $this->orderTax;
 	}
 
 	/**

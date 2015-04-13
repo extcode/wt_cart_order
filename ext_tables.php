@@ -13,10 +13,10 @@ if (TYPO3_MODE === 'BE') {
 		'orderlist',
 		'',
 		array(
-			'OrderItem' => 'list, show, generateInvoiceNumber, generateInvoiceDocument',
+			'OrderItem' => 'list, export, show, edit, update, statistic, generateInvoiceNumber, generateInvoiceDocument, downloadInvoiceDocument',
 		),
 		array(
-			'access' => 'admin',
+			'access' => 'user, group',
 			'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
 			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem',
 		)
@@ -24,7 +24,7 @@ if (TYPO3_MODE === 'BE') {
 
 }
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Order BE Handling');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'wt_cart_order - Example Configuration');
 
 t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderitem', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderitem.xml');
 t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderitem');
@@ -51,6 +51,29 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	),
 );
 
+t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordertaxclass', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordertaxclass.xml');
+t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordertaxclass');
+$TCA['tx_wtcartorder_domain_model_ordertaxclass'] = array(
+	'ctrl' => array(
+		'title'    => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertaxclass',
+		'label' => 'name',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'origUid' => 't3_origuid',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+		),
+		'searchFields' => 'name,value,calc',
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderTaxClass.php',
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordertax.gif'
+	),
+);
+
 t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordertax', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordertax.xml');
 t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordertax');
 $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
@@ -68,7 +91,7 @@ $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 		'delete' => 'deleted',
 		'enablecolumns' => array(
 		),
-		'searchFields' => 'name,value,calc,sum,',
+		'searchFields' => '',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderTax.php',
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordertax.gif'
 	),

@@ -3,7 +3,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2014 Daniel Lorenz <wt_cart_order@extco.de>, extco.de UG (haftungsbeschränkt)
+ *  (c) 2014 Daniel Lorenz <wt-cart-order@extco.de>, extco.de UG (haftungsbeschränkt)
  *
  *  All rights reserved
  *
@@ -31,52 +31,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Model_OrderTax extends Tx_Extbase_DomainObject_AbstractEntity {
-
-	/**
-	 * Tax
-	 *
-	 * @var float
-	 * @validate NotEmpty
-	 */
-	protected $tax;
-
-	/**
-	 * TaxClass
-	 *
-	 * @var Tx_WtCartOrder_Domain_Model_OrderTaxClass
-	 * @validate NotEmpty
-	 */
-	protected $orderTaxClass;
-
-	/**
-	 * @return float
-	 */
-	public function getTax() {
-		return $this->tax;
-	}
-
-	/**
-	 * @param float $tax
-	 */
-	public function setTax( $tax ) {
-		$this->tax = $tax;
-	}
-
-	/**
-	 * @return Tx_WtCartOrder_Domain_Model_OrderTaxClass
-	 */
-	public function getOrderTaxClass() {
-		return $this->orderTaxClass;
-	}
-
-	/**
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTaxClass $orderTaxClass
-	 */
-	public function setOrderTaxClass( $orderTaxClass ) {
-		$this->orderTaxClass = $orderTaxClass;
-	}
+class Tx_WtCartOrder_Domain_Repository_OrderTaxClassRepository extends Tx_Extbase_Persistence_Repository {
 
 }
-
 ?>

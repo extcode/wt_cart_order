@@ -1,4 +1,14 @@
-<f:be.container>
+<f:be.container
+		addCssFile="{f:uri.resource(path:'Stylesheets/Backend/style.css')}"
+		enableClickMenu="false"
+		loadExtJs="false"
+		loadExtJsTheme="false"
+		loadPrototype="false"
+		loadScriptaculous="false"
+		enableExtJsDebug="false">
+
+	<div class="overlay"></div>
+
 	<div class="typo3-fullDoc">
 		<div id="typo3-docheader">
 			<div id="typo3-docheader-row1">
@@ -13,7 +23,8 @@
 				<div class="docheader-row2-left">
 					<f:be.buttons.csh />
 					<f:be.menus.actionMenu>
-						<f:be.menus.actionMenuItem label="{f:translate(key:'listItems')}" controller="OrderItem" action="listItems" />
+						<f:be.menus.actionMenuItem label="{f:translate(key:'tx_wtcartorder.controller.orderitem.action.statistic')}" controller="OrderItem" action="statistic" />
+						<f:be.menus.actionMenuItem label="{f:translate(key:'tx_wtcartorder.controller.orderitem.action.list')}" controller="OrderItem" action="list" />
 					</f:be.menus.actionMenu>
 				</div>
 				<div class="docheader-row2-right">

@@ -1,0 +1,42 @@
+<ul class="action-list">
+	<f:if condition="{hidelistaction} != 1">
+		<li>
+			<f:link.action action="list" arguments="{orderItem : orderItem}">
+				<f:translate key="tx_wtcartorder.controller.orderitem.action.list" />
+			</f:link.action>
+		</li>
+	</f:if>
+	<f:if condition="{hideshowaction} != 1">
+		<li>
+			<f:link.action action="show" arguments="{orderItem : orderItem}">
+				<f:translate key="tx_wtcartorder.controller.orderitem.action.show" />
+			</f:link.action>
+		</li>
+	</f:if>
+	<li>
+		<f:link.action action="edit" arguments="{orderItem : orderItem}">
+			<f:translate key="tx_wtcartorder.controller.orderitem.action.edit" />
+		</f:link.action>
+	</li>
+	<f:if condition="{0: orderItem.invoiceNumber} == {0: ''}">
+		<li>
+			<f:link.action action="generateInvoiceNumber" arguments="{orderItem : orderItem}">
+				<f:translate key="tx_wtcartorder.controller.orderitem.action.generateInvoiceNumber" />
+			</f:link.action>
+		</li>
+	</f:if>
+	<f:if condition="{0: orderItem.invoicePdf, 1:pdfRendererInstalled} == {0: '', 1:1}">
+		<li>
+			<f:link.action action="generateInvoiceDocument" arguments="{orderItem : orderItem}">
+				<f:translate key="tx_wtcartorder.controller.orderitem.action.generateInvoiceDocument" />
+			</f:link.action>
+		</li>
+	</f:if>
+	<f:if condition="{orderItem.invoicePdf}">
+		<li>
+			<f:link.action action="downloadInvoiceDocument" arguments="{orderItem : orderItem}">
+				<f:translate key="tx_wtcartorder.controller.orderitem.action.downloadInvoiceDocument" />
+			</f:link.action>
+		</li>
+	</f:if>
+</ul>

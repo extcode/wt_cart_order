@@ -24,14 +24,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(PATH_tslib.'class.tslib_fe.php');
-require_once(PATH_t3lib.'class.t3lib_userauth.php');
-require_once(PATH_tslib.'class.tslib_feuserauth.php');
-require_once(PATH_t3lib.'class.t3lib_cs.php');
-require_once(PATH_tslib.'class.tslib_content.php');
-require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
-require_once(PATH_t3lib.'class.t3lib_page.php');
-
 /**
  *
  *
@@ -45,6 +37,7 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	 * orderItemRepository
 	 *
 	 * @var Tx_WtCartOrder_Domain_Repository_OrderItemRepository
+	 * @inject
 	 */
 	protected $orderItemRepository;
 
@@ -109,6 +102,18 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		$GLOBALS['TSFE']->newCObj();
 	}
 
+	public function initializeUpdateAction() {
+		if ($this->request->hasArgument('orderItem')) {
+			$orderItem = $this->request->getArgument('orderItem');
+
+			$invoiceDateString = $orderItem['invoiceDate'];
+			$orderItem['invoiceDate'] = DateTime::createFromFormat('d.m.Y', $invoiceDateString);
+
+			$this->request->setArgument('orderItem', $orderItem);
+		}
+		$this->arguments->getArgument('orderItem')->getPropertyMappingConfiguration()->forProperty('birthday')->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter', \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'd.m.Y');
+	}
+
 	/**
 	 * Action initializer
 	 *
@@ -129,10 +134,63 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	 *
 	 * @return void
 	 */
+	public function statisticAction() {
+		$orderItems = $this->orderItemRepository->findAll( $this->piVars );
+
+		$this->view->assign('piVars', $this->piVars);
+
+		$statistics = array(
+			'gross' => 0.0,
+			'net' => 0.0,
+			'orderItemCount' => count( $orderItems ),
+			'orderProductCount' => 0,
+		);
+
+		foreach ( $orderItems as $orderItem ) {
+			$statistics['orderItemGross'] += $orderItem->getGross();
+			$statistics['orderItemNet'] += $orderItem->getNet();
+
+			$orderProducts = $orderItem->getOrderProduct();
+
+			if ( $orderProducts ) {
+				foreach ( $orderProducts as $orderProduct ) {
+					$statistics['orderProductCount'] += $orderProduct->getCount();
+				}
+			}
+		}
+
+		if ( $statistics['orderItemCount'] > 0 ) {
+			$statistics['orderItemAverageGross'] = $statistics['orderItemGross'] / $statistics['orderItemCount'];
+			$statistics['orderItemAverageNet'] = $statistics['orderItemNet'] / $statistics['orderItemCount'];
+		}
+
+		$this->view->assign('statistics', $statistics);
+	}
+
+	/**
+	 * action list
+	 *
+	 * @return void
+	 */
 	public function listAction() {
+		$orderItems = $this->orderItemRepository->findAll( $this->piVars );
+
+		$this->view->assign('piVars', $this->piVars);
+		$this->view->assign('orderItems', $orderItems);
+
+		$pdfRendererInstalled = t3lib_extMgm::isLoaded('wt_cart_pdf');
+		$this->view->assign('pdfRendererInstalled', $pdfRendererInstalled);
+	}
+
+	/**
+	 * action list
+	 *
+	 * @return void
+	 */
+	public function exportAction() {
 		$format = $this->request->getFormat();
 
-		if ($format == 'csv') {
+		if ( $format == 'csv' ) {
 			$title = "Order-Export-" . date("Y-m-d_H-i");
 
 			$this->response->setHeader('Content-Type', 'text/' . $format, TRUE);
@@ -144,6 +202,9 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 
 		$this->view->assign('piVars', $this->piVars);
 		$this->view->assign('orderItems', $orderItems);
+
+		$pdfRendererInstalled = t3lib_extMgm::isLoaded('wt_cart_pdf');
+		$this->view->assign('pdfRendererInstalled', $pdfRendererInstalled);
 	}
 
 	/**
@@ -154,6 +215,33 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	 */
 	public function showAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
 		$this->view->assign('orderItem', $orderItem);
+
+		$pdfRendererInstalled = t3lib_extMgm::isLoaded('wt_cart_pdf');
+		$this->view->assign('pdfRendererInstalled', $pdfRendererInstalled);
+	}
+
+	/**
+	 * action edit
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @return void
+	 */
+	public function editAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+		$this->view->assign('orderItem', $orderItem);
+	}
+
+	/**
+	 * action update
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @return void
+	 */
+	public function updateAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+		$this->orderItemRepository->update( $orderItem );
+		$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+		$persistenceManager->persistAll();
+
+		$this->redirect( 'show', NULL, NULL, array('orderItem' => $orderItem) );
 	}
 
 	/**
@@ -166,6 +254,10 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		if ( !$orderItem->getInvoiceNumber() ) {
 			$invoiceNumber = $this->generateInvoiceNumber( $orderItem );
 			$orderItem->setInvoiceNumber( $invoiceNumber );
+
+			$this->orderItemRepository->update( $orderItem );
+			$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+			$persistenceManager->persistAll();
 
 			$msg = "Invoice Number " . $invoiceNumber . " was generated.";
 			$this->flashMessageContainer->add( $msg );
@@ -192,9 +284,50 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		if ( $orderItem->getInvoiceNumber() ) {
 			$this->generateInvoiceDocument( $orderItem );
 
+			$this->orderItemRepository->update( $orderItem );
+			$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+			$persistenceManager->persistAll();
+
 			$msg = "Invoice Document was generated.";
 			$this->flashMessageContainer->add( $msg );
 		}
+
+		$this->redirect('list');
+	}
+
+	/**
+	 * action generateInvoiceDocument
+	 *
+	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @return void
+	 */
+	public function downloadInvoiceDocumentAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+		$file = PATH_site . $orderItem->getInvoicePdf();
+		$fileName = 'Invoice.pdf';
+
+		if ( is_file( $file ) ) {
+
+			$fileLen    = filesize($file);
+
+			$headers = array(
+				'Pragma'                    => 'public',
+				'Expires'                   => 0,
+				'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+				'Cache-Control'             => 'public',
+				'Content-Description'       => 'File Transfer',
+				'Content-Type'              => 'application/pdf',
+				'Content-Disposition'       => 'attachment; filename="'. $fileName .'"',
+				'Content-Transfer-Encoding' => 'binary',
+				'Content-Length'            => $fileLen
+			);
+
+			foreach($headers as $header => $data)
+				$this->response->setHeader($header, $data);
+
+			$this->response->sendHeaders();
+			@readfile($file);
+		}
+		exit;
 
 		$this->redirect('list');
 	}

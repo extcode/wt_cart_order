@@ -27,8 +27,6 @@
 
 define('TYPO3_DLOG', $GLOBALS['TYPO3_CONF_VARS']['SYS']['enable_DLOG']);
 
-require_once(t3lib_extMgm::extPath('wt_cart') . 'lib/class.tx_wtcart_div.php');
-
 /**
  *
  *
@@ -36,7 +34,7 @@ require_once(t3lib_extMgm::extPath('wt_cart') . 'lib/class.tx_wtcart_div.php');
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsController {
+class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Extbase_MVC_Controller_AbstractController {
 
 	/**
 	 * formsRepository
@@ -58,6 +56,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 * orderItemRepository
 	 *
 	 * @var Tx_WtCartOrder_Domain_Repository_OrderItemRepository
+	 * @inject
 	 */
 	protected $orderItemRepository;
 
@@ -88,11 +87,29 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	protected $cart;
 
 	/**
+	 * @var array Tx_WtCartOrder_Domain_Model_OrderTaxClass
+	 */
+	private $taxClass;
+
+	/**
+	 *
+	 */
+	protected function getObjectManager() {
+		if ( ! $this->objectManager ) {
+			if ($this->isVersionHigherOrEqualToVersionSix()) {
+				$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+			} else {
+				$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_Manager');
+			}
+		}
+	}
+
+	/**
 	 *
 	 */
 	protected function getOrderItemRepository() {
 		if ( ! $this->orderItemRepository ) {
-			$this->orderItemRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderItemRepository');
+			$this->orderItemRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderItemRepository');
 		}
 	}
 
@@ -101,13 +118,14 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 */
 	protected function getOrderItem() {
 		if ( ! $this->orderItem ) {
-			$this->orderItem = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderItem');
+			$this->orderItem = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderItem');
 		}
 	}
 
 	public function createOrderItemFromCart( &$params, &$obj ) {
-		$this->formsRepository = t3lib_div::makeInstance('Tx_Powermail_Domain_Repository_FormsRepository');
-		$this->frontendUserRepository = t3lib_div::makeInstance('Tx_Extbase_Domain_Repository_FrontendUserRepository');
+		$this->getObjectManager();
+
+		$this->frontendUserRepository = $this->objectManager->get('Tx_Extbase_Domain_Repository_FrontendUserRepository');
 
 		$this->wtcart_conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_wtcart_pi1.'];
 
@@ -120,6 +138,8 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		if ( !$this->cart ) {
 			return;
 		}
+
+		$this->addTaxClasses();
 
 		$this->getOrderItemRepository();
 		$this->getOrderItem();
@@ -134,6 +154,8 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 
 		$this->orderItem->setGross( $this->cart->getGross() );
 		$this->orderItem->setNet( $this->cart->getNet() );
+		$this->orderItem->setTotalGross( $this->cart->getTotalGross() );
+		$this->orderItem->setTotalNet( $this->cart->getTotalNet() );
 
 		$this->orderItem->setFirstName( $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['firstName'], $this->conf['firstName.'] ) );
 		$this->orderItem->setLastName( $GLOBALS['TSFE']->cObj->cObjGetSingle( $this->conf['lastName'], $this->conf['lastName.'] ) );
@@ -154,9 +176,8 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		if ( ! $this->orderItem->_isDirty() ) {
 			$this->orderItemRepository->add($this->orderItem);
 
-			if ( $this->cart->getTaxes() ) {
-				$this->addTaxesToOrder();
-			}
+			$this->addTaxesToOrder( 'TotalTax' );
+			$this->addTaxesToOrder( 'Tax' );
 
 			if ( $this->cart->getProducts() ) {
 				$this->addProductsToOrder();
@@ -182,6 +203,8 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 * @return int
 	 */
 	public function afterSetOrderNumber( &$params, &$obj ) {
+		$this->getObjectManager();
+
 		$this->cart = $params['cart'];
 
 		$orderId = $this->cart->getOrderId();
@@ -220,7 +243,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 			'errors' => &$errors
 		);
 
-		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher = $this->objectManager->get('Tx_Extbase_SignalSlot_Dispatcher');
 		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotAfterSaveOrderNumberToOrderItem', array( $data ) );
 
 		t3lib_div::devLog( 'afterSetOrderNumber', 'wt_cart_order', 0, array( 'data' => $data ) );
@@ -237,6 +260,8 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 * @return int
 	 */
 	public function afterSetInvoiceNumber( &$params, &$obj ) {
+		$this->getObjectManager();
+
 		$this->cart = $params['cart'];
 
 		$orderId = $this->cart->getOrderId();
@@ -275,7 +300,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 			'errors' => &$errors
 		);
 
-		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher = $this->objectManager->get('Tx_Extbase_SignalSlot_Dispatcher');
 		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotAfterSaveInvoiceNumberToOrderItem', array( $data ) );
 
 		if ( $data['files']['invoice'] ) {
@@ -289,6 +314,8 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 * @param $obj
 	 */
 	public function beforeAddAttachmentToMail( &$params, &$obj ) {
+		$this->getObjectManager();
+
 		$this->cart = $params['cart'];
 
 		$orderId = $this->cart->getOrderId();
@@ -309,27 +336,49 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 		}
 	}
 
+	protected function addTaxClasses() {
+		$orderTaxClassRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderTaxClassRepository');
+
+		foreach ( $this->cart->getTotalTaxes() as $cartTax) {
+			/**
+			 * @var $orderTaxClass Tx_WtCartOrder_Domain_Model_OrderTaxClass
+			 */
+			$orderTaxClass = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderTaxClass');
+			$orderTaxClass->setPid( $this->storagePid );
+
+			$orderTaxClass->setName( $cartTax->getTaxClass()->getName() );
+			$orderTaxClass->setCalc( $cartTax->getTaxClass()->getCalc() );
+			$orderTaxClass->setValue( $cartTax->getTaxClass()->getValue() );
+
+			$orderTaxClassRepository->add( $orderTaxClass );
+
+			$this->taxClass[ $cartTax->getTaxClass()->getId() ] = $orderTaxClass;
+		}
+
+		$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+		$persistenceManager->persistAll();
+	}
+
 	/**
 	 *
 	 */
-	protected function addTaxesToOrder() {
-		$orderTaxRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderTaxRepository');
+	protected function addTaxesToOrder( $type = 'Tax') {
+		$orderTaxRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderTaxRepository');
 
-		foreach ( $this->cart->getTaxes() as $cartTaxKey => $cartTaxValue ) {
+		$cartTaxes = call_user_func( array( $this->cart, 'get' . $type . 'es' ) );
+		foreach ( $cartTaxes as $cartTax ) {
 			/**
 			 * @var $orderTax Tx_WtCartOrder_Domain_Model_OrderTax
 			 */
-			$orderTax = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderTax');
+			$orderTax = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderTax');
 			$orderTax->setPid( $this->storagePid );
 
-			$orderTax->setName( $this->wtcart_conf['taxclass.'][$cartTaxKey . '.']['name'] );
-			$orderTax->setCalc( $this->wtcart_conf['taxclass.'][$cartTaxKey . '.']['calc'] );
-			$orderTax->setValue( $this->wtcart_conf['taxclass.'][$cartTaxKey . '.']['value'] );
-			$orderTax->setSum( $cartTaxValue );
+			$orderTax->setTax( $cartTax->getTax() );
+			$orderTax->setOrderTaxClass( $this->taxClass[ $cartTax->getTaxClass()->getId() ] );
 
 			$orderTaxRepository->add( $orderTax );
 
-			$this->orderItem->addOrderTax( $orderTax );
+			call_user_func( array( $this->orderItem, 'addOrder' . $type ), $orderTax );
 		}
 	}
 
@@ -337,20 +386,32 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 *
 	 */
 	protected function addShippingToOrder() {
-		$orderShippingRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderShippingRepository');
+		$shipping = $this->cart->getShipping();
 
+		$orderTaxRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderTaxRepository');
+		/**
+		 * @var $orderTax Tx_WtCartOrder_Domain_Model_OrderTax
+		 */
+		$orderTax = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderTax');
+		$orderTax->setPid( $this->storagePid );
+
+		$orderTax->setTax( $shipping->getTax()->getTax() );
+		$orderTax->setOrderTaxClass( $this->taxClass[ $shipping->getTaxClass()->getId() ] );
+
+		$orderTaxRepository->add( $orderTax );
+
+		$orderShippingRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderShippingRepository');
 		/**
 		 * @var $orderShipping Tx_WtCartOrder_Domain_Model_OrderShipping
 		 */
-		$orderShipping = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderShipping');
+		$orderShipping = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderShipping');
 		$orderShipping->setPid( $this->storagePid );
 
-		$orderShipping->setName( $this->cart->getShipping()->getName() );
-		$orderShipping->setStatus( $this->cart->getShipping()->getStatus() );
-		$orderShipping->setGross( $this->cart->getShipping()->getGross( $this->cart ) );
-		$orderShipping->setNet( $this->cart->getShipping()->getNet( $this->cart ) );
-		$taxes = $this->cart->getShipping()->getTax( $this->cart );
-		$orderShipping->setTax( $taxes['tax'] );
+		$orderShipping->setName( $shipping->getName() );
+		$orderShipping->setStatus( $shipping->getStatus() );
+		$orderShipping->setGross( $shipping->getGross( $this->cart ) );
+		$orderShipping->setNet( $shipping->getNet( $this->cart ) );
+		$orderShipping->setOrderTax( $orderTax );
 
 		$orderShippingRepository->add( $orderShipping );
 
@@ -361,20 +422,33 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 *
 	 */
 	protected function addPaymentToOrder() {
-		$orderPaymentRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderPaymentRepository');
+		$payment = $this->cart->getPayment();
+
+		$orderTaxRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderTaxRepository');
+		/**
+		 * @var $orderTax Tx_WtCartOrder_Domain_Model_OrderTax
+		 */
+		$orderTax = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderTax');
+		$orderTax->setPid( $this->storagePid );
+
+		$orderTax->setTax( $payment->getTax()->getTax() );
+		$orderTax->setOrderTaxClass( $this->taxClass[ $payment->getTaxClass()->getId() ] );
+
+		$orderTaxRepository->add( $orderTax );
+
+		$orderPaymentRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderPaymentRepository');
 
 		/**
 		 * @var $orderPayment Tx_WtCartOrder_Domain_Model_OrderPayment
 		 */
-		$orderPayment = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderPayment');
+		$orderPayment = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderPayment');
 		$orderPayment->setPid( $this->storagePid );
 
-		$orderPayment->setName( $this->cart->getPayment()->getName() );
-		$orderPayment->setStatus( $this->cart->getPayment()->getStatus() );
-		$orderPayment->setGross( $this->cart->getPayment()->getGross( $this->cart ) );
-		$orderPayment->setNet( $this->cart->getPayment()->getNet( $this->cart ) );
-		$taxes = $this->cart->getPayment()->getTax( $this->cart );
-		$orderPayment->setTax( $taxes['tax'] );
+		$orderPayment->setName( $payment->getName() );
+		$orderPayment->setStatus( $payment->getStatus() );
+		$orderPayment->setGross( $payment->getGross( $this->cart ) );
+		$orderPayment->setNet( $payment->getNet( $this->cart ) );
+		$orderPayment->setOrderTax( $orderTax );
 
 		$orderPaymentRepository->add( $orderPayment );
 
@@ -403,21 +477,33 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 * @param Tx_WtCart_Domain_Model_Product $cartProduct
 	 */
 	protected function addProductToOrder( $cartProduct ) {
-		$orderProductRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderProductRepository');
+		$orderTaxRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderTaxRepository');
+		/**
+		 * @var $orderTax Tx_WtCartOrder_Domain_Model_OrderTax
+		 */
+		$orderTax = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderTax');
+		$orderTax->setPid( $this->storagePid );
+
+		$orderTax->setTax( $cartProduct->getTax()->getTax() );
+		$orderTax->setOrderTaxClass( $this->taxClass[ $cartProduct->getTaxClass()->getId() ] );
+
+		$orderTaxRepository->add( $orderTax );
+
+		$orderProductRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderProductRepository');
 
 		/**
 		 * @var $orderProduct Tx_WtCartOrder_Domain_Model_OrderProduct
 		 */
-		$orderProduct = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderProduct');
+		$orderProduct = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderProduct');
 		$orderProduct->setPid( $this->storagePid );
 
 		$orderProduct->setTitle( $cartProduct->getTitle() );
 		$orderProduct->setSku( $cartProduct->getSku() );
 		$orderProduct->setCount( $cartProduct->getQty() );
+		$orderProduct->setPrice( $cartProduct->getPrice() );
 		$orderProduct->setGross( $cartProduct->getGross() );
 		$orderProduct->setNet( $cartProduct->getNet() );
-		$cartProductTax = $cartProduct->getTax();
-		$orderProduct->setTax( $cartProductTax['tax'] );
+		$orderProduct->setOrderTax( $orderTax );
 
 		$additionalArray = $cartProduct->getAdditionalArray();
 
@@ -428,7 +514,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 			'storagePid' => $this->storagePid,
 		);
 
-		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher = $this->objectManager->get('Tx_Extbase_SignalSlot_Dispatcher');
 		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotBeforeSetAdditionalArrayToOrderProduct', array( $data ) );
 
 		$orderProduct->setAdditionalData( json_encode( $data['additionalArray'] ) );
@@ -472,13 +558,26 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 	 * @param int $level
 	 */
 	protected function addVariantToOrder( $cartVariant, $level ) {
-		$orderProductRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderProductRepository');
-		$orderProductAdditionalRepository = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Repository_OrderProductAdditionalRepository');
+
+		$orderTaxRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderTaxRepository');
+		/**
+		 * @var $orderTax Tx_WtCartOrder_Domain_Model_OrderTax
+		 */
+		$orderTax = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderTax');
+		$orderTax->setPid( $this->storagePid );
+
+		$orderTax->setTax( $cartVariant->getTax() );
+		$orderTax->setOrderTaxClass( $this->taxClass[ $cartVariant->getTaxClass()->getId() ] );
+
+		$orderTaxRepository->add( $orderTax );
+
+		$orderProductRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderProductRepository');
+		$orderProductAdditionalRepository = $this->objectManager->get('Tx_WtCartOrder_Domain_Repository_OrderProductAdditionalRepository');
 
 		/**
 		 * @var $orderProduct Tx_WtCartOrder_Domain_Model_OrderProduct
 		 */
-		$orderProduct = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderProduct');
+		$orderProduct = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderProduct');
 		$orderProduct->setPid( $this->storagePid );
 
 		$skuWithVariants = array();
@@ -519,7 +618,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 			/**
 			 * @var $orderProductAdditional Tx_WtCartOrder_Domain_Model_OrderProductAdditional
 			 */
-			$orderProductAdditional = t3lib_div::makeInstance('Tx_WtCartOrder_Domain_Model_OrderProductAdditional');
+			$orderProductAdditional = $this->objectManager->get('Tx_WtCartOrder_Domain_Model_OrderProductAdditional');
 			$orderProductAdditional->setPid( $this->storagePid );
 			$orderProductAdditional->setAdditionalType( 'variant_' . $count );
 			$orderProductAdditional->setAdditionalKey( $cartVariantInner->getSku() );
@@ -546,7 +645,7 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 			'storagePid' => $this->storagePid,
 		);
 
-		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
+		$this->signalSlotDispatcher = $this->objectManager->get('Tx_Extbase_Object_Manager')->get('Tx_Extbase_SignalSlot_Dispatcher');
 		$this->signalSlotDispatcher->dispatch( __CLASS__, 'slotBeforeSetAdditionalArrayToOrderProduct', array( $data ) );
 
 		$orderProduct->setAdditionalData( json_encode( $data['additionalArray'] ) );
@@ -586,10 +685,23 @@ class Tx_WtCartOrder_Hooks_OrderHook extends Tx_Powermail_Controller_FormsContro
 
 	protected function getCObj() {
 		if ( !$this->cObj ) {
-			$this->cObj = t3lib_div::makeInstance( 'tslib_cObj' );
+			$this->cObj = $this->objectManager->get( 'tslib_cObj' );
 		}
 
 		return $this->cObj;
+	}
+
+	/**
+	 * Tell whether current CMS version is greater or equal than 6.0.
+	 *
+	 * @return bool
+	 */
+	protected function isVersionHigherOrEqualToVersionSix() {
+		$version = class_exists('t3lib_utility_VersionNumber') ?
+			t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) :
+			TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+
+		return $version >= 6000000;
 	}
 
 }

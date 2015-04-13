@@ -1,0 +1,61 @@
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+	<f:be.container addCssFile="{f:uri.resource(path:'Stylesheets/Backend/style.css')}" >
+
+	<h1><f:translate key='statisticAction' /></h1>
+
+	</f:be.container>
+
+	<f:flashMessages />
+
+	<f:render partial="OrderItem/Filter" arguments="{piVars: piVars, action: 'statistic'}" />
+
+	<div class="clear"></div>
+
+	<p>
+		OrderItemCount: {statistics.orderItemCount}
+	</p>
+	<p>
+		OrderProductCount: {statistics.orderProductCount}
+	</p>
+	<p>
+		<span class="label">Gross: </span>
+		<span>
+			<f:format.currency currencySign="€" decimalSeparator="," thousandsSeparator=".">
+				{statistics.orderItemGross}
+			</f:format.currency>
+		</span><br>
+		<span class="label">Net: </span>
+		<span>
+			<f:format.currency currencySign="€" decimalSeparator="," thousandsSeparator=".">
+				{statistics.orderItemNet}
+			</f:format.currency>
+		</span>
+	</p>
+	<p>
+		<span class="label">Average Gross: </span>
+		<span>
+			<f:format.currency currencySign="€" decimalSeparator="," thousandsSeparator=".">
+				{statistics.orderItemAverageGross}
+			</f:format.currency>
+		</span><br>
+		<span class="label">Average Net: </span>
+		<span>
+			<f:format.currency currencySign="€" decimalSeparator="," thousandsSeparator=".">
+				{statistics.orderItemAverageNet}
+			</f:format.currency>
+		</span>
+	</p>
+</f:section>
