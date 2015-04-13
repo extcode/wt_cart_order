@@ -4,10 +4,10 @@ module.tx_wtcartorder {
 		storagePid = {$module.tx_wtcartorder.persistence.storagePid}
 
 		classes {
-			Tx_Extbase_Domain_Model_FrontendUser {
+			TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
 				mapping {
 					tableName = fe_users
-					recordType = Tx_Extbase_Domain_Model_FrontendUser
+					recordType = TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 					columns {
 						lockToDomain.mapOnProperty = lockToDomain
 					}

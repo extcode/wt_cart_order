@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Domain\Repository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,10 +33,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Repository_OrderItemRepository extends Tx_Extbase_Persistence_Repository {
+class OrderItemRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	protected $defaultOrderings = array(
-		'uid' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+		'uid' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
 	);
 
 	/**

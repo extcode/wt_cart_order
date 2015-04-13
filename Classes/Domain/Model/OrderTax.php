@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Model_OrderTax extends Tx_Extbase_DomainObject_AbstractEntity {
+class OrderTax extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * Tax
@@ -44,7 +46,7 @@ class Tx_WtCartOrder_Domain_Model_OrderTax extends Tx_Extbase_DomainObject_Abstr
 	/**
 	 * TaxClass
 	 *
-	 * @var Tx_WtCartOrder_Domain_Model_OrderTaxClass
+	 * @var \Extcode\WtCartOrder\Domain\Model\OrderTaxClass
 	 * @validate NotEmpty
 	 */
 	protected $orderTaxClass;
@@ -64,14 +66,14 @@ class Tx_WtCartOrder_Domain_Model_OrderTax extends Tx_Extbase_DomainObject_Abstr
 	}
 
 	/**
-	 * @return Tx_WtCartOrder_Domain_Model_OrderTaxClass
+	 * @return \Extcode\WtCartOrder\Domain\Model\OrderTaxClass
 	 */
 	public function getOrderTaxClass() {
 		return $this->orderTaxClass;
 	}
 
 	/**
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTaxClass $orderTaxClass
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderTaxClass $orderTaxClass
 	 */
 	public function setOrderTaxClass( $orderTaxClass ) {
 		$this->orderTaxClass = $orderTaxClass;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Tests\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,7 +27,7 @@
  ***************************************************************/
 
 /**
- * Test case for class Tx_WtCartOrder_Domain_Model_OrderItem.
+ * Test case for class \Extcode\WtCartOrder\Domain\Model\OrderItem.
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
@@ -36,14 +38,14 @@
  *
  * @author Daniel Lorenz <wt_cart_order@extco.de>
  */
-class Tx_WtCartOrder_Domain_Model_OrderItemTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class OrderItemTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
-	 * @var Tx_WtCartOrder_Domain_Model_OrderItem
+	 * @var \Extcode\WtCartOrder\Domain\Model\OrderItem
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new Tx_WtCartOrder_Domain_Model_OrderItem();
+		$this->fixture = new \Extcode\WtCartOrder\Domain\Model\OrderItem();
 	}
 
 	public function tearDown() {
@@ -69,7 +71,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItemTest extends Tx_Extbase_Tests_Unit_Ba
 
 	/**
 	 * @test
-	 * @expectedException Tx_WtCartOrder_Property_Exception_ResetPropertyException
+	 * @expectedException \Extcode\WtCartOrder\Property\Exception\ResetPropertyException
 	 */
 	public function resetAnotherOrderNumberForStringThrowsException() {
 		$this->fixture->setOrderNumber('Conceived at T3CON10');
@@ -95,7 +97,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItemTest extends Tx_Extbase_Tests_Unit_Ba
 
 	/**
 	 * @test
-	 * @expectedException Tx_WtCartOrder_Property_Exception_ResetPropertyException
+	 * @expectedException \Extcode\WtCartOrder\Property\Exception\ResetPropertyException
 	 */
 	public function resetAnotherInvoiceNumberForStringThrowsException() {
 		$this->fixture->setInvoiceNumber('Conceived at T3CON10');

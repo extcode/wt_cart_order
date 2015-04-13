@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Tests\Unit\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,7 +27,7 @@
  ***************************************************************/
 
 /**
- * Test case for class Tx_Wt_cart_order_Controller_OrderController.
+ * Test case for class \Extcode\WtCartOrder\Controller\OrderController.
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
@@ -36,14 +38,14 @@
  *
  * @author Daniel Lorenz <wt_cart_order@extco.de>
  */
-class Tx_WtCartOrder_Controller_OrderItemControllerTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class OrderItemControllerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
-	 * @var Tx_WtCartOrder_Domain_Model_ItemOrder
+	 * @var \Extcode\WtCartOrder\Domain\Model\ItemOrder
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new Tx_WtCartOrder_Domain_Model_OrderItem();
+		$this->fixture = new \Extcode\WtCartOrder\Domain\Model\OrderItem();
 	}
 
 	public function tearDown() {

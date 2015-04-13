@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,13 +33,12 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_AbstractEntity {
+class OrderItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * feUser
-	 * feUser
 	 *
-	 * @var Tx_Extbase_Domain_Model_FrontendUser
+	 * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 	 */
 	protected $feUser;
 
@@ -53,7 +54,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 *
 	 * @var DateTime
 	 */
-	protected $orderDate;
+	protected $orderDate = NULL;
 
 	/**
 	 * invoiceNumber
@@ -67,7 +68,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 *
 	 * @var DateTime
 	 */
-	protected $invoiceDate;
+	protected $invoiceDate = NULL;
 
 	/**
 	 * firstName
@@ -151,35 +152,35 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	/**
 	 * orderTax
 	 *
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax>
+	 * @var  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderTax>
 	 */
 	protected $orderTax;
 
 	/**
 	 * orderTotalTax
 	 *
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax>
+	 * @var  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderTax>
 	 */
 	protected $orderTotalTax;
 
 	/**
 	 * orderProduct
-	 *
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProduct>
+	 * @lazy
+	 * @var  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderProduct>
 	 */
 	protected $orderProduct;
 
 	/**
 	 * orderPayment
 	 *
-	 * @var Tx_WtCartOrder_Domain_Model_OrderPayment
+	 * @var \Extcode\WtCartOrder\Domain\Model\OrderPayment
 	 */
 	protected $orderPayment;
 
 	/**
 	 * orderShipping
 	 *
-	 * @var Tx_WtCartOrder_Domain_Model_OrderShipping
+	 * @var \Extcode\WtCartOrder\Domain\Model\OrderShipping
 	 */
 	protected $orderShipping;
 
@@ -207,7 +208,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	/**
 	 * __construct
 	 *
-	 * @return \Tx_WtCartOrder_Domain_Model_OrderItem
+	 * @return \Extcode\WtCartOrder\Domain\Model\OrderItem
 	 */
 	public function __construct() {
 		//Do not remove the next line: It would break the functionality
@@ -215,7 +216,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
+	 * Initializes all \TYPO3\CMS\Extbase\Persistence\ObjectStorage properties.
 	 *
 	 * @return void
 	 */
@@ -225,13 +226,13 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 		 * It will be rewritten on each save in the extension builder
 		 * You may modify the constructor of this class instead
 		 */
-		$this->orderProduct = new Tx_Extbase_Persistence_ObjectStorage();
-		$this->orderTax = new Tx_Extbase_Persistence_ObjectStorage();
-		$this->orderTotalTax = new Tx_Extbase_Persistence_ObjectStorage();
+		$this->orderProduct = new  \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->orderTax = new  \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+		$this->orderTotalTax = new  \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
-	 * @param \Tx_Extbase_Domain_Model_FrontendUser $feUser
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser
 	 * @return void
 	 */
 	public function setFeUser($feUser) {
@@ -239,7 +240,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
-	 * @return Tx_Extbase_Domain_Model_FrontendUser
+	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 	 */
 	public function getFeUser() {
 		return $this->feUser;
@@ -258,14 +259,14 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * Sets the orderNumber
 	 *
 	 * @param string $orderNumber
-	 * @throws Tx_WtCartOrder_Property_Exception_ResetPropertyException
+	 * @throws \Extcode\WtCartOrder\Property\Exception\ResetPropertyException
 	 */
 	public function setOrderNumber( $orderNumber ) {
 		if ( ! $this->orderNumber ) {
 			$this->orderNumber = $orderNumber;
 		} else {
 			if ( $this->orderNumber != $orderNumber ) {
-				throw new Tx_WtCartOrder_Property_Exception_ResetPropertyException('Could not reset orderNumber', 1395306283);
+				throw new \Extcode\WtCartOrder\Property\Exception\ResetPropertyException('Could not reset orderNumber', 1395306283);
 			}
 		}
 	}
@@ -298,14 +299,14 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	 * Sets the invoiceNumber
 	 *
 	 * @param string $invoiceNumber
-	 * @throws Tx_WtCartOrder_Property_Exception_ResetPropertyException
+	 * @throws \Extcode\WtCartOrder\Property\Exception\ResetPropertyException
 	 */
 	public function setInvoiceNumber( $invoiceNumber ) {
 		if ( ! $this->invoiceNumber ) {
 			$this->invoiceNumber = $invoiceNumber;
 		} else {
 			if ( $this->invoiceNumber != $invoiceNumber ) {
-				throw new Tx_WtCartOrder_Property_Exception_ResetPropertyException('Could not reset invoiceNumber', 1395307266);
+				throw new \Extcode\WtCartOrder\Property\Exception\ResetPropertyException('Could not reset invoiceNumber', 1395307266);
 			}
 		}
 	}
@@ -490,7 +491,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
-	 * @param Tx_WtCartOrder_Domain_Model_OrderPayment $orderPayment
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderPayment $orderPayment
 	 * @return void
 	 */
 	public function setOrderPayment($orderPayment) {
@@ -498,14 +499,14 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
-	 * @return Tx_WtCartOrder_Domain_Model_OrderPayment
+	 * @return \Extcode\WtCartOrder\Domain\Model\OrderPayment
 	 */
 	public function getOrderPayment() {
 		return $this->orderPayment;
 	}
 
 	/**
-	 * @param Tx_WtCartOrder_Domain_Model_OrderShipping $orderShipping
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderShipping $orderShipping
 	 * @return void
 	 */
 	public function setOrderShipping($orderShipping) {
@@ -513,7 +514,7 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	}
 
 	/**
-	 * @return Tx_WtCartOrder_Domain_Model_OrderShipping
+	 * @return \Extcode\WtCartOrder\Domain\Model\OrderShipping
 	 */
 	public function getOrderShipping() {
 		return $this->orderShipping;
@@ -556,27 +557,27 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	/**
 	 * Adds a OrderProduct
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderProduct $orderProduct
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderProduct $orderProduct
 	 * @return void
 	 */
-	public function addOrderProduct(Tx_WtCartOrder_Domain_Model_OrderProduct $orderProduct) {
+	public function addOrderProduct($orderProduct) {
 		$this->orderProduct->attach($orderProduct);
 	}
 
 	/**
 	 * Removes a OrderProduct
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderProduct $orderProductToRemove The OrderProduct to be removed
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderProduct $orderProductToRemove The OrderProduct to be removed
 	 * @return void
 	 */
-	public function removeOrderProduct(Tx_WtCartOrder_Domain_Model_OrderProduct $orderProductToRemove) {
+	public function removeOrderProduct($orderProductToRemove) {
 		$this->orderProduct->detach($orderProductToRemove);
 	}
 
 	/**
 	 * Returns the orderProduct
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProduct> $orderProduct
+	 * @return  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderProduct> $orderProduct
 	 */
 	public function getOrderProduct() {
 		return $this->orderProduct;
@@ -585,37 +586,37 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	/**
 	 * Sets the orderProduct
 	 *
-	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProduct> $orderProduct
+	 * @param  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderProduct> $orderProduct
 	 * @return void
 	 */
-	public function setOrderProduct(Tx_Extbase_Persistence_ObjectStorage $orderProduct) {
+	public function setOrderProduct($orderProduct) {
 		$this->orderProduct = $orderProduct;
 	}
 
 	/**
 	 * Adds a OrderTax
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTax
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderTax $orderTax
 	 * @return void
 	 */
-	public function addOrderTax(Tx_WtCartOrder_Domain_Model_OrderTax $orderTax) {
+	public function addOrderTax($orderTax) {
 		$this->orderTax->attach($orderTax);
 	}
 
 	/**
 	 * Removes a OrderTax
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTaxToRemove The OrderTax to be removed
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderTax $orderTaxToRemove The OrderTax to be removed
 	 * @return void
 	 */
-	public function removeOrderTax(Tx_WtCartOrder_Domain_Model_OrderTax $orderTaxToRemove) {
+	public function removeOrderTax($orderTaxToRemove) {
 		$this->orderTax->detach($orderTaxToRemove);
 	}
 
 	/**
 	 * Returns the orderTax
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax> $orderTax
+	 * @return  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderTax> $orderTax
 	 */
 	public function getOrderTax() {
 		return $this->orderTax;
@@ -624,37 +625,37 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	/**
 	 * Sets the orderTax
 	 *
-	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax> $orderTax
+	 * @param  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderTax> $orderTax
 	 * @return void
 	 */
-	public function setOrderTax(Tx_Extbase_Persistence_ObjectStorage $orderTax) {
+	public function setOrderTax($orderTax) {
 		$this->orderTax = $orderTax;
 	}
 
 	/**
 	 * Adds a OrderTotalTax
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTotalTax
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderTax $orderTotalTax
 	 * @return void
 	 */
-	public function addOrderTotalTax(Tx_WtCartOrder_Domain_Model_OrderTax $orderTotalTax) {
+	public function addOrderTotalTax($orderTotalTax) {
 		$this->orderTotalTax->attach($orderTotalTax);
 	}
 
 	/**
 	 * Removes a OrderTotalTax
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTaxToRemove The OrderTotalTax to be removed
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderTax $orderTotalTaxToRemove The OrderTotalTax to be removed
 	 * @return void
 	 */
-	public function removeOrderTotalTax(Tx_WtCartOrder_Domain_Model_OrderTax $orderTotalTaxToRemove) {
+	public function removeOrderTotalTax($orderTotalTaxToRemove) {
 		$this->orderTotalTax->detach($orderTotalTaxToRemove);
 	}
 
 	/**
 	 * Returns the orderTotalTax
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax> $orderTotalTax
+	 * @return  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderTax> $orderTotalTax
 	 */
 	public function getOrderTotalTax() {
 		return $this->orderTotalTax;
@@ -663,10 +664,10 @@ class Tx_WtCartOrder_Domain_Model_OrderItem extends Tx_Extbase_DomainObject_Abst
 	/**
 	 * Sets the orderTotalTax
 	 *
-	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderTax> $orderTotalTax
+	 * @param  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderTax> $orderTotalTax
 	 * @return void
 	 */
-	public function setOrderTotalTax(Tx_Extbase_Persistence_ObjectStorage $orderTotalTax) {
+	public function setOrderTotalTax($orderTotalTax) {
 		$this->orderTotalTax = $orderTotalTax;
 	}
 

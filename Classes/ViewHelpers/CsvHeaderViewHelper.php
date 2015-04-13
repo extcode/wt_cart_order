@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +32,7 @@
  * @package wt_cart_order
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_WtCartOrder_ViewHelpers_CsvHeaderViewHelper extends Tx_MvcExtjs_ViewHelpers_AbstractViewHelper {
+class CsvHeaderViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
 	 * Format OrderItem to CSV format
 	 *
@@ -47,6 +49,6 @@ class Tx_WtCartOrder_ViewHelpers_CsvHeaderViewHelper extends Tx_MvcExtjs_ViewHel
 		$orderItemArr[] = 'OrderNumber';
 		$orderItemArr[] = 'InvoiceNumber';
 
-		return t3lib_div::csvValues($orderItemArr, $delim, $quote);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::csvValues($orderItemArr, $delim, $quote);
 	}
 }

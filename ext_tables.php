@@ -7,10 +7,10 @@ if (TYPO3_MODE === 'BE') {
 	/**
 	 * Registers a Backend Module
 	 */
-	Tx_Extbase_Utility_Extension::registerModule(
-		$_EXTKEY,
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+		'Extcode.' . $_EXTKEY,
 		'web',
-		'orderlist',
+		'OrderList',
 		'',
 		array(
 			'OrderItem' => 'list, export, show, edit, update, statistic, generateInvoiceNumber, generateInvoiceDocument, downloadInvoiceDocument',
@@ -24,10 +24,10 @@ if (TYPO3_MODE === 'BE') {
 
 }
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'wt_cart_order - Example Configuration');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'wt_cart_order - Example Configuration');
 
-t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderitem', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderitem.xml');
-t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderitem');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderitem', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderitem.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderitem');
 $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderitem',
@@ -46,13 +46,13 @@ $TCA['tx_wtcartorder_domain_model_orderitem'] = array(
 		'enablecolumns' => array(
 		),
 		'searchFields' => 'order_number, invoice_number',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderItem.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderitem.png'
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/OrderItem.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderitem.png'
 	),
 );
 
-t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordertaxclass', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordertaxclass.xml');
-t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordertaxclass');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordertaxclass', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordertaxclass.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordertaxclass');
 $TCA['tx_wtcartorder_domain_model_ordertaxclass'] = array(
 	'ctrl' => array(
 		'title'    => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertaxclass',
@@ -69,13 +69,13 @@ $TCA['tx_wtcartorder_domain_model_ordertaxclass'] = array(
 		'enablecolumns' => array(
 		),
 		'searchFields' => 'name,value,calc',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderTaxClass.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordertax.gif'
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/OrderTaxClass.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordertax.gif'
 	),
 );
 
-t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordertax', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordertax.xml');
-t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordertax');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordertax', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordertax.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordertax');
 $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 	'ctrl' => array(
 		'title'    => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordertax',
@@ -92,13 +92,13 @@ $TCA['tx_wtcartorder_domain_model_ordertax'] = array(
 		'enablecolumns' => array(
 		),
 		'searchFields' => '',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderTax.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordertax.gif'
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/OrderTax.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordertax.gif'
 	),
 );
 
-t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderproduct', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderproduct.xml');
-t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderproduct');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderproduct', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderproduct.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderproduct');
 $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproduct',
@@ -117,13 +117,13 @@ $TCA['tx_wtcartorder_domain_model_orderproduct'] = array(
 		'enablecolumns' => array(
 		),
 		'searchFields' => 'sku,title',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderProduct.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproduct.png'
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/OrderProduct.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproduct.png'
 	),
 );
 
-t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderproductadditional', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderproductadditional.xml');
-t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderproductadditional');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderproductadditional', 'EXT:wt_cart_order/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderproductadditional.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderproductadditional');
 $TCA['tx_wtcartorder_domain_model_orderproductadditional'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderproductadditional',
@@ -142,13 +142,13 @@ $TCA['tx_wtcartorder_domain_model_orderproductadditional'] = array(
 		'enablecolumns' => array(
 		),
 		'searchFields' => 'additional_type,additional_key,additional_value',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderProductAdditional.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproductadditional.png'
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/OrderProductAdditional.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderproductadditional.png'
 	),
 );
 
-t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordershipping', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordershipping.xml');
-t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordershipping');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_wtcartorder_domain_model_ordershipping', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_ordershipping.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_wtcartorder_domain_model_ordershipping');
 $TCA['tx_wtcartorder_domain_model_ordershipping'] = array(
 	'ctrl' => array(
 		'title'    => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_ordershipping',
@@ -165,13 +165,13 @@ $TCA['tx_wtcartorder_domain_model_ordershipping'] = array(
 		'enablecolumns' => array(
 		),
 		'searchFields' => 'name,value,calc,sum,',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderShipping.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordershipping.png'
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/OrderShipping.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_ordershipping.png'
 	),
 );
 
-t3lib_extMgm::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderpayment', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderpayment.xml');
-t3lib_extMgm::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderpayment');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_wtcartorder_domain_model_orderpayment', 'EXT:wt_cart_order2/Resources/Private/Language/locallang_csh_tx_wtcartorder_domain_model_orderpayment.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_wtcartorder_domain_model_orderpayment');
 $TCA['tx_wtcartorder_domain_model_orderpayment'] = array(
 	'ctrl' => array(
 		'title'    => 'LLL:EXT:wt_cart_order/Resources/Private/Language/locallang_db.xml:tx_wtcartorder_domain_model_orderpayment',
@@ -188,8 +188,8 @@ $TCA['tx_wtcartorder_domain_model_orderpayment'] = array(
 		'enablecolumns' => array(
 		),
 		'searchFields' => 'name,value,calc,sum,',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/OrderPayment.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderpayment.png'
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/OrderPayment.php',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_wtcartorder_domain_model_orderpayment.png'
 	),
 );
 

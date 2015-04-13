@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,12 +33,12 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_AbstractEntity {
+class OrderProduct extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * orderItem
 	 *
-	 * @var Tx_WtCartOrder_Domain_Model_OrderItem
+	 * @var \Extcode\WtCartOrder\Domain\Model\OrderItem
 	 */
 	protected $orderItem;
 
@@ -99,7 +101,7 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	/**
 	 * OrderTax
 	 *
-	 * @var Tx_WtCartOrder_Domain_Model_OrderTax
+	 * @var \Extcode\WtCartOrder\Domain\Model\OrderTax
 	 * @validate NotEmpty
 	 */
 	protected $orderTax;
@@ -114,14 +116,14 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	/**
 	 * orderProductAdditional
 	 *
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProductAdditional>
+	 * @var  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderProductAdditional>
 	 */
 	protected $orderProductAdditional;
 
 	/**
 	 * __construct
 	 *
-	 * @return \Tx_WtCartOrder_Domain_Model_OrderProduct
+	 * @return \Extcode\WtCartOrder\Domain\Model\OrderProduct
 	 */
 	public function __construct() {
 		//Do not remove the next line: It would break the functionality
@@ -130,7 +132,7 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 
 
 	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
+	 * Initializes all  \TYPO3\CMS\Extbase\Persistence\ObjectStorage properties.
 	 *
 	 * @return void
 	 */
@@ -140,7 +142,7 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 		 * It will be rewritten on each save in the extension builder
 		 * You may modify the constructor of this class instead
 		 */
-		$this->orderProductAdditional = new Tx_Extbase_Persistence_ObjectStorage();
+		$this->orderProductAdditional = new  \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
@@ -250,7 +252,7 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	}
 
 	/**
-	 * @param Tx_WtCartOrder_Domain_Model_OrderTax $orderTax
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderTax $orderTax
 	 * @return void
 	 */
 	public function setOrderTax($orderTax) {
@@ -258,7 +260,7 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	}
 
 	/**
-	 * @return Tx_WtCartOrder_Domain_Model_OrderTax
+	 * @return \Extcode\WtCartOrder\Domain\Model\OrderTax
 	 */
 	public function getOrderTax() {
 		return $this->orderTax;
@@ -281,27 +283,27 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	/**
 	 * Adds a OrderProductAdditional
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditional
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderProductAdditional $orderProductAdditional
 	 * @return void
 	 */
-	public function addOrderProductAdditional(Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditional) {
+	public function addOrderProductAdditional($orderProductAdditional) {
 		$this->orderProductAdditional->attach($orderProductAdditional);
 	}
 
 	/**
 	 * Removes a OrderProductAdditional
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditionalToRemove The OrderProductAdditional to be removed
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderProductAdditional $orderProductAdditionalToRemove The OrderProductAdditional to be removed
 	 * @return void
 	 */
-	public function removeOrderProductAdditional(Tx_WtCartOrder_Domain_Model_OrderProductAdditional $orderProductAdditionalToRemove) {
+	public function removeOrderProductAdditional($orderProductAdditionalToRemove) {
 		$this->orderProductAdditional->detach($orderProductAdditionalToRemove);
 	}
 
 	/**
 	 * Returns the orderProductAdditional
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProductAdditional> $orderProductAdditional
+	 * @return  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderProductAdditional> $orderProductAdditional
 	 */
 	public function getOrderProductAdditional() {
 		return $this->orderProductAdditional;
@@ -310,15 +312,15 @@ class Tx_WtCartOrder_Domain_Model_OrderProduct extends Tx_Extbase_DomainObject_A
 	/**
 	 * Sets the orderProductAdditional
 	 *
-	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_WtCartOrder_Domain_Model_OrderProductAdditional> $orderProductAdditional
+	 * @param  \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Extcode\WtCartOrder\Domain\Model\OrderProductAdditional> $orderProductAdditional
 	 * @return void
 	 */
-	public function setOrderProductAdditional(Tx_Extbase_Persistence_ObjectStorage $orderProductAdditional) {
+	public function setOrderProductAdditional($orderProductAdditional) {
 		$this->orderProductAdditional = $orderProductAdditional;
 	}
 
 	/**
-	 * @return Tx_WtCartOrder_Domain_Model_OrderItem
+	 * @return \Extcode\WtCartOrder\Domain\Model\OrderItem
 	 */
 	public function getOrderItem() {
 		return $this->orderItem;

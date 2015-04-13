@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Property\Exception;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_WtCartOrder_Property_Exception_ResetPropertyException extends Tx_Extbase_Property_Exception {
+class ResetPropertyException extends \TYPO3\CMS\Extbase\Property\Exception {
 
 }
 ?>

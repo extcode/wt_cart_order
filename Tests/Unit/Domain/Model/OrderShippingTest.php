@@ -1,5 +1,7 @@
 <?php
 
+namespace Extcode\WtCartOrder\Tests\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,7 +27,7 @@
  ***************************************************************/
 
 /**
- * Test case for class Tx_WtCartOrder_Domain_Model_OrderShipping.
+ * Test case for class \Extcode\WtCartOrder\Domain\Model\OrderShipping.
  *
  * @version $Id$
  * @copyright Copyright belongs to the respective authors
@@ -36,14 +38,14 @@
  *
  * @author Daniel Lorenz <wt_cart_order@extco.de>
  */
-class Tx_WtCartOrder_Domain_Model_OrderShippingTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class OrderShippingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	/**
-	 * @var Tx_WtCartOrder_Domain_Model_OrderItem
+	 * @var \Extcode\WtCartOrder\Domain\Model\OrderItem
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new Tx_WtCartOrder_Domain_Model_OrderShipping();
+		$this->fixture = new \Extcode\WtCartOrder\Domain\Model\OrderShipping();
 	}
 
 	public function tearDown() {
@@ -91,28 +93,6 @@ class Tx_WtCartOrder_Domain_Model_OrderShippingTest extends Tx_Extbase_Tests_Uni
 		$this->assertSame(
 			3.14159265,
 			$this->fixture->getNet()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getTaxReturnsInitialValueForFloat() {
-		$this->assertSame(
-			0.0,
-			$this->fixture->getTax()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setTaxForFloatSetsTax() {
-		$this->fixture->setTax(3.14159265);
-
-		$this->assertSame(
-			3.14159265,
-			$this->fixture->getTax()
 		);
 	}
 }

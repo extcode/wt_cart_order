@@ -1,5 +1,8 @@
 <?php
 
+namespace Extcode\WtCartOrder\Controller;
+use \TYPO3\CMS\Core\Utility as Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -25,24 +28,22 @@
  ***************************************************************/
 
 /**
+ * OrderItemController
  *
- *
- * @package wt_cart_order
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
-class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Controller_ActionController {
+class OrderItemController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * orderItemRepository
 	 *
-	 * @var Tx_WtCartOrder_Domain_Repository_OrderItemRepository
+	 * @var \Extcode\WtCartOrder\Domain\Repository\OrderItemRepository
 	 * @inject
 	 */
 	protected $orderItemRepository;
 
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
 	 * @inject
 	 */
 	protected $configurationManager;
@@ -58,49 +59,6 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	 * @var array
 	 */
 	protected $piVars;
-
-	/**
-	 * injectOrderRepository
-	 *
-	 * @param Tx_WtCartOrder_Domain_Repository_OrderItemRepository $orderItemRepository
-	 * @return void
-	 */
-	public function injectOrderItemRepository(Tx_WtCartOrder_Domain_Repository_OrderItemRepository $orderItemRepository) {
-		$this->orderItemRepository = $orderItemRepository;
-	}
-
-	/**
-	 * @param int $pid
-	 */
-	public function buildTSFE($pid = 1) {
-		if (!is_object($GLOBALS['TT'])) {
-			$GLOBALS['TT'] = new t3lib_timeTrack;
-			$GLOBALS['TT']->start();
-		}
-
-		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pid, '0', 1, '', '', '', '');
-
-		//*** Builds sub objects
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-
-		//*** init template
-		$GLOBALS['TSFE']->tmpl->tt_track = 0;
-		$GLOBALS['TSFE']->tmpl->init();
-
-		$rootLine = $GLOBALS['TSFE']->sys_page->getRootLine($pid);
-
-		//*** This generates the constants/config + hierarchy info for the template.
-		$GLOBALS['TSFE']->tmpl->runThroughTemplates($rootLine, $template_uid);
-		$GLOBALS['TSFE']->tmpl->generateConfig();
-		$GLOBALS['TSFE']->tmpl->loaded=1;
-
-		//*** Get config array and other init from pagegen
-		$GLOBALS['TSFE']->getConfigArray();
-
-		//*** Builds a cObj
-		$GLOBALS['TSFE']->newCObj();
-	}
 
 	public function initializeUpdateAction() {
 		if ($this->request->hasArgument('orderItem')) {
@@ -120,9 +78,9 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	 * @return void
 	 */
 	protected function initializeAction() {
-		$this->pageId = (int)t3lib_div::_GP('id');
+		$this->pageId = (int)(Utility\GeneralUtility::_GET('id')) ? Utility\GeneralUtility::_GET('id') : 1;
 
-		$frameworkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$persistenceConfiguration = array('persistence' => array('storagePid' => $this->pageId));
 		$this->configurationManager->setConfiguration(array_merge($frameworkConfiguration, $persistenceConfiguration));
 
@@ -178,12 +136,12 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		$this->view->assign('piVars', $this->piVars);
 		$this->view->assign('orderItems', $orderItems);
 
-		$pdfRendererInstalled = t3lib_extMgm::isLoaded('wt_cart_pdf');
+		$pdfRendererInstalled = Utility\ExtensionManagementUtility::isLoaded('wt_cart_pdf');
 		$this->view->assign('pdfRendererInstalled', $pdfRendererInstalled);
 	}
 
 	/**
-	 * action list
+	 * action export
 	 *
 	 * @return void
 	 */
@@ -203,42 +161,42 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		$this->view->assign('piVars', $this->piVars);
 		$this->view->assign('orderItems', $orderItems);
 
-		$pdfRendererInstalled = t3lib_extMgm::isLoaded('wt_cart_pdf');
+		$pdfRendererInstalled = Utility\ExtensionManagementUtility::isLoaded('wt_cart_pdf');
 		$this->view->assign('pdfRendererInstalled', $pdfRendererInstalled);
 	}
 
 	/**
 	 * action show
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return void
 	 */
-	public function showAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+	public function showAction($orderItem) {
 		$this->view->assign('orderItem', $orderItem);
 
-		$pdfRendererInstalled = t3lib_extMgm::isLoaded('wt_cart_pdf');
+		$pdfRendererInstalled = Utility\ExtensionManagementUtility::isLoaded('wt_cart_pdf');
 		$this->view->assign('pdfRendererInstalled', $pdfRendererInstalled);
 	}
 
 	/**
 	 * action edit
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return void
 	 */
-	public function editAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+	public function editAction($orderItem) {
 		$this->view->assign('orderItem', $orderItem);
 	}
 
 	/**
 	 * action update
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return void
 	 */
-	public function updateAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+	public function updateAction($orderItem) {
 		$this->orderItemRepository->update( $orderItem );
-		$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+		$persistenceManager = Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface');
 		$persistenceManager->persistAll();
 
 		$this->redirect( 'show', NULL, NULL, array('orderItem' => $orderItem) );
@@ -247,16 +205,16 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	/**
 	 * action generateInvoiceNumber
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return void
 	 */
-	public function generateInvoiceNumberAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+	public function generateInvoiceNumberAction($orderItem) {
 		if ( !$orderItem->getInvoiceNumber() ) {
 			$invoiceNumber = $this->generateInvoiceNumber( $orderItem );
 			$orderItem->setInvoiceNumber( $invoiceNumber );
 
 			$this->orderItemRepository->update( $orderItem );
-			$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+			$persistenceManager = Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface');
 			$persistenceManager->persistAll();
 
 			$msg = "Invoice Number " . $invoiceNumber . " was generated.";
@@ -269,10 +227,10 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	/**
 	 * action generateInvoiceDocument
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return void
 	 */
-	public function generateInvoiceDocumentAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+	public function generateInvoiceDocumentAction($orderItem) {
 		if ( !$orderItem->getInvoiceNumber() ) {
 			$invoiceNumber = $this->generateInvoiceNumber( $orderItem );
 			$orderItem->setInvoiceNumber( $invoiceNumber );
@@ -285,7 +243,7 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 			$this->generateInvoiceDocument( $orderItem );
 
 			$this->orderItemRepository->update( $orderItem );
-			$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+			$persistenceManager = Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface');
 			$persistenceManager->persistAll();
 
 			$msg = "Invoice Document was generated.";
@@ -298,10 +256,10 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	/**
 	 * action generateInvoiceDocument
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return void
 	 */
-	public function downloadInvoiceDocumentAction(Tx_WtCartOrder_Domain_Model_OrderItem $orderItem) {
+	public function downloadInvoiceDocumentAction($orderItem) {
 		$file = PATH_site . $orderItem->getInvoicePdf();
 		$fileName = 'Invoice.pdf';
 
@@ -335,15 +293,15 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	/**
 	 * generateInvoiceNumber
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return int
 	 */
-	protected function generateInvoiceNumber( $orderItem ) {
+	protected function generateInvoiceNumber($orderItem) {
 
 		$this->buildTSFE( $orderItem->getPid() );
 		$wt_cart_conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_wtcart_pi1.'];
 
-		$registry =  t3lib_div::makeInstance('t3lib_Registry');
+		$registry =  Utility\GeneralUtility::makeInstance('t3lib_Registry');
 		$invoiceNumber =  $registry->get( 'tx_wtcart', 'lastInvoice_' . $wt_cart_conf['main.']['pid'] );
 		if ( $invoiceNumber ) {
 			$invoiceNumber += 1;
@@ -362,14 +320,14 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 	/**
 	 * generateInvoiceNumber
 	 *
-	 * @param Tx_WtCartOrder_Domain_Model_OrderItem $orderItem
+	 * @param \Extcode\WtCartOrder\Domain\Model\OrderItem $orderItem
 	 * @return int
 	 */
-	protected function generateInvoiceDocument( $orderItem ) {
+	protected function generateInvoiceDocument($orderItem) {
 
 		$this->buildTSFE( $orderItem->getPid() );
 
-		$renderer = t3lib_div::makeInstance('Tx_WtCartPdf_Utility_Renderer');
+		$renderer = Utility\GeneralUtility::makeInstance('Tx_WtCartPdf_Utility_Renderer');
 
 		$files = array();
 		$errors = array();
@@ -386,6 +344,23 @@ class Tx_WtCartOrder_Controller_OrderItemController extends Tx_Extbase_MVC_Contr
 		if ( $params['files']['invoice'] ) {
 			$orderItem->setInvoicePdf( $params['files']['invoice'] );
 		}
+	}
+
+	/**
+	 * @param int $pid
+	 */
+	protected function buildTSFE($pid = 1) {
+		global $TYPO3_CONF_VARS;
+
+		$GLOBALS['TSFE'] = Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $TYPO3_CONF_VARS, $pid, 0, true);
+		$GLOBALS['TSFE']->connectToDB();
+		$GLOBALS['TSFE']->fe_user = \TYPO3\CMS\Frontend\Utility\EidUtility::initFeUser();
+		$GLOBALS['TSFE']->id = $pid;
+		$GLOBALS['TSFE']->initTemplate();
+
+		\TYPO3\CMS\Core\Core\Bootstrap::getInstance();
+
+		$GLOBALS['TSFE']->cObj = Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 	}
 
 }
