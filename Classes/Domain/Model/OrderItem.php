@@ -301,6 +301,7 @@ class OrderItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the invoiceNumber
 	 *
 	 * @param string $invoiceNumber
+	 * @return string
 	 * @throws \Extcode\WtCartOrder\Property\Exception\ResetPropertyException
 	 */
 	public function setInvoiceNumber( $invoiceNumber ) {
@@ -311,6 +312,7 @@ class OrderItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 				throw new \Extcode\WtCartOrder\Property\Exception\ResetPropertyException('Could not reset invoiceNumber', 1395307266);
 			}
 		}
+		return $this->invoiceNumber;
 	}
 
 	/**

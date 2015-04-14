@@ -287,6 +287,8 @@ class OrderHook extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 			return -2;
 		}
 
+		$this->orderItemRepository->update($orderItem);
+
 		$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
 		$persistenceManager->persistAll();
 
