@@ -259,6 +259,7 @@ class OrderItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Sets the orderNumber
 	 *
 	 * @param string $orderNumber
+	 * @return string
 	 * @throws \Extcode\WtCartOrder\Property\Exception\ResetPropertyException
 	 */
 	public function setOrderNumber( $orderNumber ) {
@@ -269,6 +270,7 @@ class OrderItem extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 				throw new \Extcode\WtCartOrder\Property\Exception\ResetPropertyException('Could not reset orderNumber', 1395306283);
 			}
 		}
+		return $this->orderNumber;
 	}
 
 	/**

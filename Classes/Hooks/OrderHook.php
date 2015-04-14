@@ -228,6 +228,8 @@ class OrderHook extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 			return -2;
 		}
 
+		$this->orderItemRepository->update($orderItem);
+
 		$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
 		$persistenceManager->persistAll();
 
@@ -337,24 +339,84 @@ class OrderHook extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	protected function addTaxClasses() {
 		$orderTaxClassRepository = $this->objectManager->get('\Extcode\WtCartOrder\Domain\Repository\OrderTaxClassRepository');
 
-		foreach ( $this->cart->getTotalTaxes() as $cartTax) {
+		$taxes = $this->parseWtCartTaxesFromConf($this->wtcart_conf);
+
+		foreach ( $this->cart->getTotalTaxes() as $cartTaxKey => $cartTax) {
+			$tax = $taxes[$cartTaxKey];
 			/**
 			 * @var $orderTaxClass \Extcode\WtCartOrder\Domain\Model\OrderTaxClass
 			 */
 			$orderTaxClass = $this->objectManager->get('\Extcode\WtCartOrder\Domain\Model\OrderTaxClass');
 			$orderTaxClass->setPid( $this->storagePid );
 
-			$orderTaxClass->setName( $cartTax->getTaxClass()->getName() );
-			$orderTaxClass->setCalc( $cartTax->getTaxClass()->getCalc() );
-			$orderTaxClass->setValue( $cartTax->getTaxClass()->getValue() );
+			$orderTaxClass->setName( $tax['name'] );
+			$orderTaxClass->setCalc( $tax['calc'] );
+			$orderTaxClass->setValue( $tax['value'] );
 
 			$orderTaxClassRepository->add( $orderTaxClass );
 
-			$this->taxClass[ $cartTax->getTaxClass()->getId() ] = $orderTaxClass;
+			$this->taxClass[ $tax['id'] ] = $orderTaxClass;
 		}
 
 		$persistenceManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager');
 		$persistenceManager->persistAll();
+	}
+
+	/**
+	 * @param array $conf
+	 * @return array $taxes
+	 */
+	protected function parseWtCartTaxesFromConf(&$conf) {
+		$taxes = array();
+
+		if ( isset($conf['taxClassRepository.']) && is_array($conf['taxClassRepository.'])) {
+			$taxes = $this->parseTaxesFromRepository($conf);
+		} elseif ( isset($conf['taxclass.']) && is_array($conf['taxclass.'])) {
+			$taxes = $this->parseTaxesFromTypoScript($conf);
+		}
+
+		return $taxes;
+	}
+
+	/**
+	 * @param array $conf
+	 * @return array $taxes
+	 */
+	protected function parseTaxesFromTypoScript(&$conf) {
+		$taxes = array();
+
+		foreach ($conf['taxclass.'] as $key => $value) {
+			$taxes[rtrim($key, '.')] = array(
+				'id' => rtrim($key, '.'),
+				'value' => $value['value'],
+				'calc' => $value['calc'],
+				'name' => $value['name']);
+		}
+
+		return $taxes;
+	}
+
+	/**
+	 * @param array $conf
+	 * @return array $taxes
+	 */
+	protected function parseTaxesFromRepository(&$conf) {
+		$taxes = array();
+
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		$taxClassRepository = $objectManager->get( $conf['taxClassRepository.']['class'] );
+		$taxClassObjects = $taxClassRepository->findAll( );
+
+		foreach ($taxClassObjects as $taxClassObject) {
+			$taxes[$taxClassObject->getUid()] = array(
+				'id' => $taxClassObject->getUid(),
+				'value' => $taxClassObject->getValue(),
+				'calc' => $taxClassObject->getCalc(),
+				'name' => $taxClassObject->getTitle()
+			);
+		}
+
+		return $taxes;
 	}
 
 	/**
@@ -364,15 +426,15 @@ class OrderHook extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 		$orderTaxRepository = $this->objectManager->get('\Extcode\WtCartOrder\Domain\Repository\OrderTaxRepository');
 
 		$cartTaxes = call_user_func( array( $this->cart, 'get' . $type . 'es' ) );
-		foreach ( $cartTaxes as $cartTax ) {
+		foreach ( $cartTaxes as $cartTaxKey => $cartTax) {
 			/**
 			 * @var $orderTax \Extcode\WtCartOrder\Domain\Model\OrderTax
 			 */
 			$orderTax = $this->objectManager->get('\Extcode\WtCartOrder\Domain\Model\OrderTax');
 			$orderTax->setPid( $this->storagePid );
 
-			$orderTax->setTax( $cartTax->getTax() );
-			$orderTax->setOrderTaxClass( $this->taxClass[ $cartTax->getTaxClass()->getId() ] );
+			$orderTax->setTax( $cartTax );
+			$orderTax->setOrderTaxClass( $this->taxClass[ $cartTaxKey ] );
 
 			$orderTaxRepository->add( $orderTax );
 
@@ -564,7 +626,8 @@ class OrderHook extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 		$orderTax = $this->objectManager->get('\Extcode\WtCartOrder\Domain\Model\OrderTax');
 		$orderTax->setPid( $this->storagePid );
 
-		$orderTax->setTax( $cartVariant->getTax() );
+		$cartVariantTaxArray = $cartVariant->getTax();
+		$orderTax->setTax( $cartVariantTaxArray['tax'] );
 		$orderTax->setOrderTaxClass( $this->taxClass[ $cartVariant->getTaxClass()->getId() ] );
 
 		$orderTaxRepository->add( $orderTax );
@@ -604,8 +667,7 @@ class OrderHook extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 		$orderProduct->setDiscount( $cartVariant->getDiscount() );
 		$orderProduct->setGross( $cartVariant->getGross() );
 		$orderProduct->setNet( $cartVariant->getNet() );
-		$cartVariantTax = $cartVariant->getTax();
-		$orderProduct->setTax( $cartVariantTax['tax'] );
+		$orderProduct->setOrderTax( $orderTax );
 
 		if ( ! $orderProduct->_isDirty() ) {
 			$orderProductRepository->add($orderProduct);
