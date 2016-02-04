@@ -650,6 +650,7 @@ class OrderHook extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 		for ( $count = $level; $count > 0; $count-- ) {
 			$skuWithVariants['variantsku' . $count] = $cartVariantInner->getSku();
 			$titleWithVariants['varianttitle' . $count] = $cartVariantInner->getTitle();
+			$titleWithVariants['variantid' . $count] = $cartVariantInner->getId();
 
 			if ( $count > 1 ) {
 				$cartVariantInner = $cartVariantInner->getParentVariant();
